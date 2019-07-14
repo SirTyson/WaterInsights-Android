@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">WaterInsightsV0.0.5</string>
+    <string name="title_activity_collect_data">CollectDataActivity</string>
+</resources>
