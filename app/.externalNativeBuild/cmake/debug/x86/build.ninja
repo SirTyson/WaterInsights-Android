@@ -67,7 +67,7 @@ build ../../../../build/intermediates/cmake/debug/obj/x86/libnative-lib.so: CXX_
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D D:\WaterProject\WaterInsightsV005\app\.externalNativeBuild\cmake\debug\x86 && D:\AndroidSDK\cmake\3.10.2.4988404\bin\cmake.exe -E echo "No interactive CMake dialog available.""
+  COMMAND = cmd.exe /C "cd /D D:\WaterInsights\WaterInsights-Android\app\.externalNativeBuild\cmake\debug\x86 && D:\AndroidSDK\cmake\3.10.2.4988404\bin\cmake.exe -E echo "No interactive CMake dialog available.""
   DESC = No interactive CMake dialog available...
   restat = 1
 build edit_cache: phony CMakeFiles/edit_cache.util
@@ -76,7 +76,7 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D D:\WaterProject\WaterInsightsV005\app\.externalNativeBuild\cmake\debug\x86 && D:\AndroidSDK\cmake\3.10.2.4988404\bin\cmake.exe -HD:\WaterProject\WaterInsightsV005\app -BD:\WaterProject\WaterInsightsV005\app\.externalNativeBuild\cmake\debug\x86"
+  COMMAND = cmd.exe /C "cd /D D:\WaterInsights\WaterInsights-Android\app\.externalNativeBuild\cmake\debug\x86 && D:\AndroidSDK\cmake\3.10.2.4988404\bin\cmake.exe -HD:\WaterInsights\WaterInsights-Android\app -BD:\WaterInsights\WaterInsights-Android\app\.externalNativeBuild\cmake\debug\x86"
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1

@@ -2,17 +2,17 @@
   "buildFiles": [
     "D:\\AndroidSDK\\ndk-bundle\\build\\cmake\\platforms.cmake",
     "D:\\AndroidSDK\\ndk-bundle\\build\\cmake\\android.toolchain.cmake",
-    "D:\\WaterProject\\WaterInsightsV005\\app\\CMakeLists.txt"
+    "D:\\WaterInsights\\WaterInsights-Android\\app\\CMakeLists.txt"
   ],
   "cleanCommands": [
-    "D:\\AndroidSDK\\cmake\\3.10.2.4988404\\bin\\cmake.exe --build D:\\WaterProject\\WaterInsightsV005\\app\\.externalNativeBuild\\cmake\\release\\arm64-v8a --target clean"
+    "D:\\AndroidSDK\\cmake\\3.10.2.4988404\\bin\\cmake.exe --build D:\\WaterInsights\\WaterInsights-Android\\app\\.externalNativeBuild\\cmake\\release\\arm64-v8a --target clean"
   ],
   "libraries": {
     "native-lib-Release-arm64-v8a": {
       "artifactName": "native-lib",
-      "buildCommand": "D:\\AndroidSDK\\cmake\\3.10.2.4988404\\bin\\cmake.exe --build D:\\WaterProject\\WaterInsightsV005\\app\\.externalNativeBuild\\cmake\\release\\arm64-v8a --target native-lib",
+      "buildCommand": "D:\\AndroidSDK\\cmake\\3.10.2.4988404\\bin\\cmake.exe --build D:\\WaterInsights\\WaterInsights-Android\\app\\.externalNativeBuild\\cmake\\release\\arm64-v8a --target native-lib",
       "abi": "arm64-v8a",
-      "output": "D:\\WaterProject\\WaterInsightsV005\\app\\build\\intermediates\\cmake\\release\\obj\\arm64-v8a\\libnative-lib.so"
+      "output": "D:\\WaterInsights\\WaterInsights-Android\\app\\build\\intermediates\\cmake\\release\\obj\\arm64-v8a\\libnative-lib.so"
     }
   }
 }

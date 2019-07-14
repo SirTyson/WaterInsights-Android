@@ -42,7 +42,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = D:\AndroidSDK\cmake\3.10.2.4988404\bin\cmake.exe -HD:\WaterProject\WaterInsightsV005\app -BD:\WaterProject\WaterInsightsV005\app\.externalNativeBuild\cmake\release\x86
+  command = D:\AndroidSDK\cmake\3.10.2.4988404\bin\cmake.exe -HD:\WaterInsights\WaterInsights-Android\app -BD:\WaterInsights\WaterInsights-Android\app\.externalNativeBuild\cmake\release\x86
   description = Re-running CMake...
   generator = 1
 

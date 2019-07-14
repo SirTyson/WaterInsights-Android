@@ -1,10 +1,10 @@
 Executable : D:\AndroidSDK\cmake\3.10.2.4988404\bin\cmake.exe
 arguments : 
--HD:\WaterProject\WaterInsightsV005\app
--BD:\WaterProject\WaterInsightsV005\app\.externalNativeBuild\cmake\release\x86_64
+-HD:\WaterInsights\WaterInsights-Android\app
+-BD:\WaterInsights\WaterInsights-Android\app\.externalNativeBuild\cmake\release\x86_64
 -DANDROID_ABI=x86_64
 -DANDROID_PLATFORM=android-16
--DCMAKE_LIBRARY_OUTPUT_DIRECTORY=D:\WaterProject\WaterInsightsV005\app\build\intermediates\cmake\release\obj\x86_64
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=D:\WaterInsights\WaterInsights-Android\app\build\intermediates\cmake\release\obj\x86_64
 -DCMAKE_BUILD_TYPE=Release
 -DANDROID_NDK=D:\AndroidSDK\ndk-bundle
 -DCMAKE_CXX_FLAGS=
