@@ -1,39 +1,30 @@
 package insights.water.waterinsightsv005;
 
-import android.accessibilityservice.GestureDescription;
-import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Environment;
+import android.graphics.BitmapFactory;
 import android.provider.MediaStore;
 import android.os.Bundle;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
-
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
-import org.opencv.core.CvException;
 import org.opencv.core.Mat;
-import org.opencv.imgproc.Imgproc;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.UUID;
 
 public class CollectDataActivity extends AppCompatActivity {
 
@@ -41,22 +32,23 @@ public class CollectDataActivity extends AppCompatActivity {
     private ImageView selectedImage;
     private EditText comments;
 
-    private Uri filePath, photoURI;
     private Bitmap img;
 
-
     private final int REQUEST_IMAGE_CAPTURE = 1;
+    public static final String IMAGE_FILENAME = "WaterInsights_IMAGE_CAPTURE.jpg";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collect_data);
 
-        imageBtn = (Button) findViewById(R.id.select_image_button);
-        submitBtn = (Button) findViewById(R.id.submit_button);
-        selectedImage = (ImageView) findViewById(R.id.image_view);
-        comments = (EditText) findViewById(R.id.comments_editText);
+        /* Initialize variables */
+        imageBtn = findViewById(R.id.select_image_button);
+        submitBtn = findViewById(R.id.submit_button);
+        selectedImage = findViewById(R.id.image_view);
+        comments = findViewById(R.id.comments_editText);
 
+        /* Attach button listeners */
         imageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,26 +62,24 @@ public class CollectDataActivity extends AppCompatActivity {
                 submit();
             }
         });
-
-
     }
 
+    /* Initialize OpenCV Library */
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
             switch (status) {
                 case LoaderCallbackInterface.SUCCESS:
-                {
                     Log.i("OpenCV", "OpenCV loaded successfully");
-                } break;
+                    break;
                 default:
-                {
                     super.onManagerConnected(status);
-                } break;
+                    break;
             }
         }
     };
 
+    /* Restart OpenCV library */
     public void onResume()
     {
         super.onResume();
@@ -103,6 +93,7 @@ public class CollectDataActivity extends AppCompatActivity {
     }
 
     private void chooseImage() {
+        // TODO: Add active permission request for API 23+
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
@@ -117,56 +108,46 @@ public class CollectDataActivity extends AppCompatActivity {
             if (data != null && data.getExtras() != null) {
                 img = (Bitmap) data.getExtras().get("data");
                 selectedImage.setImageBitmap(img);
+                String path = saveToInternalStorage(img);
+                Log.d("plz", path);
+               // loadImageFromStorage(path);
             }
         }
     }
 
-    String imageFilePath;
+    private String saveToInternalStorage(Bitmap bitmapImage){
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        /* path to /data/data/yourapp/app_data/imageDir */
+        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
 
-    private File createImageFile() throws IOException {
-        String timeStamp =
-                new SimpleDateFormat("yyyyMMdd_HHmmss",
-                        Locale.getDefault()).format(new Date());
-        String imageFileName = "IMG_" + timeStamp + "_";
-        File storageDir =
-                getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
+        /* Create imageDir */
+        File path = new File(directory, IMAGE_FILENAME);
 
-        imageFilePath = image.getAbsolutePath();
-        return image;
-    }
-
-    private void openCameraIntent() {
-        Intent pictureIntent = new Intent(
-                MediaStore.ACTION_IMAGE_CAPTURE);
-        if(pictureIntent.resolveActivity(getPackageManager()) != null){
-            //Create a file to store the image
-            File photoFile = null;
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(path);
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
             try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-            }
-            if (photoFile != null) {
-                photoURI = FileProvider.getUriForFile(this,                                                                                                    "com.example.android.provider", photoFile);
-                pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                        photoURI);
-                startActivityForResult(pictureIntent,
-                        REQUEST_IMAGE_CAPTURE);
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
+        return directory.getAbsolutePath();
     }
 
-
-    public Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
+    private void loadImageFromStorage(String path) {
+        try {
+            File f = new File(path, IMAGE_FILENAME);
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+          //  selectedImage.setImageBitmap(b);
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void submit() {

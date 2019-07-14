@@ -16,8 +16,8 @@ public class SubmitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit);
-        ppmDisplay = (TextView) findViewById(R.id.ppmDisplay);
-        restart = (Button) findViewById(R.id.restartButton);
+        ppmDisplay = findViewById(R.id.ppmDisplay);
+        restart = findViewById(R.id.restartButton);
         Intent i = getIntent();
         if (i != null) {
             int ppm = i.getIntExtra("PPM", -1);
