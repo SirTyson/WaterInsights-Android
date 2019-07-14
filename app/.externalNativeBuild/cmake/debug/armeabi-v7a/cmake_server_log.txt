@@ -48,7 +48,7 @@ CMAKE SERVER: {
     "-DCMAKE_SYSTEM_VERSION\u003d16",
     "-DCMAKE_EXPORT_COMPILE_COMMANDS\u003dON",
     "-DCMAKE_ANDROID_NDK\u003dD:\\AndroidSDK\\ndk-bundle",
-    "-DCMAKE_TOOLCHAIN_FILE\u003dD:\\AndroidSDK\\ndk-bundle\\build\\cmake\\android.toolchain.cmake",
+    "-DCMAKE_TOOLCHAIN_FILE\u003dD:\\AndroidSDK\\cmake\\3.10.2.4988404\\android.toolchain.cmake",
     "-G Ninja",
     "-DCMAKE_MAKE_PROGRAM\u003dD:\\AndroidSDK\\cmake\\3.10.2.4988404\\bin\\ninja.exe"
   ]
@@ -60,210 +60,44 @@ CMAKE SERVER:
 
 CMAKE SERVER: [== "CMake Server" ==[
 
-CMAKE SERVER: {"cookie":"","inReplyTo":"configure","message":"Check for working C compiler: D:/AndroidSDK/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe","type":"message"}
+CMAKE SERVER: {"cookie":"","inReplyTo":"configure","message":"CMake Error at D:/AndroidSDK/cmake/3.10.2.4988404/android.toolchain.cmake:356 (message):\n  Invalid Android NDK revision (should be 12): 20.0.5594570.\nCall Stack (most recent call first):\n  D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeDetermineSystem.cmake:94 (include)\n  CMakeLists.txt\n\n","title":"Error","type":"message"}
 
 CMAKE SERVER: ]== "CMake Server" ==]
 
-CMAKE SERVER: Check for working C compiler: D:/AndroidSDK/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe
-CMAKE SERVER: Check for working C compiler: D:/AndroidSDK/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe
-CMAKE SERVER: 
+CMAKE SERVER: CMake Error at D:/AndroidSDK/cmake/3.10.2.4988404/android.toolchain.cmake:356 (message):
+  Invalid Android NDK revision (should be 12): 20.0.5594570.
+Call Stack (most recent call first):
+  D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeDetermineSystem.cmake:94 (include)
+  CMakeLists.txt
 
-CMAKE SERVER: [== "CMake Server" ==[
 
-CMAKE SERVER: {"cookie":"","inReplyTo":"configure","progressCurrent":33,"progressMaximum":1000,"progressMessage":"Configuring","progressMinimum":0,"type":"progress"}
+CMAKE SERVER: CMake Error at D:/AndroidSDK/cmake/3.10.2.4988404/android.toolchain.cmake:356 (message):
+  Invalid Android NDK revision (should be 12): 20.0.5594570.
+Call Stack (most recent call first):
+  D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeDetermineSystem.cmake:94 (include)
+  CMakeLists.txt
 
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: 
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"cookie":"","inReplyTo":"configure","message":"Check for working C compiler: D:/AndroidSDK/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe -- works","type":"message"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: Check for working C compiler: D:/AndroidSDK/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe -- works
-CMAKE SERVER: Check for working C compiler: D:/AndroidSDK/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe -- works
-CMAKE SERVER: 
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"cookie":"","inReplyTo":"configure","message":"Detecting C compiler ABI info","type":"message"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: Detecting C compiler ABI info
-CMAKE SERVER: Detecting C compiler ABI info
-CMAKE SERVER: 
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"cookie":"","inReplyTo":"configure","progressCurrent":65,"progressMaximum":1000,"progressMessage":"Configuring","progressMinimum":0,"type":"progress"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
 
 CMAKE SERVER: 
 
 CMAKE SERVER: [== "CMake Server" ==[
 
-CMAKE SERVER: {"cookie":"","inReplyTo":"configure","message":"Detecting C compiler ABI info - done","type":"message"}
+CMAKE SERVER: {"cookie":"","inReplyTo":"configure","message":"CMake Error: CMAKE_C_COMPILER not set, after EnableLanguage","title":"Error","type":"message"}
 
 CMAKE SERVER: ]== "CMake Server" ==]
 
-CMAKE SERVER: Detecting C compiler ABI info - done
-CMAKE SERVER: Detecting C compiler ABI info - done
+CMAKE SERVER: CMake Error: CMAKE_C_COMPILER not set, after EnableLanguage
+CMAKE SERVER: CMake Error: CMAKE_C_COMPILER not set, after EnableLanguage
 CMAKE SERVER: 
 
 CMAKE SERVER: [== "CMake Server" ==[
 
-CMAKE SERVER: {"cookie":"","inReplyTo":"configure","message":"Detecting C compile features","type":"message"}
+CMAKE SERVER: {"cookie":"","inReplyTo":"configure","message":"CMake Error: CMAKE_CXX_COMPILER not set, after EnableLanguage","title":"Error","type":"message"}
 
 CMAKE SERVER: ]== "CMake Server" ==]
 
-CMAKE SERVER: Detecting C compile features
-CMAKE SERVER: Detecting C compile features
-CMAKE SERVER: 
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"cookie":"","inReplyTo":"configure","progressCurrent":96,"progressMaximum":1000,"progressMessage":"Configuring","progressMinimum":0,"type":"progress"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: 
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"cookie":"","inReplyTo":"configure","progressCurrent":126,"progressMaximum":1000,"progressMessage":"Configuring","progressMinimum":0,"type":"progress"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: 
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"cookie":"","inReplyTo":"configure","progressCurrent":155,"progressMaximum":1000,"progressMessage":"Configuring","progressMinimum":0,"type":"progress"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: 
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"cookie":"","inReplyTo":"configure","message":"Detecting C compile features - done","type":"message"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: Detecting C compile features - done
-CMAKE SERVER: Detecting C compile features - done
-CMAKE SERVER: 
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"cookie":"","inReplyTo":"configure","message":"Check for working CXX compiler: D:/AndroidSDK/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe","type":"message"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: Check for working CXX compiler: D:/AndroidSDK/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe
-CMAKE SERVER: Check for working CXX compiler: D:/AndroidSDK/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe
-CMAKE SERVER: 
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"cookie":"","inReplyTo":"configure","progressCurrent":184,"progressMaximum":1000,"progressMessage":"Configuring","progressMinimum":0,"type":"progress"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: 
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"cookie":"","inReplyTo":"configure","message":"Check for working CXX compiler: D:/AndroidSDK/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -- works","type":"message"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: Check for working CXX compiler: D:/AndroidSDK/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -- works
-CMAKE SERVER: Check for working CXX compiler: D:/AndroidSDK/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -- works
-CMAKE SERVER: 
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"cookie":"","inReplyTo":"configure","message":"Detecting CXX compiler ABI info","type":"message"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: Detecting CXX compiler ABI info
-CMAKE SERVER: Detecting CXX compiler ABI info
-CMAKE SERVER: 
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"cookie":"","inReplyTo":"configure","progressCurrent":211,"progressMaximum":1000,"progressMessage":"Configuring","progressMinimum":0,"type":"progress"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: 
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"cookie":"","inReplyTo":"configure","message":"Detecting CXX compiler ABI info - done","type":"message"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: Detecting CXX compiler ABI info - done
-CMAKE SERVER: Detecting CXX compiler ABI info - done
-CMAKE SERVER: 
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"cookie":"","inReplyTo":"configure","message":"Detecting CXX compile features","type":"message"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: Detecting CXX compile features
-CMAKE SERVER: Detecting CXX compile features
-CMAKE SERVER: 
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"cookie":"","inReplyTo":"configure","progressCurrent":237,"progressMaximum":1000,"progressMessage":"Configuring","progressMinimum":0,"type":"progress"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: 
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"cookie":"","inReplyTo":"configure","progressCurrent":262,"progressMaximum":1000,"progressMessage":"Configuring","progressMinimum":0,"type":"progress"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: 
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"cookie":"","inReplyTo":"configure","progressCurrent":287,"progressMaximum":1000,"progressMessage":"Configuring","progressMinimum":0,"type":"progress"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: 
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"cookie":"","inReplyTo":"configure","progressCurrent":311,"progressMaximum":1000,"progressMessage":"Configuring","progressMinimum":0,"type":"progress"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: 
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"cookie":"","inReplyTo":"configure","message":"Detecting CXX compile features - done","type":"message"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: Detecting CXX compile features - done
-CMAKE SERVER: Detecting CXX compile features - done
+CMAKE SERVER: CMake Error: CMAKE_CXX_COMPILER not set, after EnableLanguage
+CMAKE SERVER: CMake Error: CMAKE_CXX_COMPILER not set, after EnableLanguage
 CMAKE SERVER: 
 
 CMAKE SERVER: [== "CMake Server" ==[
@@ -276,76 +110,18 @@ CMAKE SERVER:
 
 CMAKE SERVER: [== "CMake Server" ==[
 
-CMAKE SERVER: {"cookie":"","inReplyTo":"configure","message":"Configuring done","type":"message"}
+CMAKE SERVER: {"cookie":"","inReplyTo":"configure","message":"Configuring incomplete, errors occurred!","type":"message"}
 
 CMAKE SERVER: ]== "CMake Server" ==]
 
-CMAKE SERVER: Configuring done
-CMAKE SERVER: Configuring done
+CMAKE SERVER: Configuring incomplete, errors occurred!
+CMAKE SERVER: Configuring incomplete, errors occurred!
 CMAKE SERVER: 
 
 CMAKE SERVER: [== "CMake Server" ==[
 
-CMAKE SERVER: {"cookie":"","inReplyTo":"configure","type":"reply"}
+CMAKE SERVER: {"cookie":"","errorMessage":"Configuration failed.","inReplyTo":"configure","type":"error"}
 
 CMAKE SERVER: ]== "CMake Server" ==]
 
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"type":"compute"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: 
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"cookie":"","inReplyTo":"compute","progressCurrent":1000,"progressMaximum":1000,"progressMessage":"Generating","progressMinimum":0,"type":"progress"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: 
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"cookie":"","inReplyTo":"compute","message":"Generating done","type":"message"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: Generating done
-CMAKE SERVER: 
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"cookie":"","inReplyTo":"compute","type":"reply"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"type":"cmakeInputs"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: 
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"buildFiles":[{"isCMake":true,"isTemporary":false,"sources":["D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeDetermineSystem.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Android-Determine.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeSystem.cmake.in","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeSystemSpecificInitialize.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Android-Initialize.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeDetermineCCompiler.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeDetermineCompiler.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Android-Determine-C.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Android/Determine-Compiler.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeFindBinUtils.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-FindBinUtils.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeCCompiler.cmake.in","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeDetermineCXXCompiler.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeDetermineCompiler.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Android-Determine-CXX.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Android/Determine-Compiler.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeFindBinUtils.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-FindBinUtils.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeCXXCompiler.cmake.in","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeSystemSpecificInformation.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeGenericSystem.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Android.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Linux.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/UnixPaths.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeCInformation.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeLanguageInformation.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-C.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/CMakeCommonCompilerMacros.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/GNU.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/CMakeCommonCompilerMacros.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Android-Clang-C.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Android-Clang.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeCommonLanguageInclude.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeTestCCompiler.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeTestCompilerCommon.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeDetermineCompilerABI.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeParseImplicitLinkInfo.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeCCompilerABI.c","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeDetermineCompileFeatures.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Internal/FeatureTesting.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-C-FeatureTests.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-C-FeatureTests.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-C-FeatureTests.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeCCompiler.cmake.in","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeCXXInformation.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeLanguageInformation.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-CXX.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Android-Clang-CXX.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Android-Clang.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeCommonLanguageInclude.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeTestCXXCompiler.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeTestCompilerCommon.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeDetermineCompilerABI.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeParseImplicitLinkInfo.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeCXXCompilerABI.cpp","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeDetermineCompileFeatures.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Internal/FeatureTesting.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-CXX-FeatureTests.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-CXX-TestableFeatures.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-CXX-FeatureTests.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-CXX-TestableFeatures.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-CXX-FeatureTests.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-CXX-TestableFeatures.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-CXX-FeatureTests.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-CXX-TestableFeatures.cmake","D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeCXXCompiler.cmake.in"]},{"isCMake":false,"isTemporary":false,"sources":["CMakeLists.txt","D:/AndroidSDK/ndk-bundle/build/cmake/android.toolchain.cmake","D:/AndroidSDK/ndk-bundle/build/cmake/platforms.cmake","D:/AndroidSDK/ndk-bundle/build/cmake/android.toolchain.cmake"]},{"isCMake":false,"isTemporary":true,"sources":[".externalNativeBuild/cmake/debug/armeabi-v7a/CMakeFiles/3.10.2/CMakeSystem.cmake",".externalNativeBuild/cmake/debug/armeabi-v7a/CMakeFiles/3.10.2/CMakeCCompiler.cmake",".externalNativeBuild/cmake/debug/armeabi-v7a/CMakeFiles/3.10.2/CMakeCXXCompiler.cmake",".externalNativeBuild/cmake/debug/armeabi-v7a/CMakeFiles/feature_tests.c",".externalNativeBuild/cmake/debug/armeabi-v7a/CMakeFiles/feature_tests.c",".externalNativeBuild/cmake/debug/armeabi-v7a/CMakeFiles/feature_tests.c",".externalNativeBuild/cmake/debug/armeabi-v7a/CMakeFiles/3.10.2/CMakeCCompiler.cmake",".externalNativeBuild/cmake/debug/armeabi-v7a/CMakeFiles/feature_tests.cxx",".externalNativeBuild/cmake/debug/armeabi-v7a/CMakeFiles/feature_tests.cxx",".externalNativeBuild/cmake/debug/armeabi-v7a/CMakeFiles/feature_tests.cxx",".externalNativeBuild/cmake/debug/armeabi-v7a/CMakeFiles/feature_tests.cxx",".externalNativeBuild/cmake/debug/armeabi-v7a/CMakeFiles/3.10.2/CMakeCXXCompiler.cmake"]}],"cmakeRootDirectory":"D:/AndroidSDK/cmake/3.10.2.4988404/share/cmake-3.10","cookie":"","inReplyTo":"cmakeInputs","sourceDirectory":"D:/WaterInsights/WaterInsights-Android/app","type":"reply"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"type":"codemodel"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
-CMAKE SERVER: 
-
-CMAKE SERVER: [== "CMake Server" ==[
-
-CMAKE SERVER: {"configurations":[{"name":"Debug","projects":[{"buildDirectory":"D:/WaterInsights/WaterInsights-Android/app/.externalNativeBuild/cmake/debug/armeabi-v7a","name":"Project","sourceDirectory":"D:/WaterInsights/WaterInsights-Android/app","targets":[{"artifacts":["D:/WaterInsights/WaterInsights-Android/app/build/intermediates/cmake/debug/obj/armeabi-v7a/libnative-lib.so"],"buildDirectory":"D:/WaterInsights/WaterInsights-Android/app/.externalNativeBuild/cmake/debug/armeabi-v7a","fileGroups":[{"compileFlags":"-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fno-addrsig -march=armv7-a -mthumb -Wa,--noexecstack -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC  ","defines":["native_lib_EXPORTS"],"isGenerated":false,"language":"CXX","sources":["src/main/cpp/native-lib.cpp"]}],"fullName":"libnative-lib.so","linkFlags":"-Wl,--exclude-libs,libgcc.a -Wl,--exclude-libs,libatomic.a -static-libstdc++ -Wl,--build-id -Wl,--warn-shared-textrel -Wl,--fatal-warnings -Wl,--exclude-libs,libunwind.a -Wl,--no-undefined -Qunused-arguments -Wl,-z,noexecstack","linkLibraries":"-llog -latomic -lm","linkerLanguage":"CXX","name":"native-lib","sourceDirectory":"D:/WaterInsights/WaterInsights-Android/app","sysroot":"D:/AndroidSDK/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/sysroot","type":"SHARED_LIBRARY"}]}]}],"cookie":"","inReplyTo":"codemodel","type":"reply"}
-
-CMAKE SERVER: ]== "CMake Server" ==]
-
+CMAKE SERVER: null
