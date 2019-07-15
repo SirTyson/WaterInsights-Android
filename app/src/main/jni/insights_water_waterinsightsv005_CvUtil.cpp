@@ -5,6 +5,7 @@
 #include <vector>
 #include <cfloat>
 #include <insights_water_waterinsightsv005_CvUtil.h>
+#include <android/log.h>
 
 static const bool DEBUG_MODE = true;
 
@@ -57,8 +58,8 @@ int processImage(Mat* srcPtr);
 
 /* Debug Functions */
 void DEBUG_DRAW_TARGET(Mat* src);
-//void DEBUG_DRAW_REFERENCE(Mat* src);
-//void DEBUG_DRAW_SAMPLE(Mat* src);
+void DEBUG_DRAW_REFERENCE(Mat* src);
+void DEBUG_DRAW_SAMPLE(Mat* src);
 
 JNIEXPORT jint JNICALL Java_insights_water_waterinsightsv005_CvUtil_processImage
   (JNIEnv * env, jclass cls, jlong image_addr)
@@ -71,14 +72,14 @@ JNIEXPORT void JNICALL Java_insights_water_waterinsightsv005_CvUtil_DEBUG_1DRAW_
   (JNIEnv * env, jclass cls, jlong image_addr)
 {
     Mat* image = (Mat*) image_addr;
-    //DEBUG_DRAW_REFERENCE(image);
+    DEBUG_DRAW_REFERENCE(image);
 }
 
 JNIEXPORT void JNICALL Java_insights_water_waterinsightsv005_CvUtil_DEBUG_1DRAW_1SAMPLE
   (JNIEnv * env, jclass cls, jlong image_addr)
 {
     Mat* image = (Mat*) image_addr;
-    //DEBUG_DRAW_SAMPLE(image);
+    DEBUG_DRAW_SAMPLE(image);
 }
 
 JNIEXPORT void JNICALL Java_insights_water_waterinsightsv005_CvUtil_DEBUG_1DRAW_1TARGET
@@ -91,8 +92,35 @@ JNIEXPORT void JNICALL Java_insights_water_waterinsightsv005_CvUtil_DEBUG_1DRAW_
 void DEBUG_DRAW_TARGET(Mat* src)
 {
 	cout << "DRAWING TARGET" << endl;
-	resize(*src, *src, Size(0, 0), 0.25, 0.25);
-	Target target = getTarget(*src, true);
+	//resize(*src, *src, Size(400, 600));
+	Target target = getTarget(*src);
+	Rect rect(target.tl, target.br);
+    rectangle(*src, rect, Scalar(0, 255, 0), 2);
+}
+
+void DEBUG_DRAW_REFERENCE(Mat* src)
+{
+	cout << "DRAWING REFERENCES" << endl;
+	//resize(*src, *src, Size(400, 600));
+	Target target = getTarget(*src, false);
+	if (target.tl == Point2f(0, 0) && target.tr == Point2f(0, 0) && Point2f(0, 0) == target.bl && target.br == Point2f(0, 0)) return;
+	vector<Rect> references = getReferenceSquares(*src, target);
+	for (auto& rect : references)
+	{
+		rectangle(*src, rect, Scalar(0, 255, 0), 2);
+	}
+}
+
+void DEBUG_DRAW_SAMPLE(Mat* src)
+{
+	cout << "DRAWING SAMPLE" << endl;
+	//resize(*src, *src, Size(400, 600));
+	Target target = getTarget(*src, false);
+	if (target.tl == Point2f(0, 0) && target.tr == Point2f(0, 0) && Point2f(0, 0) == target.bl && target.br == Point2f(0, 0)) return;
+	vector<Rect> references = getReferenceSquares(*src, target);
+	if (references.size() == 0) return;
+	Rect sample = getSampleSquare(*src, target);
+	rectangle(*src, sample, Scalar(0, 255, 0), 2);
 }
 
 int processImage(Mat* src)
@@ -100,7 +128,7 @@ int processImage(Mat* src)
 	if (DEBUG_MODE)
 		cout << "IMAGE BEING PROCESS" << endl;
 
-	resize(*src, *src, Size(0, 0), 0.25, 0.25);
+	//resize(*src, *src, Size(400, 600));
 	Target target = getTarget(*src);
 
 	if (target.tl == Point2f(0, 0) && target.tr == Point2f(0, 0) && Point2f(0, 0) == target.bl && target.br == Point2f(0, 0)) return -1;
@@ -126,6 +154,12 @@ int processImage(Mat* src)
 	//}
 
 	Vec3f sampleColor = getDominantColor(*src, sample);
+	__android_log_print(ANDROID_LOG_INFO, "colors", "Color: ");
+	for (int i = 0; i < 3; i++)
+	{
+	    __android_log_print(ANDROID_LOG_INFO, "colors", " %9.6f", sampleColor.val[i]);
+	}
+	__android_log_print(ANDROID_LOG_INFO, "colors", "\n");
 	rectangle(*src, sample, Scalar(0, 255, 0), 2);
 
 	size_t sampleIndex = getClosestColorIndex(refColors, sampleColor);
@@ -331,7 +365,7 @@ vector<Point2f> lineToPointPair(Vec2f line)
 static const float POINT_FF = 1.0f;
 void removeDuplicatePoints(vector<Point2f>& vec)
 {
-	/// TOOD: Make this faster with a hashset implimentation
+	/// TODO: Make this faster with a hashset implimentation
 	for (size_t i = 0; i < vec.size(); i++) {
 		for (size_t j = 0; j < vec.size(); j++) {
 			if (j == i) continue;
@@ -345,7 +379,7 @@ void removeDuplicatePoints(vector<Point2f>& vec)
 }
 
 static const float LENGTH_FIRST_SQUARE = 41.5;
-static const float SQUARE_DISTANCE = 27.3;
+static const float SQUARE_DISTANCE = 25.5;
 static const size_t NUM_REFERENCE_SQUARES = 6;
 static const float REFERENCE_SQUARE_SIZE = 9.5;
 vector<Rect> getReferenceSquares(const Mat srcImage, const Target target)
@@ -532,7 +566,7 @@ void RGBtoHSV(float& fR, float& fG, float fB, float& fH, float& fS, float& fV) {
 
 void print(Vec3f v)
 {
-	//cout << "H: " << v.val[0] << " S: " << v.val[1] << " V: " << v.val[2];
+	cout << "H: " << v.val[0] << " S: " << v.val[1] << " V: " << v.val[2];
 }
 
 size_t getClosestColorIndex(vector<Vec3f>& ref, Vec3f& target)
@@ -552,10 +586,10 @@ size_t getClosestColorIndex(vector<Vec3f>& ref, Vec3f& target)
 	for (size_t i = 0; i < ref.size(); i++)
 	{
 		double dist = norm(normalizedRef[i] - target);
-		/*cout << "Target: ";
+		cout << "Target: ";
 		print(target);
 		cout << endl;
-		cout << "Reference: ";
+		/*cout << "Reference: ";
 		print(ref[i]);
 		cout << endl;
 		cout << "Distance: " << dist << endl;*/
@@ -599,18 +633,18 @@ void normalizeColors(vector<Vec3f>& colors, Vec3f& target)
 	float ds = (rs - as) / 6;
 	float dv = (rv - av) / 6;
 
-	/*cout << "RAW TARGET ";
+	cout << "RAW TARGET ";
 	print(target);
-	cout << endl;*/
+	cout << endl;
 
 	// Normalize target
 	target.val[0] += dh;
 	target.val[1] += ds;
 	target.val[2] += dv;
 
-	/*cout << "DH: " << dh << " DS: " << ds << " DV: " << dv << endl;
+	/*cout << "DH: " << dh << " DS: " << ds << " DV: " << dv << endl; */
 
 	cout << "NORMALIZED: ";
 	print(target);
-	cout << endl;*/
+	cout << endl;
 }

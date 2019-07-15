@@ -39,6 +39,7 @@ public class CollectDataActivity extends AppCompatActivity {
 
     private Bitmap img;
     private boolean cameraAccess = true;
+    private String path;
 
     private static final int CAMERA_REQUEST_CODE = 100;
     private static final int REQUEST_IMAGE_CAPTURE = 101;
@@ -144,7 +145,7 @@ public class CollectDataActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK) {
                     img = (Bitmap) data.getExtras().get("data");
                     selectedImage.setImageBitmap(img);
-                    String path = saveToInternalStorage(img);
+                    path = saveToInternalStorage(img);
                     Log.d("plz", path);
                     // loadImageFromStorage(path);
                 }
@@ -158,7 +159,7 @@ public class CollectDataActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     selectedImage.setImageBitmap(img);
-                    String path = saveToInternalStorage(img);
+                    path = saveToInternalStorage(img);
                     Log.d("plz", path);
                 }
         }
@@ -199,14 +200,14 @@ public class CollectDataActivity extends AppCompatActivity {
     }
 
     public void submit() {
-        Mat mat = new Mat();
-        Bitmap bmp32 = img.copy(Bitmap.Config.ARGB_8888, true);
-        Utils.bitmapToMat(bmp32, mat);
-        int ppm = CvUtil.processImage(mat);
+        //Mat mat = new Mat();
+        //Bitmap bmp32 = img.copy(Bitmap.Config.ARGB_8888, true);
+        //Utils.bitmapToMat(bmp32, mat);
+        //int ppm = CvUtil.processImage(mat);
         //int ppm = -1;
-        Log.d("YEET", "PPM: " + ppm);
+        //Log.d("YEET", "PPM: " + ppm);
         Intent start = new Intent(this, SubmitActivity.class);
-        start.putExtra("PPM", ppm);
+        start.putExtra("IMAGE", path);
         start.putExtra("COMMENTS", comments.getText().toString());
         startActivity(start);
     }

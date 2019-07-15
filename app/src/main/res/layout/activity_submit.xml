@@ -6,34 +6,60 @@
     android:layout_height="match_parent"
     tools:context=".SubmitActivity">
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/ppmDisplay"
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/show_target_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="PPM: -1"
-        android:textSize="60sp"
+        android:layout_marginTop="50dp"
+        android:textSize="30sp"
+        android:text="Find Target"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.AppCompatButton
+    android:id="@+id/show_reference_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:textSize="30sp"
+    android:text="Find Reference"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/show_target_button" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/show_sample_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="30sp"
+        android:text="Find sample"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/show_reference_button" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/show_ppm_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="30sp"
+        android:text="Find ppm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/show_sample_button" />
+
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/restartButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginEnd="18dp"
-        android:layout_marginRight="18dp"
         android:onClick="restartAction"
         android:text="Remeasure"
         android:textSize="30sp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/show_ppm_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ppmDisplay" />
+        app:layout_constraintStart_toStartOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
