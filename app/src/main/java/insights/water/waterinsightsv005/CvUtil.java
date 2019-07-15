@@ -19,5 +19,23 @@ public class CvUtil {
         return processImage(mat.getNativeObjAddr());
     }
 
+    public static void DEBUG_DRAW_REFERENCE(Mat mat)
+    {
+        DEBUG_DRAW_REFERENCE(mat.getNativeObjAddr());
+    }
+
+    public static void DEBUG_DRAW_SAMPLE(Mat mat)
+    {
+        DEBUG_DRAW_SAMPLE(mat.getNativeObjAddr());
+    }
+
+    public static void DEBUG_DRAW_TARGET(Mat mat)
+    {
+        DEBUG_DRAW_TARGET(mat.getNativeObjAddr());
+    }
+
     public static native int processImage(long matAddr);
+    public static native void DEBUG_DRAW_REFERENCE(long matAddr);
+    public static native void DEBUG_DRAW_SAMPLE(long matAddr);
+    public static native void DEBUG_DRAW_TARGET(long matAddr);
 }

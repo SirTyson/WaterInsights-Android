@@ -1,12 +1,12 @@
-//
-// Created by Garand Tyson on 7/10/2019.
-//
-#include <insights_water_waterinsightsv005_CvUtil.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
+#include <iostream>
 #include <vector>
 #include <cfloat>
+#include <insights_water_waterinsightsv005_CvUtil.h>
+
+static const bool DEBUG_MODE = true;
 
 using namespace cv;
 using namespace std;
@@ -18,8 +18,18 @@ struct Target {
 	Point2f br;
 };
 
+/* DEBUG */
+/* Make Target Printable */
+std::ostream& operator<<(std::ostream& os, const Target& target)
+{
+	return os << "TOP LEFT: " << target.tl << "\n"
+		<< "TOP RIGHT: " << target.tr << "\n"
+		<< "BOTTOM LEFT: " << target.bl << "\n"
+		<< "BOTTOM RIGHT: " << target.br << "\n";
+}
+
 /* Get Target */
-Target getTarget(/*const*/ Mat srcImage);
+Target getTarget(/*const*/ Mat srcImage, bool debug = false);
 Point2f computeIntersect(Vec2f line1, Vec2f line2);
 vector<Point2f> lineToPointPair(Vec2f line);
 bool acceptLinePair(Vec2f line1, Vec2f line2, float minTheta);
@@ -45,19 +55,57 @@ size_t getClosestColorIndex(vector<Vec3f>& ref, Vec3f& target);
 void normalizeColors(vector<Vec3f>& colors, Vec3f& target);
 int processImage(Mat* srcPtr);
 
+/* Debug Functions */
+void DEBUG_DRAW_TARGET(Mat* src);
+//void DEBUG_DRAW_REFERENCE(Mat* src);
+//void DEBUG_DRAW_SAMPLE(Mat* src);
 
 JNIEXPORT jint JNICALL Java_insights_water_waterinsightsv005_CvUtil_processImage
-  (JNIEnv * env, jclass cls, jlong mat_addr)
+  (JNIEnv * env, jclass cls, jlong image_addr)
 {
-    return processImage((Mat*) mat_addr);
+    Mat* image = (Mat*) image_addr;
+    return processImage(image);
+}
+
+JNIEXPORT void JNICALL Java_insights_water_waterinsightsv005_CvUtil_DEBUG_1DRAW_1REFERENCE
+  (JNIEnv * env, jclass cls, jlong image_addr)
+{
+    Mat* image = (Mat*) image_addr;
+    //DEBUG_DRAW_REFERENCE(image);
+}
+
+JNIEXPORT void JNICALL Java_insights_water_waterinsightsv005_CvUtil_DEBUG_1DRAW_1SAMPLE
+  (JNIEnv * env, jclass cls, jlong image_addr)
+{
+    Mat* image = (Mat*) image_addr;
+    //DEBUG_DRAW_SAMPLE(image);
+}
+
+JNIEXPORT void JNICALL Java_insights_water_waterinsightsv005_CvUtil_DEBUG_1DRAW_1TARGET
+  (JNIEnv * env, jclass cls, jlong image_addr)
+{
+    Mat* image = (Mat*) image_addr;
+    DEBUG_DRAW_TARGET(image);
+}
+
+void DEBUG_DRAW_TARGET(Mat* src)
+{
+	cout << "DRAWING TARGET" << endl;
+	resize(*src, *src, Size(0, 0), 0.25, 0.25);
+	Target target = getTarget(*src, true);
 }
 
 int processImage(Mat* src)
 {
+	if (DEBUG_MODE)
+		cout << "IMAGE BEING PROCESS" << endl;
+
 	resize(*src, *src, Size(0, 0), 0.25, 0.25);
 	Target target = getTarget(*src);
 
-    if (target.tl == Point2f(0,0) && target.tr == Point2f(0,0) && Point2f(0,0) == target.bl && target.br == Point2f(0,0)) return -1;
+	if (target.tl == Point2f(0, 0) && target.tr == Point2f(0, 0) && Point2f(0, 0) == target.bl && target.br == Point2f(0, 0)) return -1;
+
+	//rectangle(src, Rect(target.tl, target.br), Scalar(0, 0, 255), 2);
 
 	vector<Rect> references = getReferenceSquares(*src, target);
 	Rect sample = getSampleSquare(*src, target);
@@ -67,6 +115,15 @@ int processImage(Mat* src)
 		refColors.insert(refColors.begin(), getDominantColor(*src, rect));
 		rectangle(*src, rect, Scalar(0, 255, 0), 2);
 	}
+
+	//for (auto color : refColors)
+	//{
+	//	//cout << "COLOR: ";
+	//	for (int i = 0; i < 3; i++) {
+	//	//	cout << color.val[i] << "  ";
+	//	}
+	//	//cout << endl;
+	//}
 
 	Vec3f sampleColor = getDominantColor(*src, sample);
 	rectangle(*src, sample, Scalar(0, 255, 0), 2);
@@ -95,13 +152,14 @@ int processImage(Mat* src)
 		return -1;
 		break;
 	}
+
 }
 
 /**
  * Given a srcImage, function returns Target struct containing 4 points defining target. Returns 0 Target if
  * at least 4 target corners not found.
 */
-Target getTarget(/*const*/ Mat srcImage) {
+Target getTarget(/*const*/ Mat srcImage, bool debug) {
 	Mat occludedSquare8u;
 	cvtColor(srcImage, occludedSquare8u, COLOR_BGR2GRAY);
 
@@ -139,6 +197,9 @@ Target getTarget(/*const*/ Mat srcImage) {
 	vector<Vec2f> lines;
 	HoughLines(edges, lines, 1, CV_PI / 180, 50, 0, 0);
 
+	/* DEBUG: */
+	if (debug) cout << "Detected " << lines.size() << " lines." << endl;
+
 	// compute the intersection from the lines detected
 	vector<Point2f> intersections;
 	for (size_t i = 0; i < lines.size(); i++)
@@ -151,17 +212,26 @@ Target getTarget(/*const*/ Mat srcImage) {
 			{
 				Point2f intersection = computeIntersect(line1, line2);
 				intersections.push_back(intersection);
+				if (debug) circle(srcImage, intersection, 2, Scalar(0, 255, 0));
 			}
 		}
+
 	}
 
 	if (intersections.size() >= 4)
 	{
+		//removeDuplicatePoints(intersections);
 		vector<Point2f>::iterator i;
 		Point2f topLeft;
 		Point2f bottomRight;
 		float topLeftVal = FLT_MAX;
 		float bottomRightVal = 0;
+		/* DEBUG */
+		/*for (i = intersections.begin(); i != intersections.end(); ++i)
+		{
+			cout << "Intersection is " << i->x << ", " << i->y << endl;
+			circle(srcImage, *i, 1, Scalar(0, 255, 0), 3);
+		}*/
 
 		Target target;
 
@@ -215,9 +285,14 @@ bool acceptLinePair(Vec2f line1, Vec2f line2, float minTheta)
 	float theta1 = line1[1], theta2 = line2[1];
 
 	if (theta1 < minTheta)
+	{
 		theta1 += CV_PI; // dealing with 0 and 180 ambiguities
+	}
+
 	if (theta2 < minTheta)
+	{
 		theta2 += CV_PI; // dealing with 0 and 180 ambiguities
+	}
 
 	return abs(theta1 - theta2) > minTheta;
 }
@@ -277,6 +352,13 @@ vector<Rect> getReferenceSquares(const Mat srcImage, const Target target)
 {
 	vector<Rect> referenceSquares;
 
+	/* DEBUG */
+	//line(srcImage, target.tl, target.tr, Scalar(0, 255, 0), 2);
+	/*float targetArea = ((target.tr.x - target.tl.x + target.br.x - target.bl.x) / 2) * ((target.br.y - target.tr.y + target.bl.y - target.tl.y) / 2);
+	cout << "TARGET AREA " << targetArea << endl;
+	cout << "IMAGE SIZE: " << srcImage.size() << endl;
+	cout << "SIDE LENGTH " << (target.tr.x - target.tl.x + target.br.x - target.bl.x) / 2 << endl;*/
+
 	for (size_t i = 0; i < NUM_REFERENCE_SQUARES; i++) {
 		float length = getRelativeVecLength((target.tr.x - target.tl.x + target.br.x - target.bl.x) / 2, LENGTH_FIRST_SQUARE + i * SQUARE_DISTANCE);
 		Point2f point = getOrthogonalEndpoint(target.tl, target.tr, length);
@@ -334,6 +416,12 @@ float getRelativeVecLength(float sideLength, float length)
 	return length * ratio;
 }
 
+/// TODO: Actually impliment
+float getRelativeArea(float targetArea, float area)
+{
+	return area;
+}
+
 static const float ANGLE = 15.5;
 static const float SAMPLE_LENGTH = 134.0;
 Rect getSampleSquare(/*const*/ Mat srcImage, const Target& target)
@@ -342,6 +430,8 @@ Rect getSampleSquare(/*const*/ Mat srcImage, const Target& target)
 		(target.tl.x + target.br.x) / 2,
 		(target.tl.y + target.br.y) / 2
 	);
+
+	//circle(srcImage, midpoint, 1, Scalar(0, 255, 0), 2);
 
 	float theta = ANGLE * CV_PI / 180.0;
 	float length = getRelativeVecLength((target.tr.x - target.tl.x + target.br.x - target.bl.x) / 2, SAMPLE_LENGTH);
@@ -356,6 +446,10 @@ Rect getSampleSquare(/*const*/ Mat srcImage, const Target& target)
 		Point2f(samplePoint.x - size, samplePoint.y - size),
 		Point2f(samplePoint.x + size, samplePoint.y + size)
 	);
+
+	//line(srcImage, midpoint, samplePoint, Scalar(0, 255, 0), 2);
+	//circle(srcImage, samplePoint, 1, Scalar(0, 0, 255), 2);
+	//rectangle(srcImage, rect, Scalar(0, 255, 0), 1);
 
 	return rect;
 }
@@ -436,6 +530,11 @@ void RGBtoHSV(float& fR, float& fG, float fB, float& fH, float& fS, float& fV) {
 	}
 }
 
+void print(Vec3f v)
+{
+	//cout << "H: " << v.val[0] << " S: " << v.val[1] << " V: " << v.val[2];
+}
+
 size_t getClosestColorIndex(vector<Vec3f>& ref, Vec3f& target)
 {
 	normalizeColors(ref, target);
@@ -453,6 +552,13 @@ size_t getClosestColorIndex(vector<Vec3f>& ref, Vec3f& target)
 	for (size_t i = 0; i < ref.size(); i++)
 	{
 		double dist = norm(normalizedRef[i] - target);
+		/*cout << "Target: ";
+		print(target);
+		cout << endl;
+		cout << "Reference: ";
+		print(ref[i]);
+		cout << endl;
+		cout << "Distance: " << dist << endl;*/
 		if (dist < min)
 		{
 			min = dist;
@@ -493,8 +599,18 @@ void normalizeColors(vector<Vec3f>& colors, Vec3f& target)
 	float ds = (rs - as) / 6;
 	float dv = (rv - av) / 6;
 
+	/*cout << "RAW TARGET ";
+	print(target);
+	cout << endl;*/
+
 	// Normalize target
 	target.val[0] += dh;
 	target.val[1] += ds;
 	target.val[2] += dv;
+
+	/*cout << "DH: " << dh << " DS: " << ds << " DV: " << dv << endl;
+
+	cout << "NORMALIZED: ";
+	print(target);
+	cout << endl;*/
 }
