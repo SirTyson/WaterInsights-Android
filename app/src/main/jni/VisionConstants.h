@@ -1,0 +1,76 @@
+#pragma once
+
+/*-------------- VISION PARAMETER --------------*/
+
+/* TARGET RECOGNITION */
+#define TARGET_THRESH_LOWER 210.0f
+#define TARGET_THRESH_UPPER 255.0f
+
+#define TARGET_BLUR_SIZE 7
+#define TARGET_BLUR_SIGX 2.0f
+#define TARGET_BLUR_SIGY 2.0f
+
+#define TARGET_CANNY_THRESH_LOWER 66.0f
+#define TARGET_CANNY_THRESH_UPPER 133.0f
+#define TARGET_CANNY_AP_SIZE 3
+
+#define TARGET_SIDE_FILTER 50
+#define TARGET_RECT_FUDGE_FACTOR 0.2f
+
+#define TARGET_HOUGH_RHO 1
+#define TARGET_HOUGH_THRESH 50
+
+#define TARGET_POINT_DETECTION_FUDGE_FACTOR 10
+
+/* REFERENCE SQUARE RECOGNITION */
+#define REF_DIST_FIRST_SQUARE 41.5f
+#define REF_DIST_BTWN_SQUARES 27.3f
+#define REF_SQUARE_SIZE 9.5f
+
+/* SAMPLE RECOGNITION */
+#define SAMPLE_LENGTH 134.0f
+#define SAMPLE_ANGLE 15.5f
+
+/* COLOR RECOGNITION */
+
+/* DOMINANT COLORS */
+#define DOMINANT_COLOR_K 8
+#define DOMINANT_COLOR_ATTEMPTS 3
+#define TERM_CRITERIA_MAX_COUNT 10
+#define TERMI_CRITERIA_EPSILON 1.0f
+
+/* NORMALIZED PPM REFERENCE VALUE */
+#define REF_COLOR_0 cv::Vec3f(38.888, 0.65106, 0.93289)
+#define REF_COLOR_1 cv::Vec3f(37.7765, 0.573698, 0.840704)
+#define REF_COLOR_2 cv::Vec3f(37.4427, 0.537292, 0.71138)
+#define REF_COLOR_3 cv::Vec3f(35.6967, 0.402677, 0.545533)
+#define REF_COLOR_4 cv::Vec3f(33.1313, 0.304777, 0.468166)
+#define REF_COLOR_5 cv::Vec3f(26.2569, 0.198088, 0.413656)
+
+
+#define BGR_SCALE 255
+
+/* GENERAL */
+#define REFERENCE_LENGTH 75
+
+/*------------- TEST CARD CONSTANTS -------------*/
+#define NUM_PPM_REFERENCES 6
+
+/*------------------ PPM VALUES ------------------*/
+#define PPM_0 0
+#define PPM_1 40
+#define PPM_2 80
+#define PPM_3 120
+#define PPM_4 180
+#define PPM_5 240
+
+/* PPM NORMALIZED COLORS */
+#define PPM_0_COLOR cv::Vec3f(48.9638, 0.678046, 0.794535)
+#define PPM_1_COLOR cv::Vec3f(63.1896, 0.358716, 0.607069)
+#define PPM_2_COLOR cv::Vec3f(88.0652, 0.171686, 0.486555)
+#define PPM_3_COLOR cv::Vec3f(168.906, 0.241388, 0.458003)
+#define PPM_4_COLOR cv::Vec3f(189.37, 0.20602, 0.477649)
+#define PPM_5_COLOR cv::Vec3f(200.559, 0.208543, 0.395491)
+
+/*----------------- HELPER VALUES ---------------*/
+#define GREEN cv::Scalar(0, 255, 0)
