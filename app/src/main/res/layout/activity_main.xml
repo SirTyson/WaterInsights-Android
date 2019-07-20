@@ -4,37 +4,83 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/offWhiteTitle"
     tools:context=".MainActivity">
 
-    <android.support.v7.widget.AppCompatCheckedTextView
-        android:id="@+id/title_view"
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/title_text_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="Water Insights V0"
-        android:textSize="36sp"
-        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:text="@string/start_screen_title"
+        android:textSize="26sp"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toTopOf="@+id/logo_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/collect_data_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:onClick="collectDataButton"
-        android:text="Collect Data"
-        android:textSize="20sp"
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/logo_image"
+        android:layout_width="268dp"
+        android:layout_height="240dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_view" />
+        app:layout_constraintTop_toBottomOf="@+id/title_text_box"
+        app:srcCompat="@drawable/logo_round" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/about_text_box"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/start_screen_about_text"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toTopOf="@+id/scistarter_sign_in_button"
+        app:layout_constraintEnd_toEndOf="@id/logo_image"
+        app:layout_constraintStart_toStartOf="@id/logo_image"
+        app:layout_constraintTop_toBottomOf="@+id/logo_image" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/scistarter_sign_in_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/scistarter_button_border"
+        android:text="@string/start_screen_scistarter_sign_in"
+        android:textColor="@color/offWhiteTitle"
+        android:textSize="16sp"
+        android:textAllCaps="false"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintEnd_toEndOf="@id/logo_image"
+        app:layout_constraintStart_toStartOf="@id/logo_image"
+        app:layout_constraintBottom_toTopOf="@+id/guest_button"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/guest_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/guest_button_border"
+        android:text="@string/start_screen_guest_sign_in"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textAllCaps="false"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/learn_more_link"
+        app:layout_constraintEnd_toEndOf="@id/logo_image"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/logo_image" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/learn_more_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/learn_more_link"
+        android:textSize="16sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

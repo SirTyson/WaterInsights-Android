@@ -1,4 +1,12 @@
 <resources>
+    <!--Activity Info-->
     <string name="app_name">Water Insights</string>
     <string name="title_activity_collect_data">CollectDataActivity</string>
+
+    <!--Start Screen -->
+    <string name="start_screen_title">Water Insights</string>
+    <string name="start_screen_scistarter_sign_in">Sign in with SciStarter</string>
+    <string name="start_screen_guest_sign_in">Continue as guest</string>
+    <string name="start_screen_about_text">Welcome to Water Insights! Together, we can change the world, or something like that (plz fix).</string>
+    <string name="learn_more_link">Learn more</string>
 </resources>
