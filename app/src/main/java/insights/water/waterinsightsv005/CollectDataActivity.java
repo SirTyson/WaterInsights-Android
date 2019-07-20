@@ -159,8 +159,6 @@ public class CollectDataActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     selectedImage.setImageBitmap(img);
-                    path = saveToInternalStorage(img);
-                    Log.d("plz", path);
                 }
         }
     }
@@ -172,7 +170,9 @@ public class CollectDataActivity extends AppCompatActivity {
 
         /* Create imageDir */
         File path = new File(directory, IMAGE_FILENAME);
-
+        if (path.exists()) {
+            path.delete();
+        }
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(path, false);
@@ -207,9 +207,11 @@ public class CollectDataActivity extends AppCompatActivity {
         //int ppm = -1;
         //Log.d("YEET", "PPM: " + ppm);
         Intent start = new Intent(this, SubmitActivity.class);
+        path = saveToInternalStorage(img);
         start.putExtra("IMAGE", path);
         start.putExtra("COMMENTS", comments.getText().toString());
         startActivity(start);
+        finish();
     }
 
 //    private void submit() {

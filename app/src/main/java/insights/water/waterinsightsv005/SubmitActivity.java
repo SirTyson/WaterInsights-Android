@@ -28,8 +28,6 @@ public class SubmitActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         if (i != null) {
-//            int ppm = i.getIntExtra("PPM", -1);
-//            ppmDisplay.setText("PPM: " + ppm);
             // TODO: Add constant for intent extras
             imgPath = i.getStringExtra("IMAGE");
         }
@@ -45,5 +43,6 @@ public class SubmitActivity extends AppCompatActivity {
     public void restartAction(View view) {
         Intent i = new Intent(this, CollectDataActivity.class);
         startActivity(i);
+        finish();
     }
 }
