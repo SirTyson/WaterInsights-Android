@@ -2,30 +2,23 @@
 
 #include <opencv2/core/core.hpp>
 
-struct Target {
-	cv::Point2f tl;
-	cv::Point2f tr;
-	cv::Point2f bl;
-	cv::Point2f br;
-};
-
 /*
  * Processes Image and returns the target, or empty target on error. 
  * If debug == true, function draws target on srcImage.
  */
-Target getTarget(const cv::Mat srcImage, bool debug = false);
+cv::RotatedRect getTarget(const cv::Mat srcImage, bool debug = false);
 
 /*
  * Processes Image and returns a vector of all reference squares, or empty vector on error.
  * If debug == true, function draws reference squares on srcImage.
  */
-std::vector<cv::Rect> getReferenceSquares(const cv::Mat srcImage, const Target& target, bool debug = false);
+std::pair<std::vector<cv::RotatedRect>, cv::RotatedRect> getReferenceSquares(const cv::Mat srcImage, const cv::RotatedRect& target, bool debug);
 
 /*
  * Processes Image and returns the sample square, or empty target on error.
  * If debug == true, function draws sample square on srcImage.
  */
-cv::Rect getSampleSquare(const cv::Mat srcImage, const Target& target, bool debug = false);
+cv::RotatedRect getSampleSquare(const cv::Mat srcImage, const cv::RotatedRect& target, const cv::RotatedRect& ref, bool debug = false);
 
 /*
  * Processes Image and returns the PPM value. Returns -1 on error. Assumes 
@@ -33,7 +26,10 @@ cv::Rect getSampleSquare(const cv::Mat srcImage, const Target& target, bool debu
  */
 int processImage(const cv::Mat src, bool debug = false);
 
+int processImageFromFile(const std::string& file);
+
 /* DEBUG FUNCTIONS */
 void DEBUG_DRAW_TARGET(cv::Mat src);
 void DEBUG_DRAW_REFERENCE(cv::Mat src);
 void DEBUG_DRAW_SAMPLE(cv::Mat src);
+void DEBUG_DRAW_REFERENCE_REGION(cv::Mat src);

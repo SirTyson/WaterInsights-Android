@@ -9,6 +9,14 @@ extern "C" {
 #endif
 /*
  * Class:     insights_water_waterinsightsv005_CvUtil
+ * Method:    loadImage
+ * Signature: (Ljava/lang/String;)I
+ */
+JNIEXPORT jint JNICALL Java_insights_water_waterinsightsv005_CvUtil_loadImage
+  (JNIEnv *, jclass, jstring);
+
+/*
+ * Class:     insights_water_waterinsightsv005_CvUtil
  * Method:    processImage
  * Signature: (J)I
  */

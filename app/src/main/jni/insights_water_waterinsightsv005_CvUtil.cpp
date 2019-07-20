@@ -28,3 +28,16 @@ JNIEXPORT void JNICALL Java_insights_water_waterinsightsv005_CvUtil_DEBUG_1DRAW_
     cv::Mat* image = (cv::Mat*) image_addr;
     DEBUG_DRAW_TARGET(*image);
 }
+
+JNIEXPORT jint JNICALL Java_insights_water_waterinsightsv005_CvUtil_loadImage
+  (JNIEnv * env, jclass cls, jstring filepath)
+{
+    const char *nativeString = env->GetStringUTFChars(filepath, nullptr);
+
+    std::string file(nativeString);
+
+    int ret = processImageFromFile(file);
+
+    env->ReleaseStringUTFChars(filepath, nativeString);
+    return ret;
+}

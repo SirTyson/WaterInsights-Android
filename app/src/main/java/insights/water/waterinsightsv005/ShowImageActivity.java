@@ -58,13 +58,15 @@ public class ShowImageActivity extends AppCompatActivity {
             Log.d(TAG, "ERROR: Loading Image returned null");
             return;
         }
-        Mat mat = new Mat();
-        Bitmap bmp32 = bmp.copy(Bitmap.Config.ARGB_8888, true);
-        Utils.bitmapToMat(bmp32, mat);
+        Mat mat = new Mat(bmp.getWidth(), bmp.getHeight(), CvType.CV_8UC3);
+        Utils.bitmapToMat(bmp, mat);
         Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGRA2BGR);
-        float ratio = (float) mat.height() / (float) mat.width();
+       //Bitmap bmp32 = bmp.copy(Bitmap.Config.ARGB_8888, true);
+      //  Utils.bitmapToMat(bmp32, mat);
+        //Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGRA2BGR);
+        double ratio = (double) mat.height() / 600.0;
         Log.d("plz", "RATIO " + ratio);
-        Imgproc.resize(mat, mat, new Size(600 / ratio, 600));
+        Imgproc.resize(mat, mat, new Size(mat.width() / ratio, 600));
         Log.d("plz", "Width: " + mat.width() + " Height: " + mat.height());
         /* Do operation */
         switch (opCode) {
@@ -78,7 +80,8 @@ public class ShowImageActivity extends AppCompatActivity {
                 CvUtil.DEBUG_DRAW_SAMPLE(mat);
                 break;
             case OP_CODE_FIND_PPM:
-                ppmTextView.setText("PPM: " + CvUtil.processImage(mat));
+                Log.d("plz", imgPath + "/" + IMAGE_FILENAME);
+                ppmTextView.setText("PPM: " + CvUtil.TEST_LOAD_IMAGE(imgPath + "/" + IMAGE_FILENAME));
                 break;
             default:
                 Log.e(TAG, "INVALID OP_CODE: " + opCode);

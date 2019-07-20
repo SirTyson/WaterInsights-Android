@@ -1,33 +1,49 @@
 #include "VisionFunctions.h"
 #include "VisionConstants.h"
 #include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/highgui/highgui.hpp>
 #include <iostream>
+#include <android/log.h>
 
 /* TARGET FINDING */
-static bool acceptLinePair(cv::Vec2f line1, cv::Vec2f line2, float minTheta);
+static bool acceptLinePair(cv::Vec2f line1, cv::Vec2f line2, double minTheta);
 static cv::Point2f computeIntersect(cv::Vec2f line1, cv::Vec2f line2);
 static std::vector<cv::Point2f> lineToPointPair(cv::Vec2f line);
+static cv::RotatedRect getReferenceRegion(/*const*/ cv::Mat srcImage, const cv::RotatedRect& target);
 
 /* COLOR ANALYSIS */
-static cv::Vec3f getDominantColor(const cv::Mat srcImg, const cv::Rect& targetRect);
-static void RGBtoHSV(float& fR, float& fG, float fB, float& fH, float& fS, float& fV);
-static size_t getClosestColorIndex(std::vector<cv::Vec3f>& ref, cv::Vec3f& target, bool debug = true);
-static void normalizeColors(std::vector<cv::Vec3f>& colors, cv::Vec3f& target);
+static cv::Vec3d getDominantColor(const cv::Mat srcImg, const cv::RotatedRect& targetRect);
+static void RGBtoHSV(double& fR, double& fG, double fB, double& fH, double& fS, double& fV);
+static size_t getClosestColorIndex(std::vector<cv::Vec3d>& ref, cv::Vec3d& target, bool debug = true);
+static void normalizeColors(std::vector<cv::Vec3d>& colors, cv::Vec3d& target);
 
 /* GENERAL CORRECTION */
-static float getRelativeVecLength(float sideLength, float length);
-static cv::Point2f getOrthogonalEndpoint(const cv::Point2f& p1, const cv::Point2f& p2, float length);
-static cv::Point2f getAxelPoint(const cv::Point2f& p1, const cv::Point2f& p2, float vectorLen);
+static double getRelativeVecLength(const cv::RotatedRect& target, double length);
+static double getRelativeArea(const cv::RotatedRect& target, double area);
+static cv::Point2f getOrthogonalEndpoint(const cv::Point2f& p1, const cv::Point2f& p2, double length);
+static cv::Point2f getAxelPoint(const cv::Point2f& p1, const cv::Point2f& p2, double vectorLen);
 
 /* HELPER FUNCTIONS */
-static bool isNullSquare(const Target& target);
-static float getDistance(const cv::Point2f& p1, const cv::Point2f& p2);
+static bool isNullSquare(const cv::RotatedRect& rect);
+static double getDistance(const cv::Point2f& p1, const cv::Point2f& p2);
+static double computeProduct(cv::Point p, cv::Point2f a, cv::Point2f b);
+static bool isInROI(cv::Point p, cv::Point2f roi[]);
 
 /* DEBUG FUNCTION */
-static std::ostream& operator<<(std::ostream& os, const Target& target);
-static void print(const cv::Vec3f& v);
+static void print(const cv::Vec3d& v);
+static void drawRotatedRect(cv::Mat src, const cv::RotatedRect& rect);
 
-Target getTarget(const cv::Mat srcImage, bool debug)
+int processImageFromFile(const std::string& file)
+{
+    cv::Mat src = cv::imread(file);
+
+    double ratio = src.size().height / 600.0;
+    cv::resize(src, src, cv::Size(src.size().width / ratio, 600));
+
+    return processImage(src);
+}
+
+cv::RotatedRect getTarget(const cv::Mat srcImage, bool debug)
 {
 	cv::Mat occludedSquare8u;
 	cv::cvtColor(srcImage, occludedSquare8u, cv::COLOR_BGR2GRAY);
@@ -41,7 +57,6 @@ Target getTarget(const cv::Mat srcImage, bool debug)
 	cv::Mat edges;
 	Canny(thresh, edges, TARGET_CANNY_THRESH_LOWER, TARGET_CANNY_THRESH_UPPER, TARGET_CANNY_AP_SIZE);
 
-
 	std::vector<std::vector<cv::Point>> contours;
 	cv::Mat img(edges.size(), edges.type(), cv::Scalar(0));
 
@@ -50,185 +65,223 @@ Target getTarget(const cv::Mat srcImage, bool debug)
 	for (size_t i = 0; i < contours.size(); i++)
 	{
 		cv::Scalar color = cv::Scalar(255, 105, 180);
-		cv::Rect rect = boundingRect(contours[i]);
-		if (rect.height > TARGET_SIDE_FILTER &&
-			rect.width > TARGET_SIDE_FILTER &&
-			abs(1 - (rect.width / rect.height)) < rectFF)
+		cv::RotatedRect rect = cv::minAreaRect(contours[i]);
+		if (rect.size.height > TARGET_SIDE_FILTER &&
+			rect.size.width > TARGET_SIDE_FILTER &&
+			abs(1 - (rect.size.width / rect.size.height)) < rectFF)
 		{
-			drawContours(img, contours, i, color, 1, 8);
+			return rect;
 		}
 	}
 
-	edges = img;
-
-	std::vector<cv::Vec2f> lines;
-	HoughLines(edges, lines, TARGET_HOUGH_RHO, CV_PI / 180,
-		TARGET_HOUGH_THRESH, 0, 0);
-
-	/* DEBUG: */
-	if (debug) std::cout << "Detected " << lines.size() << " lines." << std::endl;
-
-	/* compute the intersection from the lines detected */
-	std::vector<cv::Point2f> intersections;
-	for (size_t i = 0; i < lines.size(); i++)
-	{
-		for (size_t j = 0; j < lines.size(); j++)
-		{
-			cv::Vec2f line1 = lines[i];
-			cv::Vec2f line2 = lines[j];
-			if (acceptLinePair(line1, line2, CV_PI / 32))
-			{
-				cv::Point2f intersection = computeIntersect(line1, line2);
-				intersections.push_back(intersection);
-			}
-		}
-	}
-
-	if (intersections.size() >= 4)
-	{
-		std::vector<cv::Point2f>::iterator i;
-		cv::Point2f topLeft;
-		cv::Point2f bottomRight;
-		float topLeftVal = FLT_MAX;
-		float bottomRightVal = 0;
-		
-		Target target;
-
-		/* Get top left and bottom right of target */
-		float currMin = FLT_MAX;
-		float currMax = 0.0f;
-		int tlIndex = -1;
-		int brIndex = -1;
-		for (size_t i = 0; i < intersections.size(); i++)
-		{
-			float sum = intersections[i].x + intersections[i].y;
-			if (sum < currMin)
-			{
-				currMin = sum;
-				tlIndex = i;
-			}
-			if (sum > currMax)
-			{
-				currMax = sum;
-				brIndex = i;
-			}
-		}
-		target.tl = intersections[tlIndex];
-		target.br = intersections[brIndex];
-
-		/* Get bottom left and top right of target */
-		for (size_t i = 0; i < intersections.size(); i++)
-		{
-			float x = intersections[i].x;
-			float y = intersections[i].y;
-			if (abs(x - target.tl.x) < TARGET_POINT_DETECTION_FUDGE_FACTOR &&
-				abs(y - target.br.y) < TARGET_POINT_DETECTION_FUDGE_FACTOR)
-			{
-				target.bl = intersections[i];
-			}
-			else if (abs(x - target.br.x) < TARGET_POINT_DETECTION_FUDGE_FACTOR &&
-				abs(y - target.tl.y) < TARGET_POINT_DETECTION_FUDGE_FACTOR)
-			{
-				target.tr = intersections[i];
-			}
-		}
-		return target;
-	}
-
-	/* Return 0 Target if not enough points found */
-	return Target{
-		cv::Point2f(0,0),
-		cv::Point2f(0,0),
-		cv::Point2f(0,0),
-		cv::Point2f(0,0)
-	};
+	return cv::RotatedRect(
+		cv::Point2f(0, 0),
+		cv::Point2f(0, 0),
+		cv::Point2f(0, 0));
 }
 
-std::vector<cv::Rect> getReferenceSquares(const cv::Mat srcImage, const Target& target, bool debug)
+std::pair<std::vector<cv::RotatedRect>, cv::RotatedRect> getReferenceSquares(const cv::Mat srcImage, const cv::RotatedRect& target, bool debug)
 {
-	std::vector<cv::Rect> referenceSquares;
+	std::vector<cv::RotatedRect> referenceSquares;
 
-	if (debug)
+	cv::RotatedRect region = getReferenceRegion(srcImage, target);
+	if (isNullSquare(region)) 
+		return std::make_pair(referenceSquares, cv::RotatedRect( cv::Point2f(0,0), cv::Point2f(0, 0), cv::Point2f(0, 0)));
+
+	cv::Point2f vrts[4];
+	region.points(vrts);
+
+	std::vector<cv::Point2f> vertices;
+	for (const auto& point : vrts)
+		vertices.push_back(point);
+
+	/* Get 2 points closest to target */
+	cv::Point2f refPoints[2];
+	for (size_t i = 0; i < 2; i++)
 	{
-		float targetArea = ((target.tr.x - target.tl.x + target.br.x - target.bl.x) / 2) * ((target.br.y - target.tr.y + target.bl.y - target.tl.y) / 2);
-		std::cout << "TARGET AREA " << targetArea << std::endl;
-		std::cout << "IMAGE SIZE: " << srcImage.size() << std::endl;
-		std::cout << "SIDE LENGTH " << (target.tr.x - target.tl.x + target.br.x - target.bl.x) / 2 << std::endl;
+		double least = FLT_MAX;
+		size_t leastIndex = -1;
+		for (size_t j = 0; j < vertices.size(); j++)
+		{
+			if (getDistance(target.center, vertices[j]) < least)
+			{
+				least = getDistance(target.center, vertices[j]);
+				leastIndex = j;
+			}
+		}
+		refPoints[i] = vertices[leastIndex];
+		vertices.erase(vertices.begin() + leastIndex);
 	}
 
-	for (size_t i = 0; i < NUM_PPM_REFERENCES; i++) {
-		float length = getRelativeVecLength((target.tr.x - target.tl.x + target.br.x - target.bl.x) / 2,
-			REF_DIST_FIRST_SQUARE + i * REF_DIST_BTWN_SQUARES);
+	float length = region.size.width > region.size.height ? region.size.width : region.size.height;
+	float lengthSquare = (length - (getRelativeVecLength(target, REF_REGION_OFFSET) * 2)) / NUM_PPM_REFERENCES;
 
-		cv::Point2f point = getOrthogonalEndpoint(target.tl, target.tr, length);
-		float size = getRelativeVecLength((target.tr.x - target.tl.x + target.br.x - target.bl.x) / 2, REF_SQUARE_SIZE);
-
-		cv::Rect rect(
-			cv::Point2f(point.x - size, point.y - size),
-			cv::Point2f(point.x + size, point.y + size)
-		);
+	static const float SQUARE_SIZE = getRelativeVecLength(target, REF_SQUARE_SIZE);
+	for (size_t i = 0; i < NUM_PPM_REFERENCES; i++)
+	{
+		cv::Point2f center = getOrthogonalEndpoint(refPoints[0], refPoints[1], REF_REGION_OFFSET + ((lengthSquare / 2) + lengthSquare * i));
+		cv::RotatedRect rect(center, cv::Size(SQUARE_SIZE, SQUARE_SIZE), region.angle);
 		referenceSquares.push_back(rect);
 	}
-	return referenceSquares;
+
+	return std::make_pair(referenceSquares, region);
 }
 
-cv::Rect getSampleSquare(const cv::Mat srcImage, const Target& target, bool debug)
+cv::RotatedRect getSampleSquare(const cv::Mat srcImage, const cv::RotatedRect& target, const cv::RotatedRect& ref, bool debug)
 {
-	cv::Point2f midpoint(
-		(target.tl.x + target.br.x) / 2,
-		(target.tl.y + target.br.y) / 2
-	);
+	/// TODO: Maybe center allign region more
+	float ROI_WIDTH, ROI_HEIGHT;
+	if (abs(ref.size.width) < abs(ref.size.height))
+	{
+		ROI_WIDTH = getRelativeVecLength(target, SAMPLE_ROI_WIDTH);
+		ROI_HEIGHT = getRelativeVecLength(target, SAMPLE_ROI_HEIGHT);
+	}
+	else
+	{
+		ROI_WIDTH = getRelativeVecLength(target, SAMPLE_ROI_HEIGHT);
+		ROI_HEIGHT = getRelativeVecLength(target, SAMPLE_ROI_WIDTH);
+	}
+	cv::Point2f searchRegionMidpoint = getOrthogonalEndpoint(target.center, ref.center, getRelativeVecLength(target, -SAMPLE_REGION_DIST));
 
-	float theta = SAMPLE_ANGLE * CV_PI / 180.0;
-	float length = getRelativeVecLength((target.tr.x - target.tl.x + target.br.x - target.bl.x) / 2, SAMPLE_LENGTH);
+	cv::RotatedRect ROI(searchRegionMidpoint, cv::Size(ROI_WIDTH, ROI_HEIGHT), ref.angle);
 
-	cv::Point2f samplePoint(
-		midpoint.x + length * cosf(theta),
-		midpoint.y + length * sinf(theta)
-	);
+	cv::Point2f vertices[4];
+	ROI.points(vertices);
 
-	float size = getRelativeVecLength((target.tr.x - target.tl.x + target.br.x - target.bl.x) / 2, REF_SQUARE_SIZE);
-	cv::Rect rect(
-		cv::Point2f(samplePoint.x - size, samplePoint.y - size),
-		cv::Point2f(samplePoint.x + size, samplePoint.y + size)
-	);
-	return rect;
+	cv::Mat mask = cv::Mat(srcImage.size(), CV_8UC1, cv::Scalar(0));
+	std::vector<std::vector<cv::Point>> pts{ {vertices[0], vertices[1], vertices[2], vertices[3] } };
+	fillPoly(mask, pts, cv::Scalar(255));
+
+	cv::Mat MatROI;
+	srcImage.copyTo(MatROI, mask);
+
+	cv::Mat occludedSquare8u;
+	cv::cvtColor(MatROI, occludedSquare8u, cv::COLOR_BGR2GRAY);
+
+	cv::Mat thresh;
+	cv::threshold(occludedSquare8u, thresh, SAMPLE_THRESH_LOWER, SAMPLE_THRESH_UPPER, cv::THRESH_BINARY);
+
+	GaussianBlur(thresh, thresh, cv::Size(TARGET_BLUR_SIZE, TARGET_BLUR_SIZE),
+		TARGET_BLUR_SIGX, TARGET_BLUR_SIGY);
+
+	cv::Mat edges;
+	Canny(thresh, edges, TARGET_CANNY_THRESH_LOWER, TARGET_CANNY_THRESH_UPPER, TARGET_CANNY_AP_SIZE);
+
+	std::vector<std::vector<cv::Point>> contours;
+	cv::Mat img(edges.size(), edges.type(), cv::Scalar(0));
+	std::vector<cv::Point> merged;
+
+	/* Merge non-filtered contours */
+	static const float WIDTH_MIN = getRelativeVecLength(target, SAMPLE_WIDTH_LOWER);
+	static const float WIDTH_MAX = getRelativeVecLength(target, SAMPLE_WIDTH_UPPER);
+	static const float HEIGHT_MIN = getRelativeVecLength(target, SAMPLE_HEIGHT_LOWER);
+	static const float HEIGHT_MAX = getRelativeVecLength(target, SAMPLE_HEIGHT_UPPER);
+	findContours(edges, contours, cv::RETR_CCOMP, cv::CHAIN_APPROX_NONE);
+	for (size_t i = 0; i < contours.size(); i++)
+	{
+		cv::Scalar color = cv::Scalar(255, 105, 180);
+		cv::RotatedRect rect = cv::minAreaRect(contours[i]);
+		float width, height;
+		if (rect.size.width < rect.size.height)
+		{
+			width = rect.size.width;
+			height = rect.size.height;
+		}
+		else
+		{
+			width = rect.size.height;
+			height = rect.size.width;
+		}
+		if (width > WIDTH_MIN &&
+			width < WIDTH_MAX &&
+			height < HEIGHT_MAX &&
+			height > HEIGHT_MIN)
+		{
+			for (const auto& pt : contours[i])
+				merged.push_back(pt);
+		}
+	}
+	if (merged.size() == 0) 
+		return cv::RotatedRect(cv::Point2f(0, 0), cv::Point2f(0, 0), cv::Point2f(0, 0));
+	
+	cv::RotatedRect testStrip = cv::minAreaRect(merged);
+
+	cv::Point2f points[4];
+	testStrip.points(points);
+
+	std::vector<cv::Point2f> vrt;
+	for (const auto& point : points)
+		vrt.push_back(point);
+
+	/* Get 2 points closest to target */
+	cv::Point2f refPoints[2];
+	for (size_t i = 0; i < 2; i++)
+	{
+		double least = FLT_MAX;
+		size_t leastIndex = -1;
+		for (size_t j = 0; j < vrt.size(); j++)
+		{
+			if (getDistance(ref.center, vrt[j]) < least)
+			{
+				least = getDistance(ref.center, vrt[j]);
+				leastIndex = j;
+			}
+		}
+		refPoints[i] = vrt[leastIndex];
+		vrt.erase(vrt.begin() + leastIndex);
+	}
+
+	static const float SQUARE_SIZE = getRelativeArea(target, REF_SQUARE_SIZE);
+
+	cv::Point2f center = getOrthogonalEndpoint(refPoints[0], refPoints[1], getRelativeVecLength(target, -SAMPLE_DIST_PPM));
+	return cv::RotatedRect(center, cv::Size(SQUARE_SIZE, SQUARE_SIZE), testStrip.angle);
 }
 
 int processImage(const cv::Mat src, bool debug)
 {
 	/* Get target and return on error */
-	Target target = getTarget(src, debug);
-	if (isNullSquare(target)) return -1;
-	if (debug)
-		cv::rectangle(src, cv::Rect(target.tl, target.br), GREEN, 2);
+	cv::RotatedRect target = getTarget(src, true);
+	if (isNullSquare(target))
+	{
+		std::cout << "ERROR: Target not found" << std::endl;
+		return -1;
+	}
+	if (debug) drawRotatedRect(src, target);
 
 	/* Get references and return on error */
-	std::vector<cv::Rect> references = getReferenceSquares(src, target, debug);
-	if (references.size() < NUM_PPM_REFERENCES) return -1;
+	auto ret = getReferenceSquares(src, target, true);
+	std::vector<cv::RotatedRect>& references = ret.first;
+	cv::RotatedRect& referenceRegion = ret.second;
+	if (references.size() < NUM_PPM_REFERENCES)
+	{
+		std::cout << "ERROR: only " << references.size() << " reference squares found" << std::endl;
+		return -1;
+	}
 	if (debug)
 	{
-		for (auto& rect : references)
-			cv::rectangle(src, rect, GREEN, 2);
+		for (auto& rect : references) drawRotatedRect(src, rect);
 	}
 
 	/* Get sample and return on error */
-	cv::Rect sample = getSampleSquare(src, target, debug);
-	if (sample.area() == 0) return -1;
-	if (debug)
-		cv::rectangle(src, sample, GREEN, 2);
+	cv::RotatedRect sample = getSampleSquare(src, target, referenceRegion, true);
+	if (isNullSquare(sample))
+	{
+		std::cout << "ERROR: could not find sample" << std::endl;
+		return -1;
+	}
+	if (debug) drawRotatedRect(src, sample);
 
-	std::vector<cv::Vec3f> refColors;
+	std::vector<cv::Vec3d> refColors;
 	for (auto rect : references) 
 		refColors.insert(refColors.begin(), getDominantColor(src, rect));
 
-	cv::Vec3f sampleColor = getDominantColor(src, sample);
-	if (debug)
+	cv::Vec3d sampleColor = getDominantColor(src, sample);
+	if (true)
 	{
-		std::cout << "SAMPLE COLOR (HSV): ";
+	    __android_log_print(ANDROID_LOG_ERROR, "DOMINANT_COLOR", "SAMPLE COLOR (HSV): ");
 		for (size_t i = 0; i < 3; i++)
-			std::cout << sampleColor[i] << " ";
-		std::cout << std::endl;
+			__android_log_print(ANDROID_LOG_ERROR, "DOMINANT_COLOR", " %lf ", sampleColor[i]);
+		__android_log_print(ANDROID_LOG_ERROR, "DOMINANT_COLOR", "\n");
 	}
 	
 	size_t sampleIndex = getClosestColorIndex(refColors, sampleColor, debug);
@@ -257,9 +310,9 @@ int processImage(const cv::Mat src, bool debug)
 	}
 }
 
-static bool acceptLinePair(cv::Vec2f line1, cv::Vec2f line2, float minTheta)
+static bool acceptLinePair(cv::Vec2f line1, cv::Vec2f line2, double minTheta)
 {
-	float theta1 = line1[1], theta2 = line2[1];
+	double theta1 = line1[1], theta2 = line2[1];
 
 	/* Deal with 0 and 180 degree ambiguities */
 	if (theta1 < minTheta) theta1 += CV_PI;
@@ -274,7 +327,7 @@ static cv::Point2f computeIntersect(cv::Vec2f line1, cv::Vec2f line2)
 	std::vector<cv::Point2f> p2 = lineToPointPair(line2);
 
 	/* Ref: Wikipedia line-intersection equation */
-	float denom = (p1[0].x - p1[1].x) * (p2[0].y - p2[1].y) - (p1[0].y - p1[1].y) * (p2[0].x - p2[1].x);
+	double denom = (p1[0].x - p1[1].x) * (p2[0].y - p2[1].y) - (p1[0].y - p1[1].y) * (p2[0].x - p2[1].x);
 	cv::Point2f intersect(((p1[0].x * p1[1].y - p1[0].y * p1[1].x) * (p2[0].x - p2[1].x) -
 		(p1[0].x - p1[1].x) * (p2[0].x * p2[1].y - p2[0].y * p2[1].x)) / denom,
 		((p1[0].x * p1[1].y - p1[0].y * p1[1].x) * (p2[0].y - p2[1].y) -
@@ -287,7 +340,7 @@ static std::vector<cv::Point2f> lineToPointPair(cv::Vec2f line)
 {
 	std::vector<cv::Point2f> points;
 
-	float r = line[0], t = line[1];
+	double r = line[0], t = line[1];
 	double cos_t = cos(t), sin_t = sin(t);
 	double x0 = r * cos_t, y0 = r * sin_t;
 	double alpha = 1000;
@@ -298,50 +351,104 @@ static std::vector<cv::Point2f> lineToPointPair(cv::Vec2f line)
 	return points;
 }
 
-/// TODO: Better kmeans
-static cv::Vec3f getDominantColor(const cv::Mat srcImg, const cv::Rect& targetRect) {
-	/* Get target Mat */
-	cv::Mat target(srcImg, targetRect);
-	target.convertTo(target, CV_8UC3);
+static cv::RotatedRect getReferenceRegion(/*const*/ cv::Mat srcImage, const cv::RotatedRect& target)
+{
+	cv::Mat occludedSquare8u;
+	cv::cvtColor(srcImage, occludedSquare8u, cv::COLOR_BGR2GRAY);
 
-	/* convert to float & reshape to a [3 x W*H] Mat so every pixel is on a row of it's own */
+	cv::Mat thresh;
+	cv::threshold(occludedSquare8u, srcImage, REF_REGION_THRESH_LOWER, REF_REGION_THRESH_UPPER, cv::THRESH_BINARY);
+	cv::threshold(occludedSquare8u, thresh, REF_REGION_THRESH_LOWER, REF_REGION_THRESH_UPPER, cv::THRESH_BINARY);
+
+    //srcImage = thresh;
+
+	GaussianBlur(thresh, thresh, cv::Size(TARGET_BLUR_SIZE, TARGET_BLUR_SIZE),
+		TARGET_BLUR_SIGX, TARGET_BLUR_SIGY);
+
+	cv::Mat edges;
+	Canny(thresh, edges, TARGET_CANNY_THRESH_LOWER, TARGET_CANNY_THRESH_UPPER, TARGET_CANNY_AP_SIZE);
+
+	std::vector<std::vector<cv::Point>> contours;
+	cv::Mat img(edges.size(), edges.type(), cv::Scalar(0));
+
+	static const double rectFF = TARGET_RECT_FUDGE_FACTOR;
+	findContours(edges, contours, cv::RETR_CCOMP, cv::CHAIN_APPROX_NONE);
+
+	static const float MIN_AREA = getRelativeArea(target, REF_REGION_AREA_MIN);
+	static const float MAX_AREA = getRelativeArea(target, REF_REGION_AREA_MAX);
+	for (size_t i = 0; i < contours.size(); i++)
+	{
+		cv::RotatedRect rect = cv::minAreaRect(contours[i]);
+		float width, height;
+		if (abs(rect.size.width) < abs(rect.size.height))
+		{
+			width = rect.size.width;
+			height = rect.size.height;
+		}
+		else
+		{
+			width = rect.size.height;
+			height = rect.size.width;
+		}
+		if (rect.size.area() > MIN_AREA &&
+   			rect.size.area() < MAX_AREA &&
+			REF_REGION_RATIO_MIN < abs(width / height) &&
+			abs(width / height) < REF_REGION_RATIO_MAX)
+		{
+			return rect;
+		}
+	}
+	return cv::RotatedRect(cv::Point2f(0, 0), cv::Point2f(0, 0), cv::Point2f(0, 0));
+}
+
+static cv::Vec3d getDominantColor(const cv::Mat srcImg, const cv::RotatedRect& targetRect) {
+	cv::Point2f vertices[4];
+	targetRect.points(vertices);
+
+	cv::Mat mask = cv::Mat(srcImg.size(), CV_8UC1, cv::Scalar(0));
+	std::vector<std::vector<cv::Point>> pts{ {vertices[0], vertices[1], vertices[2], vertices[3] } };
+	fillPoly(mask, pts, cv::Scalar(255));
+
+	cv::Mat target;
+	srcImg.copyTo(target, mask);
+
+	/* Get target Mat */
 	cv::Mat data;
 	target.convertTo(data, CV_32F);
 	data = data.reshape(1, data.total());
 
-	/* do kmeans clustering */
 	cv::Mat labels, centers;
-	kmeans(data, DOMINANT_COLOR_K, labels, 
-		cv::TermCriteria(cv::TermCriteria::COUNT, TERM_CRITERIA_MAX_COUNT, TERMI_CRITERIA_EPSILON),
-		DOMINANT_COLOR_ATTEMPTS, cv::KMEANS_PP_CENTERS, centers);
+	cv::TermCriteria criteria(TERM_CRITERIA_MAX_COUNT + TERM_CRITERIA_EPSILON, TERM_CRITERIA_MAX_COUNT, TERM_CRITERIA_EPSILON);
 
-	/* reshape both to a single row of Vec3f pixels */
+	cv::kmeans(data, DOMINANT_COLOR_K, labels, criteria, DOMINANT_COLOR_ATTEMPTS, cv::KMEANS_RANDOM_CENTERS, centers);
+	centers.convertTo(centers, CV_8UC3);
+
 	centers = centers.reshape(3, centers.rows);
 	data = data.reshape(3, data.rows);
 
-	/* replace pixel values with their center value */
-	float total[3] = { 0, 0, 0 };
-	cv::Vec3f* p = data.ptr<cv::Vec3f>();
-	for (size_t i = 0; i < data.rows; i++) {
-		int center_id = labels.at<int>(i);
-		p[i] = centers.at<cv::Vec3f>(center_id);
-		total[0] += p[i].val[0];
-		total[1] += p[i].val[1];
-		total[2] += p[i].val[2];
+	double totalR = 0.0;
+	double totalG = 0.0;
+	double totalB = 0.0;
+	for (int i = 0; i < centers.rows; i++)
+	{
+		totalR += centers.at<cv::Vec3b>(i, 0)[2];
+		totalG += centers.at<cv::Vec3b>(i, 0)[1];
+		totalB += centers.at<cv::Vec3b>(i, 0)[0];
 	}
 
-	float r = (total[2] / data.rows) / BGR_SCALE;
-	float g = (total[1] / data.rows) / BGR_SCALE;
-	float b = (total[0] / data.rows) / BGR_SCALE;
-	float h, s, v;
+	double r = totalR / centers.rows / BGR_SCALE;
+	double g = totalG / centers.rows / BGR_SCALE;
+	double b = totalB / centers.rows / BGR_SCALE;
+
+	double h, s, v;
 	RGBtoHSV(r, g, b, h, s, v);
-	return cv::Vec3f(h, s, v);
+	return cv::Vec3d(h, s, v);
 }
 
-static void RGBtoHSV(float& fR, float& fG, float fB, float& fH, float& fS, float& fV) {
-	float fCMax = std::max(std::max(fR, fG), fB);
-	float fCMin = std::min(std::min(fR, fG), fB);
-	float fDelta = fCMax - fCMin;
+static void RGBtoHSV(double& fR, double& fG, double fB, double& fH, double& fS, double& fV) {
+	double fCMax = std::max(std::max(fR, fG), fB);
+	double fCMin = std::min(std::min(fR, fG), fB);
+	double fDelta = fCMax - fCMin;
 
 	if (fDelta > 0) 
 	{
@@ -373,18 +480,18 @@ static void RGBtoHSV(float& fR, float& fG, float fB, float& fH, float& fS, float
 		fH = 360 + fH;
 }
 
-static void print(const cv::Vec3f& v)
+static void print(const cv::Vec3d& v)
 {
 	std::cout << "H: " << v.val[0] << " S: " << v.val[1] << " V: " << v.val[2];
 }
 
-static size_t getClosestColorIndex(std::vector<cv::Vec3f>& ref, cv::Vec3f& target, bool debug)
+static size_t getClosestColorIndex(std::vector<cv::Vec3d>& ref, cv::Vec3d& target, bool debug)
 {
 	normalizeColors(ref, target);
 	double min = FLT_MAX;
 	size_t index = -1;
 
-	std::vector<cv::Vec3f> normalizedRef;
+	std::vector<cv::Vec3d> normalizedRef;
 	normalizedRef.push_back(PPM_0_COLOR);
 	normalizedRef.push_back(PPM_1_COLOR);
 	normalizedRef.push_back(PPM_2_COLOR);
@@ -414,9 +521,9 @@ static size_t getClosestColorIndex(std::vector<cv::Vec3f>& ref, cv::Vec3f& targe
 	return index;
 }
 
-static void normalizeColors(std::vector<cv::Vec3f>& colors, cv::Vec3f& target)
+static void normalizeColors(std::vector<cv::Vec3d>& colors, cv::Vec3d& target)
 {
-	std::vector<cv::Vec3f> ref;
+	std::vector<cv::Vec3d> ref;
 	ref.push_back(REF_COLOR_0);
 	ref.push_back(REF_COLOR_1);
 	ref.push_back(REF_COLOR_2);
@@ -424,12 +531,12 @@ static void normalizeColors(std::vector<cv::Vec3f>& colors, cv::Vec3f& target)
 	ref.push_back(REF_COLOR_4);
 	ref.push_back(REF_COLOR_5);
 
-	float rh = 0;
-	float rs = 0;
-	float rv = 0;
-	float ah = 0;
-	float as = 0;
-	float av = 0;
+	double rh = 0;
+	double rs = 0;
+	double rv = 0;
+	double ah = 0;
+	double as = 0;
+	double av = 0;
 	for (size_t i = 0; i < colors.size(); i++)
 	{
 		rh += ref[i].val[0];
@@ -441,9 +548,9 @@ static void normalizeColors(std::vector<cv::Vec3f>& colors, cv::Vec3f& target)
 		av += colors[i].val[2];
 	}
 
-	float dh = (rh - ah) / 6;
-	float ds = (rs - as) / 6;
-	float dv = (rv - av) / 6;
+	double dh = (rh - ah) / 6;
+	double ds = (rs - as) / 6;
+	double dv = (rv - av) / 6;
 
 	/*cout << "RAW TARGET ";
 	print(target);
@@ -461,7 +568,7 @@ static void normalizeColors(std::vector<cv::Vec3f>& colors, cv::Vec3f& target)
 	cout << endl;*/
 }
 
-static cv::Point2f getOrthogonalEndpoint(const cv::Point2f& p1, const cv::Point2f& p2, float length)
+static cv::Point2f getOrthogonalEndpoint(const cv::Point2f& p1, const cv::Point2f& p2, double length)
 {
 	cv::Point2f midpoint((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
 	cv::Point2f point3 = getAxelPoint(midpoint, p1, -length);
@@ -472,7 +579,7 @@ static cv::Point2f getOrthogonalEndpoint(const cv::Point2f& p1, const cv::Point2
 	return point3;
 }
 
-static cv::Point2f getAxelPoint(const cv::Point2f& p1, const cv::Point2f& p2, float vectorLen)
+static cv::Point2f getAxelPoint(const cv::Point2f& p1, const cv::Point2f& p2, double vectorLen)
 {
 	float delX = p2.x - p1.x;
 	float delY = p2.y - p1.y;
@@ -490,102 +597,137 @@ static cv::Point2f getAxelPoint(const cv::Point2f& p1, const cv::Point2f& p2, fl
 	return p3;
 }
 
-static float getRelativeVecLength(float sideLength, float length)
+static double getRelativeVecLength(const cv::RotatedRect& target, double length)
 {
-	static const float REF = REFERENCE_LENGTH;
-	float ratio = sideLength / REF;
+	double ratio = (target.size.width + target.size.height) / 2 / REFERENCE_LENGTH;
 	return length * ratio;
 }
 
-static bool isNullSquare(const Target& target)
+static double getRelativeArea(const cv::RotatedRect& target, double area)
 {
-	return target.tl == cv::Point2f(0, 0) &&
-		target.tr == cv::Point2f(0, 0) &&
-		target.bl == cv::Point2f(0, 0) &&
-		target.br == cv::Point2f(0, 0);
+	double ratio = (target.size.width + target.size.height) / 2 / REFERENCE_LENGTH;
+	return (sqrt(area) * ratio) * (sqrt(area) * ratio);
 }
 
-static float getDistance(const cv::Point2f& p1, const cv::Point2f& p2)
+static bool isNullSquare(const cv::RotatedRect& rect)
 {
-	float centerX = p2.x - p1.x;
-	float centerY = p2.y - p1.y;
-	float length = sqrt(static_cast<float>(centerX * centerX + centerY + centerY));
-	return length;
+	return rect.size.area() == 0;
 }
 
-/*
- * DEBUG ONLY, makes Target object printable in streams
-*/
-static std::ostream& operator<<(std::ostream& os, const Target& target)
+static double getDistance(const cv::Point2f& p1, const cv::Point2f& p2)
 {
-	return os << "TOP LEFT: " << target.tl << "\n"
-		<< "TOP RIGHT: " << target.tr << "\n"
-		<< "BOTTOM LEFT: " << target.bl << "\n"
-		<< "BOTTOM RIGHT: " << target.br << "\n";
+	cv::Point2f diff = p1 - p2;
+	return cv::sqrt(diff.x * diff.x + diff.y * diff.y);
+}
+
+static void drawRotatedRect(cv::Mat src, const cv::RotatedRect& rect)
+{
+	cv::Point2f vertices[4];
+	rect.points(vertices);
+	for (int i = 0; i < 4; i++)
+		line(src, vertices[i], vertices[(i + 1) % 4], cv::Scalar(0, 255, 0), 2);
+}
+
+static bool isInROI(cv::Point p, cv::Point2f roi[])
+{
+	double pro[4];
+	for (int i = 0; i < 4; ++i)
+		pro[i] = computeProduct(p, roi[i], roi[(i + 1) % 4]);
+
+	if (pro[0] * pro[2] < 0 && pro[1] * pro[3] < 0) return true;
+
+	return false;
+}
+
+static double computeProduct(cv::Point p, cv::Point2f a, cv::Point2f b)
+{
+	double k = (a.y - b.y) / (a.x - b.x);
+	double j = a.y - k * a.x;
+	return k * p.x - p.y + j;
 }
 
 void DEBUG_DRAW_TARGET(cv::Mat src) 
 {
 	std::cout << "DRAWING TARGET" << std::endl;
-	Target target = getTarget(src, false);
+	cv::RotatedRect target = getTarget(src, false);
 	if (isNullSquare(target))
 	{
 		std::cout << "ERROR: Target not found" << std::endl;
 		return;
 	}
-	cv::Rect rect(target.tl, target.br);
-	cv::rectangle(src, rect, GREEN, 2);
+	drawRotatedRect(src, target);
 }
 
 void DEBUG_DRAW_REFERENCE(cv::Mat src)
 {
 	/* Get target and return on error */
-	Target target = getTarget(src, true);
+	cv::RotatedRect target = getTarget(src, true);
 	if (isNullSquare(target))
 	{
 		std::cout << "ERROR: Target not found" << std::endl;
 		return;
 	}
-	cv::rectangle(src, cv::Rect(target.tl, target.br), GREEN, 2);
+	drawRotatedRect(src, target);
 
 	/* Get references and return on error */
-	std::vector<cv::Rect> references = getReferenceSquares(src, target, true);
+	auto ret = getReferenceSquares(src, target, true);
+	std::vector<cv::RotatedRect>& references = ret.first;
+	cv::RotatedRect& referenceRegion = ret.second;
 	if (references.size() < NUM_PPM_REFERENCES)
 	{
 		std::cout << "ERROR: only " << references.size() << " reference squares found" << std::endl;
 		return;
 	}
-	for (auto& rect : references)
-		cv::rectangle(src, rect, GREEN, 2);
+	for (auto& rect : references) drawRotatedRect(src, rect);
 }
 
 void DEBUG_DRAW_SAMPLE(cv::Mat src)
 {
 	/* Get target and return on error */
-	Target target = getTarget(src, true);
+	cv::RotatedRect target = getTarget(src, true);
 	if (isNullSquare(target))
 	{
 		std::cout << "ERROR: Target not found" << std::endl;
 		return;
 	}
-	cv::rectangle(src, cv::Rect(target.tl, target.br), GREEN, 2);
+	drawRotatedRect(src, target);
 
 	/* Get references and return on error */
-	std::vector<cv::Rect> references = getReferenceSquares(src, target, true);
+	auto ret = getReferenceSquares(src, target, true);
+	std::vector<cv::RotatedRect>& references = ret.first;
+	cv::RotatedRect& referenceRegion = ret.second;
 	if (references.size() < NUM_PPM_REFERENCES)
 	{
 		std::cout << "ERROR: only " << references.size() << " reference squares found" << std::endl;
 		return;
 	}
-	for (auto& rect : references)
-		cv::rectangle(src, rect, GREEN, 2);
+	for (auto& rect : references) drawRotatedRect(src, rect);
 
 	/* Get sample and return on error */
-	cv::Rect sample = getSampleSquare(src, target, true);
-	if (sample.area() == 0)
+	cv::RotatedRect sample = getSampleSquare(src, target, referenceRegion, true);
+	if (isNullSquare(sample))
 	{
 		std::cout << "ERROR: could not find sample" << std::endl;
 		return;
 	}
-	cv::rectangle(src, sample, GREEN, 2);
+	drawRotatedRect(src, sample);
+}
+
+void DEBUG_DRAW_REFERENCE_REGION(cv::Mat src)
+{
+	std::cout << "DRAWING REFERENCE REGION" << std::endl;
+	cv::RotatedRect target = getTarget(src, true);
+	if (isNullSquare(target))
+	{
+		std::cout << "ERROR: Target not found" << std::endl;
+		return;
+	}
+
+	cv::RotatedRect referenceRegion = getReferenceRegion(src, target);
+	if (isNullSquare(referenceRegion))
+	{
+		std::cout << "ERROR: REFERENCE REGION NOT FOUND" << std::endl;
+		return;
+	}
+	drawRotatedRect(src, referenceRegion);
 }

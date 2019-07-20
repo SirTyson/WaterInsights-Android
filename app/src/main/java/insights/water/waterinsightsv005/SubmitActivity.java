@@ -3,6 +3,7 @@ package insights.water.waterinsightsv005;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -92,6 +93,7 @@ public class SubmitActivity extends AppCompatActivity {
     private void showSample() {
         Intent imageActivity = new Intent(this, ShowImageActivity.class);
         imageActivity.putExtra(OP_CODE_KEY, OP_CODE_DRAW_SAMPLE);
+        Log.d("plz", imgPath);
         imageActivity.putExtra("IMAGE", imgPath);
         startActivity(imageActivity);
     }
