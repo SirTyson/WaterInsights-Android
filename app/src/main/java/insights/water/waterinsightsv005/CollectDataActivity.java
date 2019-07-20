@@ -45,7 +45,7 @@ public class CollectDataActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 101;
     private static final int REQUEST_IMAGE_STORAGE = 102;
 
-    public static final String IMAGE_FILENAME = "WaterInsights_IMAGE_CAPTURE.jpg";
+    public static final String IMAGE_FILENAME = "WaterInsights_IMAGE_CAPTURE.png";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,30 +83,30 @@ public class CollectDataActivity extends AppCompatActivity {
     }
 
     /* Initialize OpenCV Library */
-    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
-        @Override
-        public void onManagerConnected(int status) {
-            switch (status) {
-                case LoaderCallbackInterface.SUCCESS:
-                    Log.i("OpenCV", "OpenCV loaded successfully");
-                    break;
-                default:
-                    super.onManagerConnected(status);
-                    break;
-            }
-        }
-    };
+//    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
+//        @Override
+//        public void onManagerConnected(int status) {
+//            switch (status) {
+//                case LoaderCallbackInterface.SUCCESS:
+//                    Log.i("OpenCV", "OpenCV loaded successfully");
+//                    break;
+//                default:
+//                    super.onManagerConnected(status);
+//                    break;
+//            }
+//        }
+//    };
 
     /* Restart OpenCV library */
     public void onResume() {
         super.onResume();
-        if (!OpenCVLoader.initDebug()) {
-            Log.d("OpenCV", "Internal OpenCV library not found. Using OpenCV Manager for initialization");
-            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION, this, mLoaderCallback);
-        } else {
-            Log.d("OpenCV", "OpenCV library found inside package. Using it!");
-            mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
-        }
+//        if (!OpenCVLoader.initDebug()) {
+//            Log.d("OpenCV", "Internal OpenCV library not found. Using OpenCV Manager for initialization");
+//            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION, this, mLoaderCallback);
+//        } else {
+//            Log.d("OpenCV", "OpenCV library found inside package. Using it!");
+//            mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+//        }
     }
 
     private void chooseImage() {
@@ -175,7 +175,7 @@ public class CollectDataActivity extends AppCompatActivity {
 
         FileOutputStream fos = null;
         try {
-            fos = new FileOutputStream(path);
+            fos = new FileOutputStream(path, false);
             bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
         } catch (Exception e) {
             e.printStackTrace();

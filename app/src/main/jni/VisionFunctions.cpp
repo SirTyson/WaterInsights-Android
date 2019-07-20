@@ -9,7 +9,7 @@
 static bool acceptLinePair(cv::Vec2f line1, cv::Vec2f line2, double minTheta);
 static cv::Point2f computeIntersect(cv::Vec2f line1, cv::Vec2f line2);
 static std::vector<cv::Point2f> lineToPointPair(cv::Vec2f line);
-static cv::RotatedRect getReferenceRegion(/*const*/ cv::Mat srcImage, const cv::RotatedRect& target);
+static cv::RotatedRect getReferenceRegion(const cv::Mat srcImage, const cv::RotatedRect& target);
 
 /* COLOR ANALYSIS */
 static cv::Vec3d getDominantColor(const cv::Mat srcImg, const cv::RotatedRect& targetRect);
@@ -35,6 +35,7 @@ static void drawRotatedRect(cv::Mat src, const cv::RotatedRect& rect);
 
 int processImageFromFile(const std::string& file)
 {
+    __android_log_print(ANDROID_LOG_ERROR, "OpenCV", "Processing Image");
     cv::Mat src = cv::imread(file);
 
     double ratio = src.size().height / 600.0;
@@ -351,54 +352,56 @@ static std::vector<cv::Point2f> lineToPointPair(cv::Vec2f line)
 	return points;
 }
 
-static cv::RotatedRect getReferenceRegion(/*const*/ cv::Mat srcImage, const cv::RotatedRect& target)
+static cv::RotatedRect getReferenceRegion(const cv::Mat srcImage, const cv::RotatedRect& target)
 {
-	cv::Mat occludedSquare8u;
-	cv::cvtColor(srcImage, occludedSquare8u, cv::COLOR_BGR2GRAY);
+    cv::Mat occludedSquare8u;
+    cv::cvtColor(srcImage, occludedSquare8u, cv::COLOR_BGR2GRAY);
 
-	cv::Mat thresh;
-	cv::threshold(occludedSquare8u, srcImage, REF_REGION_THRESH_LOWER, REF_REGION_THRESH_UPPER, cv::THRESH_BINARY);
-	cv::threshold(occludedSquare8u, thresh, REF_REGION_THRESH_LOWER, REF_REGION_THRESH_UPPER, cv::THRESH_BINARY);
+    for (double threshLower = REF_REGION_THRESH_LOWER_MAX;
+        threshLower >= REF_REGION_THRESH_LOWER_MIN;
+        threshLower -= REF_REGION_THRESH_LOWER_STEP)
+    {
+        cv::Mat thresh;
+        cv::threshold(occludedSquare8u, thresh, threshLower, REF_REGION_THRESH_UPPER, cv::THRESH_BINARY);
 
-    //srcImage = thresh;
+        GaussianBlur(thresh, thresh, cv::Size(TARGET_BLUR_SIZE, TARGET_BLUR_SIZE),
+            TARGET_BLUR_SIGX, TARGET_BLUR_SIGY);
 
-	GaussianBlur(thresh, thresh, cv::Size(TARGET_BLUR_SIZE, TARGET_BLUR_SIZE),
-		TARGET_BLUR_SIGX, TARGET_BLUR_SIGY);
+        cv::Mat edges;
+        Canny(thresh, edges, TARGET_CANNY_THRESH_LOWER, TARGET_CANNY_THRESH_UPPER, TARGET_CANNY_AP_SIZE);
 
-	cv::Mat edges;
-	Canny(thresh, edges, TARGET_CANNY_THRESH_LOWER, TARGET_CANNY_THRESH_UPPER, TARGET_CANNY_AP_SIZE);
+        std::vector<std::vector<cv::Point>> contours;
+        cv::Mat img(edges.size(), edges.type(), cv::Scalar(0));
 
-	std::vector<std::vector<cv::Point>> contours;
-	cv::Mat img(edges.size(), edges.type(), cv::Scalar(0));
+        static const double rectFF = TARGET_RECT_FUDGE_FACTOR;
+        findContours(edges, contours, cv::RETR_CCOMP, cv::CHAIN_APPROX_NONE);
 
-	static const double rectFF = TARGET_RECT_FUDGE_FACTOR;
-	findContours(edges, contours, cv::RETR_CCOMP, cv::CHAIN_APPROX_NONE);
-
-	static const float MIN_AREA = getRelativeArea(target, REF_REGION_AREA_MIN);
-	static const float MAX_AREA = getRelativeArea(target, REF_REGION_AREA_MAX);
-	for (size_t i = 0; i < contours.size(); i++)
-	{
-		cv::RotatedRect rect = cv::minAreaRect(contours[i]);
-		float width, height;
-		if (abs(rect.size.width) < abs(rect.size.height))
-		{
-			width = rect.size.width;
-			height = rect.size.height;
-		}
-		else
-		{
-			width = rect.size.height;
-			height = rect.size.width;
-		}
-		if (rect.size.area() > MIN_AREA &&
-   			rect.size.area() < MAX_AREA &&
-			REF_REGION_RATIO_MIN < abs(width / height) &&
-			abs(width / height) < REF_REGION_RATIO_MAX)
-		{
-			return rect;
-		}
-	}
-	return cv::RotatedRect(cv::Point2f(0, 0), cv::Point2f(0, 0), cv::Point2f(0, 0));
+        static const float MIN_AREA = getRelativeArea(target, REF_REGION_AREA_MIN);
+        static const float MAX_AREA = getRelativeArea(target, REF_REGION_AREA_MAX);
+        for (size_t i = 0; i < contours.size(); i++)
+        {
+            cv::RotatedRect rect = cv::minAreaRect(contours[i]);
+            float width, height;
+            if (abs(rect.size.width) < abs(rect.size.height))
+            {
+                width = rect.size.width;
+                height = rect.size.height;
+            }
+            else
+            {
+                width = rect.size.height;
+                height = rect.size.width;
+            }
+            if (rect.size.area() > MIN_AREA &&
+                rect.size.area() < MAX_AREA &&
+                REF_REGION_RATIO_MIN < abs(width / height) &&
+                abs(width / height) < REF_REGION_RATIO_MAX)
+            {
+                return rect;
+            }
+        }
+    }
+    return cv::RotatedRect(cv::Point2f(0, 0), cv::Point2f(0, 0), cv::Point2f(0, 0));
 }
 
 static cv::Vec3d getDominantColor(const cv::Mat srcImg, const cv::RotatedRect& targetRect) {

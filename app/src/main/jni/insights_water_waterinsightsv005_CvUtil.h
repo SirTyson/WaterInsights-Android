@@ -15,38 +15,6 @@ extern "C" {
 JNIEXPORT jint JNICALL Java_insights_water_waterinsightsv005_CvUtil_loadImage
   (JNIEnv *, jclass, jstring);
 
-/*
- * Class:     insights_water_waterinsightsv005_CvUtil
- * Method:    processImage
- * Signature: (J)I
- */
-JNIEXPORT jint JNICALL Java_insights_water_waterinsightsv005_CvUtil_processImage
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     insights_water_waterinsightsv005_CvUtil
- * Method:    DEBUG_DRAW_REFERENCE
- * Signature: (J)V
- */
-JNIEXPORT void JNICALL Java_insights_water_waterinsightsv005_CvUtil_DEBUG_1DRAW_1REFERENCE
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     insights_water_waterinsightsv005_CvUtil
- * Method:    DEBUG_DRAW_SAMPLE
- * Signature: (J)V
- */
-JNIEXPORT void JNICALL Java_insights_water_waterinsightsv005_CvUtil_DEBUG_1DRAW_1SAMPLE
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     insights_water_waterinsightsv005_CvUtil
- * Method:    DEBUG_DRAW_TARGET
- * Signature: (J)V
- */
-JNIEXPORT void JNICALL Java_insights_water_waterinsightsv005_CvUtil_DEBUG_1DRAW_1TARGET
-  (JNIEnv *, jclass, jlong);
-
 #ifdef __cplusplus
 }
 #endif
