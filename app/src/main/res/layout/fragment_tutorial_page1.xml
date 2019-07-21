@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tutorial_card_background"
+    tools:context=".TutorialPage1Fragment">
+
+    <TextView
+        android:padding="16dp"
+        android:lineSpacingMultiplier="1.2"
+        android:textColor="@color/offWhiteTitle"
+        android:textSize="20sp"
+        android:fontFamily="@font/roboto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/overview_card_1_paragraph" />
+
+</android.support.constraint.ConstraintLayout>

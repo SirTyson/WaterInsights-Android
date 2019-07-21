@@ -9,4 +9,8 @@
     <string name="start_screen_guest_sign_in">Continue as guest</string>
     <string name="start_screen_about_text">Welcome to Water Insights! Together, we can change the world, or something like that (plz fix).</string>
     <string name="learn_more_link">Learn more</string>
+
+    <!--Overview Screen-->
+    <string name="get_started_title">Let\'s get started</string>
+    <string name="overview_card_1_paragraph">First, you\'ll need to submerge each test strip in the water you\'re testing. Each test strip needs to be treated differently, so we\'ll test one at a time and go through the process together. For the best results, make sure you follow the instructions as closely as possible. The whole process will take about 5 minutes.</string>
 </resources>

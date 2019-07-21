@@ -23,17 +23,29 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         learnMoreLink = findViewById(R.id.learn_more_link);
+        guestButton = findViewById(R.id.guest_button);
+
         learnMoreLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://waterinsights.org")));
+                goToWebsite();
+            }
+        });
+
+        guestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                guestLogin();
             }
         });
     }
 
-    public void collectDataButton(View view) {
-        Intent startActivity = new Intent(this, CollectDataActivity.class);
-        startActivity(startActivity);
-        finish();
+    private void goToWebsite() {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://waterinsights.org")));
     }
+
+    private void guestLogin() {
+        startActivity(new Intent(this, OverviewActivity.class));
+    }
+
 }
