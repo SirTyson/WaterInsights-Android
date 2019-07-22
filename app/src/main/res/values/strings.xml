@@ -42,5 +42,7 @@
     <string name="step1_popup_instruction">Grab the test strip with 5 colored squares pictures below:</string>
     <string name="instruction_title">Instructions:</string>
     <string name="finished_string">Finished</string>
-
+    <string name="step1_instructions">Grab the test strip pictured below and submerge it in the water for about a second. Then place the strip on the test card as level as possible. After 30 seconds, take a picture of the test card.</string>
+    <string name="current_strip_string">Current Test Strip:</string>
+    <string name="start_timer_string">Start Timer</string>
 </resources>
