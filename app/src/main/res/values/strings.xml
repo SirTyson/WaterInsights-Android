@@ -22,6 +22,10 @@
     <string name="testing_location_string">Where are you testing?</string>
     <string name="testing_location_hint">(Your home, the name of a lake, etc.)</string>
     <string name="type_of_water_string">What type of water body?</string>
+    <string name="other_observations_string">Any other observations?</string>
+    <string name="other_observations_hint">Tell us anything else you think would be helpful (optional).</string>
+    <string name="continue_string">Continue</string>
+    <string name="please_select_type_string">Please select a water body type.</string>
     <string-array name="water_type_spinner">
         <item>Lake</item>
         <item>Pond</item>

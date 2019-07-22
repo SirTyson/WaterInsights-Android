@@ -34,7 +34,10 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity android:name=".DataCollectionActivity" />
-        <activity android:name=".InitialInformationActivity"></activity>
+        <activity
+            android:name=".InitialInformationActivity"
+            android:windowSoftInputMode="adjustNothing"/>
+
     </application>
 
 </manifest>
