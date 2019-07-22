@@ -40,5 +40,7 @@
     <!--Data collection Screen-->
     <string name="step1_popup_title">Test Strip #1</string>
     <string name="step1_popup_instruction">Grab the test strip with 5 colored squares pictures below:</string>
+    <string name="instruction_title">Instructions:</string>
+    <string name="finished_string">Finished</string>
 
 </resources>
