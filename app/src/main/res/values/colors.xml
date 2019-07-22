@@ -5,4 +5,5 @@
     <color name="colorAccent">#7f7f7f</color>
     <color name="offWhiteTitle">#f0f5ff</color>
     <color name="lightGrey">#9b9ba3</color>
+    <color name="textBoxLightGrey">#4f4f4f</color>
 </resources>

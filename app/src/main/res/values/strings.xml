@@ -13,4 +13,24 @@
     <!--Overview Screen-->
     <string name="get_started_title">Let\'s get started</string>
     <string name="overview_card_1_paragraph">First, you\'ll need to submerge each test strip in the water you\'re testing. Each test strip needs to be treated differently, so we\'ll test one at a time and go through the process together. For the best results, make sure you follow the instructions as closely as possible. The whole process will take about 5 minutes.</string>
+    <string name="overview_card_2_paragraph">For each test strip, after you\'ve submerged it and waited for the correct amount of time, you\'ll need to place the strip on the test card and take a picture. Try to place the test strip as straight as possible on top of the marker on the card.</string>
+    <string name="overview_card_3_paragraph">After you\'ve tested all the strips, we\'ll analyze the pictures and tell you about your water quality. We\'ll also upload the data to a cloud server where we can study trends in water bodies worldwide. Your\'re helping contribute to a World Water Health Map!</string>
+    <string name="overview_get_started_button">Get started</string>
+
+    <!--Inititial Information Sreen-->
+    <string name="initial_information_overview_string">Let\'s get some info about the water you\'re testing.</string>
+    <string name="testing_location_string">Where are you testing?</string>
+    <string name="testing_location_hint">(Your home, the name of a lake, etc.)</string>
+    <string name="type_of_water_string">What type of water body?</string>
+    <string-array name="water_type_spinner">
+        <item>Lake</item>
+        <item>Pond</item>
+        <item>Stream</item>
+        <item>Well</item>
+        <item>Tap Water</item>
+        <item>River</item>
+        <item>Ocean</item>
+        <item>Select one</item>
+    </string-array>
+
 </resources>

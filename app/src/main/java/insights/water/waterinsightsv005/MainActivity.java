@@ -13,6 +13,8 @@ import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String WATER_INSIGHTS_URL = "http://waterinsights.org";
+
     AppCompatTextView learnMoreLink;
     AppCompatButton guestButton;
     AppCompatButton scistarterButton;
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         learnMoreLink = findViewById(R.id.learn_more_link);
         guestButton = findViewById(R.id.guest_button);
+        scistarterButton = findViewById(R.id.scistarter_sign_in_button);
 
         learnMoreLink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,11 +44,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void goToWebsite() {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://waterinsights.org")));
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(WATER_INSIGHTS_URL)));
     }
 
     private void guestLogin() {
         startActivity(new Intent(this, OverviewActivity.class));
+        finish();
     }
 
 }
