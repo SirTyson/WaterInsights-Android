@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/popup_instruction_background">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/step1_popup_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/offWhiteTitle"
+        android:textSize="24sp"
+        android:text="@string/step1_popup_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/step1_popup_body"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="@string/step1_popup_instruction"
+        android:textSize="20sp"
+        android:textColor="@color/offWhiteTitle"
+        android:fontFamily="@font/roboto"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/step1_popup_title"/>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/test_strip_5_param"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/step1_popup_body"
+        app:layout_constraintStart_toStartOf="@id/step1_popup_body"
+        app:layout_constraintEnd_toEndOf="@id/step1_popup_body"/>
+
+</android.support.constraint.ConstraintLayout>

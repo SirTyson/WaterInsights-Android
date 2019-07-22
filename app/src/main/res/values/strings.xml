@@ -37,4 +37,8 @@
         <item>Select one</item>
     </string-array>
 
+    <!--Data collection Screen-->
+    <string name="step1_popup_title">Test Strip #1</string>
+    <string name="step1_popup_instruction">Grab the test strip with 5 colored squares pictures below:</string>
+
 </resources>
