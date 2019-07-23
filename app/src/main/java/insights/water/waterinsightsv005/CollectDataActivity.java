@@ -12,6 +12,7 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -36,6 +37,7 @@ public class CollectDataActivity extends AppCompatActivity {
     private Button imageCaptureBtn, imageSelectBtn, submitBtn;
     private ImageView selectedImage;
     private EditText comments;
+    private ConstraintLayout progressBar;
 
     private Bitmap img;
     private boolean cameraAccess = true;
@@ -58,6 +60,7 @@ public class CollectDataActivity extends AppCompatActivity {
         imageSelectBtn = findViewById(R.id.select_image_button);
         selectedImage = findViewById(R.id.image_view);
         comments = findViewById(R.id.comments_editText);
+        progressBar = findViewById(R.id.image_progress_bar_layout);
 
         /* Attach button listeners */
         imageCaptureBtn.setOnClickListener(new View.OnClickListener() {
