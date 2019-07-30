@@ -22,11 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".CollectDataActivity"
-            android:label="@string/title_activity_collect_data"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SubmitActivity" />
         <activity android:name=".OverviewActivity" />
 
         <meta-data
@@ -36,8 +31,8 @@
         <activity android:name=".DataCollectionActivity" />
         <activity
             android:name=".InitialInformationActivity"
-            android:windowSoftInputMode="adjustNothing"/>
-
+            android:windowSoftInputMode="adjustNothing" />
+        <activity android:name=".TakePictureActivity"></activity>
     </application>
 
 </manifest>
