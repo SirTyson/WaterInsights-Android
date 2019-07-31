@@ -18,18 +18,18 @@ std::pair<std::vector<cv::RotatedRect>, cv::RotatedRect> getReferenceSquares(con
  * Processes Image and returns the sample square, or empty target on error.
  * If debug == true, function draws sample square on srcImage.
  */
-cv::RotatedRect getSampleSquare(const cv::Mat srcImage, const cv::RotatedRect& target, const cv::RotatedRect& ref, bool debug = false);
+std::vector<cv::RotatedRect> getSampleSquare(const cv::Mat srcImage, const cv::RotatedRect& target, const cv::RotatedRect& ref, const int& OP_CODE, bool debug = false);
 
 /*
  * Processes Image and returns the PPM value. Returns -1 on error. Assumes 
  * Image appropriately resized. Prints debug info if debug == true.
  */
-int processImage(const cv::Mat src, bool debug = false);
+std::vector<float> processImage(const cv::Mat src, int OP_CODE, bool debug = false);
 
-int processImageFromFile(const std::string& file);
+std::vector<float> processImageFromFile(const std::string& file, int OP_CODE);
 
 /* DEBUG FUNCTIONS */
 void DEBUG_DRAW_TARGET(cv::Mat src);
 void DEBUG_DRAW_REFERENCE(cv::Mat src);
-void DEBUG_DRAW_SAMPLE(cv::Mat src);
+void DEBUG_DRAW_SAMPLE(cv::Mat src, int region);
 void DEBUG_DRAW_REFERENCE_REGION(cv::Mat src);

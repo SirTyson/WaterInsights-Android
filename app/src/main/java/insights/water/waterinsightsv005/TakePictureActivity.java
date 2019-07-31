@@ -31,14 +31,20 @@ import android.widget.TextView;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class TakePictureActivity extends AppCompatActivity {
 
-    private static final boolean debug = false;
+    private static final boolean debug = true;
 
     private static final int CAMERA_REQUEST_CODE = 100;
     private static final int REQUEST_IMAGE_CAPTURE = 101;
     private static final int REQUEST_IMAGE_STORAGE = 102;
+
+    public static final int STEP_1_NUM_VALUES = 3;
+    public static final int STEP_2_NUM_VALUES = 2;
+    public static final int STEP_3_NUM_VALUES = 2;
+    public static final int STEP_4_NUM_VALUES = 1;
 
     public static final String IMAGE_FILENAME = "WaterInsights_IMAGE_CAPTURE.png";
 
@@ -52,7 +58,7 @@ public class TakePictureActivity extends AppCompatActivity {
     private Bitmap img;
     private int currStep = 1;
     private boolean cameraAccess = true;
-    private int analyzedVal;
+    private float[] analyzedVal;
 
 
     @Override
@@ -178,7 +184,7 @@ public class TakePictureActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
             path = saveToInternalStorage(img);
-            analyzedVal = CvUtil.processImage(path);
+            analyzedVal = CvUtil.processImage(path, CvUtil.getStep1Code());
             return null;
         }
         @Override
@@ -238,7 +244,40 @@ public class TakePictureActivity extends AppCompatActivity {
         });
     }
 
-    private boolean isValid(int value) {
-        return value != -1;
+    private boolean isValid(float[] value) {
+        switch (currStep) {
+        case 1:
+            if (value.length != STEP_1_NUM_VALUES) {
+                return false;
+            }
+            break;
+        case 2:
+            if (value.length != STEP_2_NUM_VALUES) {
+                return false;
+            }
+            break;
+        case 3:
+            if (value.length != STEP_3_NUM_VALUES) {
+                return false;
+            }
+            break;
+        case 4:
+            if (value.length != STEP_4_NUM_VALUES) {
+                return false;
+            }
+            break;
+        }
+
+        Log.d("plz", "ARRAY DATA:");
+        for (float val : value) {
+            Log.d("plz", Float.toString(val));
+        }
+
+        for (float val: value) {
+            if (val < 0) {
+                return false;
+            }
+        }
+        return true;
     }
 }

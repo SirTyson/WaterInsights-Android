@@ -23,9 +23,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2558ddef-768d-4dd6-860a-f512b36964e3" name="Default" comment="Fixed internal writing of image">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/TakePictureActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_take_picture.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/popup_retake_image.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/javaCompile/classAnalysis.bin" afterDir="false" />
@@ -36,16 +33,17 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/CollectDataActivity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/DataCollectionActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/DataCollectionActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/SubmitActivity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_collect_data.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_data_collection.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_data_collection.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_submit.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/popup_collection_step1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/popup_take_picture.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/CvUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/CvUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/TakePictureActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/TakePictureActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/jni/VisionConstants.h" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/jni/VisionConstants.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/jni/VisionFunctions.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/jni/VisionFunctions.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/jni/VisionFunctions.h" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/jni/VisionFunctions.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/jni/insights_water_waterinsightsv005_CvUtil.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/jni/insights_water_waterinsightsv005_CvUtil.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/jni/insights_water_waterinsightsv005_CvUtil.h" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/jni/insights_water_waterinsightsv005_CvUtil.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/jniLibs/arm64-v8a/libCvExample.so" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/jniLibs/arm64-v8a/libCvExample.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/jniLibs/armeabi-v7a/libCvExample.so" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/jniLibs/armeabi-v7a/libCvExample.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/jniLibs/x86/libCvExample.so" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/jniLibs/x86/libCvExample.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/jniLibs/x86_64/libCvExample.so" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/jniLibs/x86_64/libCvExample.so" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -81,7 +79,7 @@
       <file leaf-file-name="activity_data_collection.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_data_collection.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="402">
+            <state relative-caret-position="529">
               <caret line="104" column="56" selection-start-line="104" selection-start-column="56" selection-end-line="104" selection-end-column="56" />
             </state>
           </provider>
@@ -90,89 +88,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DataCollectionActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DataCollectionActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/DataCollectionActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="439">
+            <state relative-caret-position="461">
               <caret line="80" column="26" selection-start-line="80" selection-start-column="26" selection-end-line="80" selection-end-column="26" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="guest_button_border.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/guest_button_border.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="8" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="activity_main.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
-              <caret line="61" column="4" selection-start-line="61" selection-start-column="4" selection-end-line="74" selection-end-column="64" />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer2">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="activity_initial_information.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_initial_information.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="118" column="41" selection-start-line="118" selection-start-column="41" selection-end-line="118" selection-end-column="41" />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer2">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TakePictureActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TakePictureActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/TakePictureActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="48" column="32" selection-start-line="48" selection-start-column="32" selection-end-line="48" selection-end-column="32" />
-              <folding>
-                <element signature="e#2116#2159#0" expanded="true" />
-                <element signature="e#7593#7760#0" expanded="true" />
-                <element signature="e#7759#7760#0" expanded="true" />
-                <element signature="e#8161#8367#0" expanded="true" />
-                <element signature="e#8366#8367#0" expanded="true" />
-                <element signature="e#8422#8606#0" expanded="true" />
-                <element signature="e#8605#8606#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/MainActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="439">
-              <caret line="51" column="17" selection-start-line="51" selection-start-column="17" selection-end-line="51" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="InitialInformationActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/InitialInformationActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="65">
-              <caret line="19" selection-start-line="19" selection-end-line="19" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OverviewActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/OverviewActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="337">
-              <caret line="57" column="51" selection-start-line="57" selection-start-column="51" selection-end-line="57" selection-end-column="51" />
+            <state relative-caret-position="53">
+              <caret line="269" selection-start-line="269" selection-end-line="269" />
             </state>
           </provider>
         </entry>
@@ -203,10 +132,13 @@
       <find>timer_view</find>
       <find>canBeCli</find>
       <find>take_picture_title</find>
+      <find>array1</find>
+      <find>isValid</find>
     </findStrings>
     <replaceStrings>
       <replace>progress_text_view</replace>
       <replace>whoops_text_view</replace>
+      <replace>returnArray</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -3533,21 +3465,15 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_collect_data.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/jni/insights_water_waterinsightsv005_CvUtil.h" />
         <option value="$PROJECT_DIR$/app/src/main/jni/Android.mk" />
-        <option value="$PROJECT_DIR$/app/src/main/jni/VisionFunctions.h" />
         <option value="$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/ShowImageActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_show_image.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_submit.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/jni/insights_water_waterinsightsv005_CvUtil.cpp" />
-        <option value="$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/CvUtil.java" />
-        <option value="$PROJECT_DIR$/app/src/main/jni/VisionFunctions.cpp" />
         <option value="$PROJECT_DIR$/app/src/main/jni/VisionConstants.h" />
         <option value="$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/SubmitActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/guest_button_border.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/tutorial_card_background.xml" />
-        <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_overview.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/TutorialPage1Fragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/TutorialPage2Fragment.java" />
@@ -3578,16 +3504,23 @@
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/popup_retake_image.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/DataCollectionActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/TakePictureActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_take_picture.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/popup_take_picture.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/jni/VisionFunctions.cpp" />
+        <option value="$PROJECT_DIR$/app/src/main/jni/VisionFunctions.h" />
+        <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$PROJECT_DIR$/app/src/main/jni/insights_water_waterinsightsv005_CvUtil.h" />
+        <option value="$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/CvUtil.java" />
+        <option value="$PROJECT_DIR$/app/src/main/jni/insights_water_waterinsightsv005_CvUtil.cpp" />
+        <option value="$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/TakePictureActivity.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="991" />
-    <option name="width" value="938" />
-    <option name="height" value="1088" />
+    <option name="x" value="68" />
+    <option name="y" value="-9" />
+    <option name="width" value="1860" />
+    <option name="height" value="1098" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -3597,6 +3530,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <expand>
@@ -3606,47 +3540,13 @@
             </path>
             <path>
               <item name="WaterInsights-Android" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-            </path>
-            <path>
-              <item name="WaterInsights-Android" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="waterinsightsv005" type="cbb59c9e:AndroidPsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WaterInsights-Android" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="waterinsightsv005" type="cbb59c9e:AndroidPsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WaterInsights-Android" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-            </path>
-            <path>
-              <item name="WaterInsights-Android" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="drawable" type="ddeffd01:AndroidResFolderTypeNode" />
-            </path>
-            <path>
-              <item name="WaterInsights-Android" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="layout" type="ddeffd01:AndroidResFolderTypeNode" />
-            </path>
-            <path>
-              <item name="WaterInsights-Android" type="1abcf292:AndroidViewProjectNode" />
               <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -3659,11 +3559,48 @@
               <item name="WaterInsights-Android" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
             </path>
+            <path>
+              <item name="WaterInsights-Android" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WaterInsights-Android" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WaterInsights-Android" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WaterInsights-Android" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WaterInsights-Android" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WaterInsights-Android" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WaterInsights-Android" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WaterInsights-Android" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="waterinsightsv005" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WaterInsights-Android" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WaterInsights-Android" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="jni" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -3675,14 +3612,14 @@
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\WaterInsights\WaterInsights-Android\app\src\main\jni" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\WaterInsights\WaterInsights-Android\app\src\main\res\layout" />
     </key>
     <key name="android.template.packageName">
       <recent name="insights.water.waterinsightsv005" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\WaterInsights\WaterInsights-Android\app\src\main\res\layout" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\WaterInsights\WaterInsights-Android\app\src\main\jni" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -3823,19 +3760,18 @@
       <window_info anchor="right" id="Preview" order="4" weight="0.40336135" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4992997" weight="0.32884097" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.4992997" weight="0.30862534" />
-      <window_info anchor="bottom" id="Logcat" order="7" sideWeight="0.4992997" weight="0.32345015" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.4992997" weight="0.925876" />
+      <window_info active="true" anchor="bottom" id="Logcat" order="7" sideWeight="0.4992997" visible="true" weight="0.4056604" />
       <window_info id="Captures" order="2" weight="0.25" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1939776" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.32983193" />
       <window_info anchor="bottom" id="Build" order="7" sideWeight="0.4992997" weight="0.2857143" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32884097" />
       <window_info anchor="right" id="Gradle" order="3" weight="0.32983193" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" id="Device File Explorer" order="3" side_tool="true" />
       <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info active="true" anchor="bottom" id="Messages" order="7" visible="true" weight="0.32884097" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -3844,6 +3780,7 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32884097" />
     </layout>
     <layout-to-restore>
       <window_info anchor="bottom" id="Build" order="7" sideWeight="0.4992997" visible="true" weight="0.40599456" />
@@ -3895,41 +3832,6 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/ShowImageActivity.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_show_image.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/jni/insights_water_waterinsightsv005_CvUtil.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/jni/insights_water_waterinsightsv005_CvUtil.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="45" selection-start-line="4" selection-start-column="45" selection-end-line="4" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/jni/VisionFunctions.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="29" selection-start-line="29" selection-end-line="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/jni/VisionFunctions.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="47" selection-start-line="11" selection-start-column="47" selection-end-line="11" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/jni/VisionConstants.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="398">
-          <caret line="101" selection-start-line="101" selection-end-line="101" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/dimens.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state />
@@ -3946,13 +3848,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="2" column="48" selection-start-line="2" selection-start-column="41" selection-end-line="2" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="490">
-          <caret line="52" column="60" selection-start-line="52" selection-start-column="60" selection-end-line="52" selection-end-column="60" />
         </state>
       </provider>
     </entry>
@@ -4072,13 +3967,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="351">
           <caret line="39" selection-start-line="39" selection-end-line="39" />
         </state>
+      </provider>
+      <provider editor-type-id="android-manifest">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/scistarter_button_border.xml">
@@ -4098,29 +3993,9 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/popup_collection_step1.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="37" lean-forward="true" selection-start-line="7" selection-start-column="37" selection-end-line="7" selection-end-column="37" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/Take.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_take.xml">
-      <provider editor-type-id="text-editor">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/popup_collection_step1.xml" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/Take.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_take.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="354">
@@ -4142,26 +4017,8 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/popup_take_picture.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="26" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_submit.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="25" column="31" selection-start-line="25" selection-start-column="31" selection-end-line="25" selection-end-column="31" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/popup_take_picture.xml" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_submit.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_take_picture.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
@@ -4194,7 +4051,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
+        <state relative-caret-position="1037">
           <caret line="61" column="4" selection-start-line="61" selection-start-column="4" selection-end-line="74" selection-end-column="64" />
         </state>
       </provider>
@@ -4204,7 +4061,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_initial_information.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
+        <state relative-caret-position="2006">
           <caret line="118" column="41" selection-start-line="118" selection-start-column="41" selection-end-line="118" selection-end-column="41" />
         </state>
       </provider>
@@ -4212,88 +4069,34 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_collect_data.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="43" column="4" selection-start-line="43" selection-start-column="4" selection-end-line="59" selection-end-column="72" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_data_collection.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="402">
-          <caret line="104" column="56" selection-start-line="104" selection-start-column="56" selection-end-line="104" selection-end-column="56" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/SubmitActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="45" column="16" selection-start-line="45" selection-start-column="16" selection-end-line="45" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_collect_data.xml" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/SubmitActivity.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/OverviewActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
+        <state relative-caret-position="748">
           <caret line="57" column="51" selection-start-line="57" selection-start-column="51" selection-end-line="57" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/TakePictureActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="48" column="32" selection-start-line="48" selection-start-column="32" selection-end-line="48" selection-end-column="32" />
-          <folding>
-            <element signature="e#2116#2159#0" expanded="true" />
-            <element signature="e#7593#7760#0" expanded="true" />
-            <element signature="e#7759#7760#0" expanded="true" />
-            <element signature="e#8161#8367#0" expanded="true" />
-            <element signature="e#8366#8367#0" expanded="true" />
-            <element signature="e#8422#8606#0" expanded="true" />
-            <element signature="e#8605#8606#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="439">
+        <state relative-caret-position="646">
           <caret line="51" column="17" selection-start-line="51" selection-start-column="17" selection-end-line="51" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/InitialInformationActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="65">
+        <state relative-caret-position="136">
           <caret line="19" selection-start-line="19" selection-end-line="19" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/CollectDataActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="210" column="19" lean-forward="true" selection-start-line="210" selection-start-column="19" selection-end-line="210" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/CollectDataActivity.java" />
     <entry file="file://$PROJECT_DIR$/app/src/test/java/insights/water/waterinsightsv005/ExampleUnitTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/CvUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="11" column="43" selection-start-line="11" selection-start-column="43" selection-end-line="11" selection-end-column="43" />
         </state>
       </provider>
     </entry>
@@ -4304,10 +4107,86 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_data_collection.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="104" column="56" selection-start-line="104" selection-start-column="56" selection-end-line="104" selection-end-column="56" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="29" selection-start-line="29" selection-start-column="2" selection-end-line="42" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/jni/VisionFunctions.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="31" column="57" selection-start-line="31" selection-start-column="57" selection-end-line="31" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/jni/VisionFunctions.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="28" column="36" selection-start-line="28" selection-start-column="36" selection-end-line="28" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/jni/VisionConstants.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="256" column="8" selection-start-line="256" selection-start-column="8" selection-end-line="256" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/jni/insights_water_waterinsightsv005_CvUtil.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="30" column="29" selection-start-line="30" selection-start-column="29" selection-end-line="30" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/jni/insights_water_waterinsightsv005_CvUtil.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="21" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/CvUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="249">
+          <caret line="20" column="44" selection-start-line="20" selection-start-column="44" selection-end-line="20" selection-end-column="44" />
+          <folding>
+            <element signature="e#572#573#0" expanded="true" />
+            <element signature="e#597#598#0" expanded="true" />
+            <element signature="e#655#656#0" expanded="true" />
+            <element signature="e#692#693#0" expanded="true" />
+            <element signature="e#738#739#0" expanded="true" />
+            <element signature="e#775#776#0" expanded="true" />
+            <element signature="e#821#822#0" expanded="true" />
+            <element signature="e#858#859#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/DataCollectionActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="439">
+        <state relative-caret-position="461">
           <caret line="80" column="26" selection-start-line="80" selection-start-column="26" selection-end-line="80" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/TakePictureActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="53">
+          <caret line="269" selection-start-line="269" selection-end-line="269" />
         </state>
       </provider>
     </entry>

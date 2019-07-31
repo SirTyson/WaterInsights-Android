@@ -10,10 +10,42 @@ extern "C" {
 /*
  * Class:     insights_water_waterinsightsv005_CvUtil
  * Method:    loadImage
- * Signature: (Ljava/lang/String;)I
+ * Signature: (Ljava/lang/String;I)Ljava/util/ArrayList;
  */
-JNIEXPORT jint JNICALL Java_insights_water_waterinsightsv005_CvUtil_loadImage
-  (JNIEnv *, jclass, jstring);
+JNIEXPORT jfloatArray JNICALL Java_insights_water_waterinsightsv005_CvUtil_loadImage
+  (JNIEnv *, jclass, jstring, jint);
+
+/*
+ * Class:     insights_water_waterinsightsv005_CvUtil
+ * Method:    getStep1Code
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_insights_water_waterinsightsv005_CvUtil_getStep1Code
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     insights_water_waterinsightsv005_CvUtil
+ * Method:    getStep2Code
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_insights_water_waterinsightsv005_CvUtil_getStep2Code
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     insights_water_waterinsightsv005_CvUtil
+ * Method:    getStep3Code
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_insights_water_waterinsightsv005_CvUtil_getStep3Code
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     insights_water_waterinsightsv005_CvUtil
+ * Method:    getStep4Code
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_insights_water_waterinsightsv005_CvUtil_getStep4Code
+  (JNIEnv *, jclass);
 
 #ifdef __cplusplus
 }
