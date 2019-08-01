@@ -47,6 +47,14 @@ JNIEXPORT jint JNICALL Java_insights_water_waterinsightsv005_CvUtil_getStep3Code
 JNIEXPORT jint JNICALL Java_insights_water_waterinsightsv005_CvUtil_getStep4Code
   (JNIEnv *, jclass);
 
+/*
+ * Class:     insights_water_waterinsightsv005_CvUtil
+ * Method:    getStep5Code
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_insights_water_waterinsightsv005_CvUtil_getStep5Code
+  (JNIEnv *, jclass);
+
 #ifdef __cplusplus
 }
 #endif

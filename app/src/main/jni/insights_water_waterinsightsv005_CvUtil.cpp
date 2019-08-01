@@ -55,3 +55,9 @@ JNIEXPORT jint JNICALL Java_insights_water_waterinsightsv005_CvUtil_getStep4Code
 {
     return CODE_STRIP_4;
 }
+
+JNIEXPORT jint JNICALL Java_insights_water_waterinsightsv005_CvUtil_getStep5Code
+  (JNIEnv * env, jclass cls)
+{
+    return CODE_STRIP_5;
+}

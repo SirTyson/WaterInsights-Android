@@ -6,11 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".TakePictureActivity">
 
-
     <FrameLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="10dp"
         android:background="@color/colorPrimaryDark"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,7 +19,8 @@
         android:id="@+id/progress_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="40sp"
+        android:textSize="30sp"
+        android:padding="30dp"
         android:gravity="center_horizontal"
         android:textColor="@color/offWhiteTitle"
         android:fontFamily="@font/open_sans_semibold"
@@ -56,7 +55,6 @@
         app:layout_constraintTop_toBottomOf="@id/instruction_title_text"
         app:layout_constraintStart_toStartOf="@id/instruction_title_text"
         app:layout_constraintEnd_toEndOf="parent"/>
-
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/current_image_view"
@@ -131,7 +129,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
-
 
     </android.support.constraint.ConstraintLayout>
 

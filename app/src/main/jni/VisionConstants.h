@@ -256,8 +256,9 @@
 
 #define CODE_STRIP_1 201       /* 5 in 1 strip part 1 */
 #define CODE_STRIP_2 202       /* 5 in 1 strip part 2 */
-#define CODE_STRIP_3 203       /* Nitrate/Nitrite strip */
-#define CODE_STRIP_4 204       /* Copper strip */
+#define CODE_STRIP_3 203       /* Nitrite strip */
+#define CODE_STRIP_4 204	   /* Nitrate strip */
+#define CODE_STRIP_5 205       /* Copper strip */
 
 /*----------------- HELPER VALUES ---------------*/
 #define GREEN cv::Scalar(0, 255, 0)

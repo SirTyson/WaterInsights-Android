@@ -3,7 +3,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
-#include <android/log.h>
+//#include <android/log.h>
 
 /* TARGET FINDING */
 static bool acceptLinePair(cv::Vec2f line1, cv::Vec2f line2, double minTheta);
@@ -37,13 +37,13 @@ static void drawRotatedRect(cv::Mat src, const cv::RotatedRect& rect);
 
 std::vector<float> processImageFromFile(const std::string& file, int OP_CODE)
 {
-    __android_log_print(ANDROID_LOG_ERROR, "OpenCV", "Processing Image");
-    cv::Mat src = cv::imread(file);
+	//__android_log_print(ANDROID_LOG_ERROR, "OpenCV", "Processing Image");
+	cv::Mat src = cv::imread(file);
 
-    double ratio = src.size().height / 600.0;
-    cv::resize(src, src, cv::Size(src.size().width / ratio, 600));
+	double ratio = src.size().height / 600.0;
+	cv::resize(src, src, cv::Size(src.size().width / ratio, 600));
 
-    return processImage(src, OP_CODE);
+	return processImage(src, OP_CODE);
 }
 
 cv::RotatedRect getTarget(const cv::Mat srcImage, bool debug)
@@ -311,17 +311,26 @@ std::vector<cv::RotatedRect> getSampleSquare(const cv::Mat srcImage, const cv::R
 	switch (OP_CODE)
 	{
 	case CODE_STRIP_3:
-		for (int i = 0; i < 2; i++)
-		{
-			double sampleLength = testHeight / targetHeight > SAMPLE_STRIP_CORRECTION_RATIO ? getRelativeVecLength(target, SAMPLE_TEST_STRIP_CORRECTION) : 0;
-			int dist = i == 0 ? SAMPLE_DIST_NITRATE : SAMPLE_DIST_NITRITE;
-			sampleLength += getRelativeVecLength(target, dist);
-			cv::Point2f center = getOrthogonalEndpoint(refPoints[0], refPoints[1], sampleLength);
-			samples.push_back(cv::RotatedRect(center, cv::Size(SQUARE_SIZE, SQUARE_SIZE), testStrip.angle));
-		}
+	{
+		double sampleLength = testHeight / targetHeight > SAMPLE_STRIP_CORRECTION_RATIO ? getRelativeVecLength(target, SAMPLE_TEST_STRIP_CORRECTION) : 0;
+		int dist = SAMPLE_DIST_NITRITE;
+		sampleLength += getRelativeVecLength(target, SAMPLE_DIST_NITRITE);
+		cv::Point2f center = getOrthogonalEndpoint(refPoints[0], refPoints[1], sampleLength);
+		samples.push_back(cv::RotatedRect(center, cv::Size(SQUARE_SIZE, SQUARE_SIZE), testStrip.angle));
 		break;
+	}
 
 	case CODE_STRIP_4:
+	{
+		double sampleLength = testHeight / targetHeight > SAMPLE_STRIP_CORRECTION_RATIO ? getRelativeVecLength(target, SAMPLE_TEST_STRIP_CORRECTION) : 0;
+		int dist = SAMPLE_DIST_NITRATE;
+		sampleLength += getRelativeVecLength(target, SAMPLE_DIST_NITRATE);
+		cv::Point2f center = getOrthogonalEndpoint(refPoints[0], refPoints[1], sampleLength);
+		samples.push_back(cv::RotatedRect(center, cv::Size(SQUARE_SIZE, SQUARE_SIZE), testStrip.angle));
+		break;
+	}
+
+	case CODE_STRIP_5:
 	{
 		double sampleLength = testHeight / targetHeight > SAMPLE_STRIP_CORRECTION_RATIO ? getRelativeVecLength(target, SAMPLE_TEST_STRIP_CORRECTION) : 0;
 		sampleLength += getRelativeVecLength(target, SAMPLE_DIST_COPPER);
@@ -419,27 +428,42 @@ std::vector<float> processImage(const cv::Mat src, int OP_CODE, bool debug)
 	switch (OP_CODE)
 	{
 	case CODE_STRIP_3:
-		for (int i = 0; i < 2; i++)
+	{
+		cv::Vec3d sampleColor = getDominantColor(src, samples[0]);
+		if (debug)
 		{
-			cv::Vec3d sampleColor = getDominantColor(src, samples[i]);
-			if (debug)
-			{
-				if (i == 0) std::cout << "## NITRATE ##\n" << std::endl;
-				else std::cout << "## NITRITE ##\n" << std::endl;
-				std::cout << "Sample Color Normal: " << std::endl;
-				cv::Vec3d normal = sampleColor;
-				normalizeColors(refColors, normal);
-				print(normal);
-				std::cout << std::endl << std::endl;
-			}
-
-			int code = i == 0 ? CODE_NITRATE : CODE_NITRITE;
-			size_t sampleIndex = getClosestColorIndex(refColors, sampleColor, code, debug);
-			values.push_back(indexToValue(sampleIndex, code));
+			std::cout << "## NITRITE ##\n" << std::endl;
+			std::cout << "Sample Color Normal: " << std::endl;
+			cv::Vec3d normal = sampleColor;
+			normalizeColors(refColors, normal);
+			print(normal);
+			std::cout << std::endl << std::endl;
 		}
+
+		size_t sampleIndex = getClosestColorIndex(refColors, sampleColor, CODE_NITRITE, debug);
+		values.push_back(indexToValue(sampleIndex, CODE_NITRITE));
 		break;
+	}
 
 	case CODE_STRIP_4:
+	{
+		cv::Vec3d sampleColor = getDominantColor(src, samples[0]);
+		if (debug)
+		{
+			std::cout << "## NITRATE ##\n" << std::endl;
+			std::cout << "Sample Color Normal: " << std::endl;
+			cv::Vec3d normal = sampleColor;
+			normalizeColors(refColors, normal);
+			print(normal);
+			std::cout << std::endl << std::endl;
+		}
+
+		size_t sampleIndex = getClosestColorIndex(refColors, sampleColor, CODE_NITRATE, debug);
+		values.push_back(indexToValue(sampleIndex, CODE_NITRATE));
+		break;
+	}
+
+	case CODE_STRIP_5:
 	{
 		cv::Vec3d sampleColor = getDominantColor(src, samples[0]);
 		if (debug)

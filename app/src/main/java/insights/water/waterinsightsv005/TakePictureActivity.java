@@ -33,6 +33,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static insights.water.waterinsightsv005.DataCollectionActivity.STEP_KEY;
+
 public class TakePictureActivity extends AppCompatActivity {
 
     private static final boolean debug = true;
@@ -43,10 +45,13 @@ public class TakePictureActivity extends AppCompatActivity {
 
     public static final int STEP_1_NUM_VALUES = 3;
     public static final int STEP_2_NUM_VALUES = 2;
-    public static final int STEP_3_NUM_VALUES = 2;
+    public static final int STEP_3_NUM_VALUES = 1;
     public static final int STEP_4_NUM_VALUES = 1;
+    public static final int STEP_5_NUM_VALUES = 1;
 
-    public static final String IMAGE_FILENAME = "WaterInsights_IMAGE_CAPTURE.png";
+    public static final int LAST_STEP = 6;
+
+    public static final String IMAGE_FILENAME = "WaterInsights_IMAGE_CAPTURE.jpeg";
 
     private Button takePic;
     private ConstraintLayout progressBar;
@@ -56,15 +61,36 @@ public class TakePictureActivity extends AppCompatActivity {
 
     private String path;
     private Bitmap img;
-    private int currStep = 1;
+    private int currStep;
     private boolean cameraAccess = true;
     private float[] analyzedVal;
+    private int OP_CODE;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_picture);
+
+        Intent intent = getIntent();
+        currStep = intent.getIntExtra(STEP_KEY, 1);
+        switch (currStep) {
+            case 1:
+                OP_CODE = CvUtil.STEP_1_OP_CODE();
+                break;
+            case 2:
+                OP_CODE = CvUtil.STEP_2_OP_CODE();
+                break;
+            case 3:
+                OP_CODE = CvUtil.STEP_3_OP_CODE();
+                break;
+            case 4:
+                OP_CODE = CvUtil.STEP_4_OP_CODE();
+                break;
+            case 5:
+                OP_CODE = CvUtil.STEP_5_OP_CODE();
+                break;
+        }
 
         takePic = findViewById(R.id.take_picture_button);
         progressBar = findViewById(R.id.image_progress_bar_layout);
@@ -158,7 +184,7 @@ public class TakePictureActivity extends AppCompatActivity {
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(path, false);
-            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 80, fos);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -184,7 +210,7 @@ public class TakePictureActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
             path = saveToInternalStorage(img);
-            analyzedVal = CvUtil.processImage(path, CvUtil.getStep1Code());
+            analyzedVal = CvUtil.processImage(path, OP_CODE);
             return null;
         }
         @Override
@@ -192,7 +218,7 @@ public class TakePictureActivity extends AppCompatActivity {
             progressBar.setVisibility(View.GONE);
             dim.setVisibility(View.GONE);
             if (isValid(analyzedVal)) {
-                // go to next step
+                validPicuture();
             } else {
                 displayErrorPopup();
             }
@@ -266,6 +292,12 @@ public class TakePictureActivity extends AppCompatActivity {
                 return false;
             }
             break;
+
+        case 5:
+             if (value.length != STEP_5_NUM_VALUES) {
+                 return false;
+             }
+             break;
         }
 
         Log.d("plz", "ARRAY DATA:");
@@ -279,5 +311,17 @@ public class TakePictureActivity extends AppCompatActivity {
             }
         }
         return true;
+    }
+
+    private void validPicuture() {
+        currStep++;
+        if (currStep == LAST_STEP) {
+            // Go to result activity
+        } else {
+            Intent intent = new Intent(this, DataCollectionActivity.class);
+            intent.putExtra(STEP_KEY, currStep);
+            startActivity(intent);
+            finish();
+        }
     }
 }

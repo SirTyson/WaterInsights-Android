@@ -41,9 +41,15 @@ public class CvUtil {
         return getStep4Code();
     }
 
+    public static int STEP_5_OP_CODE()
+    {
+        return getStep5Code();
+    }
+
     public static native float[] loadImage(String filepath, int OP_CODE);
     public static native int getStep1Code();
     public static native int getStep2Code();
     public static native int getStep3Code();
     public static native int getStep4Code();
+    public static native int getStep5Code();
 }

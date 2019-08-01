@@ -13,13 +13,15 @@ public class DataCollectionActivity extends AppCompatActivity {
     public static final String STEP_KEY = "STEP_KEY";
 
     private static final int STEP_1_TIME = 30;
+    private static final int STEP_5_TIME = 60;
 
-    TextView timerText;
-    AppCompatButton startTimerButton;
+    private TextView timerText;
+    private AppCompatButton startTimerButton;
+    private TextView instructionText;
 
     public int counter = 0;
     private boolean isStart = true;
-    private int currStep = 1;
+    private int currStep;
 
     private CountDownTimer timer = null;
 
@@ -28,11 +30,35 @@ public class DataCollectionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_collection);
 
+        Intent starter = getIntent();
+        currStep = starter.getIntExtra(STEP_KEY, 1);
+
         startTimerButton = findViewById(R.id.start_timer_button);
         timerText = findViewById(R.id.timer_view);
+        instructionText = findViewById(R.id.instruction_body_text);
 
-        if (currStep == 1) {
+        if (currStep == 5) {
+            timerText.setText("1:00");
+        } else {
             timerText.setText("0:30");
+        }
+
+        switch (currStep) {
+            case 1:
+                instructionText.setText(R.string.step1_instructions);
+                break;
+            case 2:
+                instructionText.setText(R.string.step2_instructions);
+                break;
+            case 3:
+                instructionText.setText(R.string.step3_instructions);
+                break;
+            case 4:
+                instructionText.setText(R.string.step4_instructions);
+                break;
+            case 5:
+                instructionText.setText(R.string.step5_instructions);
+                break;
         }
 
         startTimerButton.setOnClickListener(new View.OnClickListener() {
@@ -48,10 +74,12 @@ public class DataCollectionActivity extends AppCompatActivity {
             isStart = false;
             startTimerButton.setText(getString(R.string.reset_timer_string));
         }
-        if (currStep == 1) {
+        if (currStep == 5) {
+            setTimer(STEP_5_TIME);
+        } else {
             setTimer(STEP_1_TIME);
-            isStart = false;
         }
+        isStart = false;
     }
 
     private void setTimer(int seconds) {
