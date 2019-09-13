@@ -1,6 +1,7 @@
 package insights.water.waterinsightsv005;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -11,8 +12,8 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,33 +28,35 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 
+import static insights.water.waterinsightsv005.DataCollectionActivity.NUM_RESULTS;
+import static insights.water.waterinsightsv005.DataCollectionActivity.RESULTS_KEY;
 import static insights.water.waterinsightsv005.DataCollectionActivity.STEP_KEY;
 
 public class TakePictureActivity extends AppCompatActivity {
-
-    private static final boolean debug = true;
 
     private static final int CAMERA_REQUEST_CODE = 100;
     private static final int REQUEST_IMAGE_CAPTURE = 101;
     private static final int REQUEST_IMAGE_STORAGE = 102;
 
-    public static final int STEP_1_NUM_VALUES = 3;
-    public static final int STEP_2_NUM_VALUES = 2;
-    public static final int STEP_3_NUM_VALUES = 1;
-    public static final int STEP_4_NUM_VALUES = 1;
-    public static final int STEP_5_NUM_VALUES = 1;
-
-    public static final int LAST_STEP = 6;
+    public static final String NITRATE_KEY = "Nitrate";
+    public static final String NITRITE_KEY = "Nitrite";
+    public static final String HARDNESS_KEY = "TotalHardness";
+    public static final String TOTAL_CHLORINE_KEY = "TotalChlorine";
+    public static final String ALKALINITY_KEY = "Alkalinity";
+    public static final String PH_KEY = "PHKey";
 
     public static final String IMAGE_FILENAME = "WaterInsights_IMAGE_CAPTURE.jpeg";
 
+    public static final int NUM_SAMPLES = 6;
+
     private Button takePic;
+    private Button uploadPic;
     private ConstraintLayout progressBar;
     private FrameLayout dim;
     private TextView progressText;
@@ -61,87 +64,105 @@ public class TakePictureActivity extends AppCompatActivity {
 
     private String path;
     private Bitmap img;
-    private int currStep;
     private boolean cameraAccess = true;
-    private float[] analyzedVal;
-    private int OP_CODE;
-
+    private float[] results;
+    /*
+     *  Results order:
+     *  0: Nitrate
+     *  1: Nitrite
+     *  2: Total Hardness
+     *  3: Total Chlorine
+     *  4: Total Alkalinity
+     *  5: PH
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_picture);
 
-        Intent intent = getIntent();
-        currStep = intent.getIntExtra(STEP_KEY, 1);
-        switch (currStep) {
-            case 1:
-                OP_CODE = CvUtil.STEP_1_OP_CODE();
-                break;
-            case 2:
-                OP_CODE = CvUtil.STEP_2_OP_CODE();
-                break;
-            case 3:
-                OP_CODE = CvUtil.STEP_3_OP_CODE();
-                break;
-            case 4:
-                OP_CODE = CvUtil.STEP_4_OP_CODE();
-                break;
-            case 5:
-                OP_CODE = CvUtil.STEP_5_OP_CODE();
-                break;
-        }
+        // TODO: OP_CODE Fix
+
+//        switch (currStep) {
+//            case 1:
+//                OP_CODE = CvUtil.STEP_1_OP_CODE();
+//                break;
+//            case 2:
+//                OP_CODE = CvUtil.STEP_2_OP_CODE();
+//                break;
+//            case 3:
+//                OP_CODE = CvUtil.STEP_3_OP_CODE();
+//                break;
+//            case 4:
+//                OP_CODE = CvUtil.STEP_4_OP_CODE();
+//                break;
+//            case 5:
+//                OP_CODE = CvUtil.STEP_5_OP_CODE();
+//                break;
+//        }
 
         takePic = findViewById(R.id.take_picture_button);
+        uploadPic = findViewById(R.id.upload_gallery_button);
         progressBar = findViewById(R.id.image_progress_bar_layout);
         dim = findViewById(R.id.background_dim_frame);
         progressText = findViewById(R.id.progress_text_view);
         imageView = findViewById(R.id.current_image_view);
 
         String titleText = getString(R.string.test_string);
-        titleText += " " + currStep + " ";
         titleText += getString(R.string.partial_progress_string);
         progressText.setText(titleText);
 
         takePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pictureButtonClicked();
+                takePictureButtonClicked();
+            }
+        });
+
+        uploadPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadPictureButtonClicked();
             }
         });
     }
 
-    private void pictureButtonClicked() {
-        if (debug) {
-            Intent getPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(getPhoto, REQUEST_IMAGE_STORAGE);
-        } else {
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    cameraAccess = false;
-                    requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
-                }
-            }
-            if (cameraAccess) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
-                }
+    private void takePictureButtonClicked() {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                cameraAccess = false;
+                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
             }
         }
+
+        if (cameraAccess) {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+            }
+        }
+    }
+
+    private void uploadPictureButtonClicked() {
+        Intent getPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(getPhoto, REQUEST_IMAGE_STORAGE);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == CAMERA_REQUEST_CODE) {
-            pictureButtonClicked();
+            takePictureButtonClicked();
         }
     }
 
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) {
+            return;
+        }
+
         switch (requestCode) {
             case REQUEST_IMAGE_CAPTURE:
                 if (resultCode == RESULT_OK) {
@@ -166,7 +187,7 @@ public class TakePictureActivity extends AppCompatActivity {
         }
     }
 
-    private String saveToInternalStorage(Bitmap bitmapImage){
+    private String saveToInternalStorage(@NonNull Bitmap bitmapImage){
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
         /* path to /data/data/yourapp/app_data/imageDir */
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
@@ -205,20 +226,19 @@ public class TakePictureActivity extends AppCompatActivity {
             progressBar.setVisibility(View.VISIBLE);
             dim.setVisibility(View.VISIBLE);
             takePic.setClickable(false);
-
         }
         @Override
         protected Void doInBackground(Void... params) {
             path = saveToInternalStorage(img);
-            analyzedVal = CvUtil.processImage(path, OP_CODE);
+            results = CvUtil.processImage(path, CvUtil.getStep1Code());
             return null;
         }
         @Override
         protected void onPostExecute(Void param) {
             progressBar.setVisibility(View.GONE);
             dim.setVisibility(View.GONE);
-            if (isValid(analyzedVal)) {
-                validPicuture();
+            if (isValid(results)) {
+                validPicture();
             } else {
                 displayErrorPopup();
             }
@@ -234,9 +254,7 @@ public class TakePictureActivity extends AppCompatActivity {
         // create the popup window
         float width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 325, getResources().getDisplayMetrics());
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-
         final PopupWindow popupWindow = new PopupWindow(popupView, (int) width, height, true);
-
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -249,7 +267,6 @@ public class TakePictureActivity extends AppCompatActivity {
         }
 
         dim.setVisibility(View.VISIBLE);
-
         popupWindow.showAtLocation(findViewById(android.R.id.content), Gravity.CENTER, 0, 0);
 
         // dismiss the popup window when touched
@@ -270,58 +287,50 @@ public class TakePictureActivity extends AppCompatActivity {
         });
     }
 
-    private boolean isValid(float[] value) {
-        switch (currStep) {
-        case 1:
-            if (value.length != STEP_1_NUM_VALUES) {
-                return false;
-            }
-            break;
-        case 2:
-            if (value.length != STEP_2_NUM_VALUES) {
-                return false;
-            }
-            break;
-        case 3:
-            if (value.length != STEP_3_NUM_VALUES) {
-                return false;
-            }
-            break;
-        case 4:
-            if (value.length != STEP_4_NUM_VALUES) {
-                return false;
-            }
-            break;
-
-        case 5:
-             if (value.length != STEP_5_NUM_VALUES) {
-                 return false;
-             }
-             break;
+    private boolean isValid(@NonNull float[] value) {
+        if (value.length != NUM_SAMPLES) {
+            return false;
         }
 
-        Log.d("plz", "ARRAY DATA:");
         for (float val : value) {
-            Log.d("plz", Float.toString(val));
-        }
-
-        for (float val: value) {
             if (val < 0) {
                 return false;
             }
         }
+
         return true;
     }
 
-    private void validPicuture() {
-        currStep++;
-        if (currStep == LAST_STEP) {
-            // Go to result activity
-        } else {
-            Intent intent = new Intent(this, DataCollectionActivity.class);
-            intent.putExtra(STEP_KEY, currStep);
-            startActivity(intent);
-            finish();
+    private void validPicture() {
+        Intent intent = new Intent(this, ShowResultsActivity.class);
+        populateBundleResults(intent, results);
+        startActivity(intent);
+        finish();
+    }
+
+    public static void populateBundleResults(@NonNull Intent intent, @NonNull float[] results) {
+        intent.putExtra(NITRATE_KEY, results[0]);
+        intent.putExtra(NITRITE_KEY, results[1]);
+        intent.putExtra(HARDNESS_KEY, results[2]);
+        intent.putExtra(TOTAL_CHLORINE_KEY, results[3]);
+        intent.putExtra(ALKALINITY_KEY, results[4]);
+        intent.putExtra(PH_KEY, results[5]);
+    }
+
+    @Nullable
+    public static float[] getBundleResults(@NonNull Activity context) {
+        float results[] = new float[NUM_RESULTS];
+        Bundle extras = context.getIntent().getExtras();
+        if (extras == null) {
+            return null;
         }
+
+        results[0] = extras.getFloat(NITRATE_KEY, -1.0f);
+        results[1] = extras.getFloat(NITRITE_KEY, -1.0f);
+        results[2] = extras.getFloat(HARDNESS_KEY, -1.0f);
+        results[3] = extras.getFloat(TOTAL_CHLORINE_KEY, -1.0f);
+        results[4] = extras.getFloat(ALKALINITY_KEY, -1.0f);
+        results[5] = extras.getFloat(PH_KEY, -1.0f);
+        return results;
     }
 }

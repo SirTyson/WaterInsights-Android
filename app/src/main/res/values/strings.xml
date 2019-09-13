@@ -43,6 +43,7 @@
     <string name="current_strip_string">Current Test Strip:</string>
     <string name="start_timer_string">Start Timer</string>
     <string name="take_picture_string">Take Picture</string>
+    <string name="upload_picture_string">Choose from Gallery</string>
     <string name="take_picture_instructions">Make sure the test strip is aligned and is facing the correct direction</string>
     <string name="tap_for_picture">Tap anywhere to take the picture</string>
     <string name="picture_loading_string">Analyzing Image</string>
@@ -69,5 +70,27 @@
 
     <!--Step 5-->
     <string name="step5_instructions">Grab test strip #3 (pictured below) and submerge it in the water for about 5 seconds. Then place the strip on the test card as level as possible. After 60 seconds, take a picture of the test card.</string>
+
+    <!--Results Activity-->
+    
+    <!--Parameters-->
+    <string name="hardness_string">Total Hardness</string>
+    <string name="alkalinity_string">Alkalinity</string>
+    <string name="ph_string">PH Level</string>
+    <string name="total_chlorine_string">Total Chlorine</string>
+    <string name="free_chlorine_string">Free Chlorine</string>
+    <string name="nitrite_string">Nitrite</string>
+    <string name="nitrate_string">Nitrate</string>
+    <string name="copper_string">Copper</string>
+
+    <!--Parameter Descriptions-->
+    <string name="hardness_description">Here is the hardness description. Arms, and the man I sing, who, forc\'d by fate, And haughty Juno\'s unrelenting hate, Expell\'d and exil\'d, left the Trojan shore.</string>
+    <string name="alkalinity_description">Here is the alkalinity description. Arms, and the man I sing, who, forc\'d by fate, And haughty Juno\'s unrelenting hate, Expell\'d and exil\'d, left the Trojan shore.</string>
+    <string name="ph_description">Here is the ph description. Arms, and the man I sing, who, forc\'d by fate, And haughty Juno\'s unrelenting hate, Expell\'d and exil\'d, left the Trojan shore.</string>
+    <string name="total_chlorine_description">Here is the total chlorine description. Arms, and the man I sing, who, forc\'d by fate, And haughty Juno\'s unrelenting hate, Expell\'d and exil\'d, left the Trojan shore.</string>
+    <string name="free_chlorine_description">Here is the free chlorine description. Arms, and the man I sing, who, forc\'d by fate, And haughty Juno\'s unrelenting hate, Expell\'d and exil\'d, left the Trojan shore.</string>
+    <string name="nitrite_description">Here is the nitrite description. Arms, and the man I sing, who, forc\'d by fate, And haughty Juno\'s unrelenting hate, Expell\'d and exil\'d, left the Trojan shore.</string>
+    <string name="nitrate_description">Here is the nitrate description. Arms, and the man I sing, who, forc\'d by fate, And haughty Juno\'s unrelenting hate, Expell\'d and exil\'d, left the Trojan shore.</string>
+    <string name="copper_description">Here is the copper description. Arms, and the man I sing, who, forc\'d by fate, And haughty Juno\'s unrelenting hate, Expell\'d and exil\'d, left the Trojan shore.</string>
 
 </resources>

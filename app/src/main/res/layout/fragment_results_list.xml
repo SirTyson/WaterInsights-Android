@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/offWhiteTitle"
+    android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+    
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/expand_button_hardness"
+                    style="@style/TextAppearance.AppCompat.Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/expandable_result_background"
+                    android:elevation="6dp"
+                    android:foreground="?selectableItemBackground"
+                    android:gravity="center"
+                    android:padding="18dp"
+                    android:textSize="20sp"
+                    android:text="@string/hardness_string"
+                    android:textColor="@color/offWhiteTitle" />
+
+                <net.cachapa.expandablelayout.ExpandableLayout
+                    android:id="@+id/expandable_layout_hardness"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:el_duration="500"
+                    app:el_expanded="false">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/offWhiteTitle"
+                        android:clipToPadding="false"
+                        android:elevation="4dp"
+                        android:padding="10dp"
+                        android:textSize="18sp"
+                        android:gravity="center"
+                        android:text="@string/alkalinity_description"
+                        android:textColor="@color/colorPrimaryDark" />
+
+                </net.cachapa.expandablelayout.ExpandableLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/expand_button_alkalinity"
+                    style="@style/TextAppearance.AppCompat.Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/expandable_result_background"
+                    android:elevation="6dp"
+                    android:foreground="?selectableItemBackground"
+                    android:gravity="center"
+                    android:padding="18dp"
+                    android:textSize="20sp"
+                    android:text="@string/alkalinity_string"
+                    android:textColor="@color/offWhiteTitle" />
+
+                <net.cachapa.expandablelayout.ExpandableLayout
+                    android:id="@+id/expandable_layout_alkalinity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:el_duration="500"
+                    app:el_expanded="false">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/offWhiteTitle"
+                        android:clipToPadding="false"
+                        android:padding="10dp"
+                        android:textSize="18sp"
+                        android:elevation="4dp"
+                        android:gravity="center"
+                        android:text="@string/alkalinity_description"
+                        android:textColor="@color/colorPrimaryDark"/>
+
+                </net.cachapa.expandablelayout.ExpandableLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/expand_button_ph"
+                    style="@style/TextAppearance.AppCompat.Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/expandable_result_background"
+                    android:elevation="6dp"
+                    android:foreground="?selectableItemBackground"
+                    android:gravity="center"
+                    android:padding="18dp"
+                    android:textSize="20sp"
+                    android:text="@string/ph_string"
+                    android:textColor="@color/offWhiteTitle" />
+
+                <net.cachapa.expandablelayout.ExpandableLayout
+                    android:id="@+id/expandable_layout_ph"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:el_duration="500"
+                    app:el_expanded="false">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/offWhiteTitle"
+                        android:clipToPadding="false"
+                        android:padding="10dp"
+                        android:textSize="18sp"
+                        android:elevation="4dp"
+                        android:gravity="center"
+                        android:text="@string/ph_description"
+                        android:textColor="@color/colorPrimaryDark"/>
+
+                </net.cachapa.expandablelayout.ExpandableLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/expand_button_total_chlorine"
+                    style="@style/TextAppearance.AppCompat.Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/expandable_result_background"
+                    android:elevation="6dp"
+                    android:foreground="?selectableItemBackground"
+                    android:gravity="center"
+                    android:padding="18dp"
+                    android:textSize="20sp"
+                    android:text="@string/total_chlorine_string"
+                    android:textColor="@color/offWhiteTitle" />
+
+                <net.cachapa.expandablelayout.ExpandableLayout
+                    android:id="@+id/expandable_layout_total_chlorine"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:el_duration="500"
+                    app:el_expanded="false">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/offWhiteTitle"
+                        android:clipToPadding="false"
+                        android:padding="10dp"
+                        android:textSize="18sp"
+                        android:elevation="4dp"
+                        android:gravity="center"
+                        android:text="@string/total_chlorine_description"
+                        android:textColor="@color/colorPrimaryDark"/>
+
+                </net.cachapa.expandablelayout.ExpandableLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/expand_button_free_chlorine"
+                    style="@style/TextAppearance.AppCompat.Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/expandable_result_background"
+                    android:elevation="6dp"
+                    android:foreground="?selectableItemBackground"
+                    android:gravity="center"
+                    android:padding="18dp"
+                    android:textSize="20sp"
+                    android:text="@string/free_chlorine_string"
+                    android:textColor="@color/offWhiteTitle" />
+
+                <net.cachapa.expandablelayout.ExpandableLayout
+                    android:id="@+id/expandable_layout_free_chlorine"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:el_duration="500"
+                    app:el_expanded="false">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/offWhiteTitle"
+                        android:clipToPadding="false"
+                        android:padding="10dp"
+                        android:textSize="18sp"
+                        android:elevation="4dp"
+                        android:gravity="center"
+                        android:text="@string/free_chlorine_description"
+                        android:textColor="@color/colorPrimaryDark"/>
+
+                </net.cachapa.expandablelayout.ExpandableLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/expand_button_nitrite"
+                    style="@style/TextAppearance.AppCompat.Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/expandable_result_background"
+                    android:elevation="6dp"
+                    android:foreground="?selectableItemBackground"
+                    android:gravity="center"
+                    android:padding="18dp"
+                    android:textSize="20sp"
+                    android:text="@string/nitrite_string"
+                    android:textColor="@color/offWhiteTitle" />
+
+                <net.cachapa.expandablelayout.ExpandableLayout
+                    android:id="@+id/expandable_layout_nitrite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:el_duration="500"
+                    app:el_expanded="false">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/offWhiteTitle"
+                        android:clipToPadding="false"
+                        android:padding="10dp"
+                        android:textSize="18sp"
+                        android:elevation="4dp"
+                        android:gravity="center"
+                        android:text="@string/nitrite_description"
+                        android:textColor="@color/colorPrimaryDark"/>
+
+                </net.cachapa.expandablelayout.ExpandableLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/expand_button_nitrate"
+                    style="@style/TextAppearance.AppCompat.Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/expandable_result_background"
+                    android:elevation="6dp"
+                    android:foreground="?selectableItemBackground"
+                    android:gravity="center"
+                    android:padding="18dp"
+                    android:textSize="20sp"
+                    android:text="@string/nitrate_string"
+                    android:textColor="@color/offWhiteTitle" />
+
+                <net.cachapa.expandablelayout.ExpandableLayout
+                    android:id="@+id/expandable_layout_nitrate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:el_duration="500"
+                    app:el_expanded="false">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/offWhiteTitle"
+                        android:clipToPadding="false"
+                        android:padding="10dp"
+                        android:textSize="18sp"
+                        android:elevation="4dp"
+                        android:gravity="center"
+                        android:text="@string/nitrate_description"
+                        android:textColor="@color/colorPrimaryDark"/>
+
+                </net.cachapa.expandablelayout.ExpandableLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/expand_button_copper"
+                    style="@style/TextAppearance.AppCompat.Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/expandable_result_background"
+                    android:elevation="6dp"
+                    android:foreground="?selectableItemBackground"
+                    android:gravity="center"
+                    android:padding="18dp"
+                    android:textSize="20sp"
+                    android:text="@string/copper_string"
+                    android:textColor="@color/offWhiteTitle" />
+
+                <net.cachapa.expandablelayout.ExpandableLayout
+                    android:id="@+id/expandable_layout_copper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:el_duration="500"
+                    app:el_expanded="false">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/offWhiteTitle"
+                        android:clipToPadding="false"
+                        android:padding="10dp"
+                        android:textSize="18sp"
+                        android:elevation="4dp"
+                        android:gravity="center"
+                        android:text="@string/copper_description"
+                        android:textColor="@color/colorPrimaryDark"/>
+
+                </net.cachapa.expandablelayout.ExpandableLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+</ScrollView>

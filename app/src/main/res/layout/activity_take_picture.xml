@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/offWhiteTitle"
     tools:context=".TakePictureActivity">
 
     <FrameLayout
@@ -71,19 +72,34 @@
         app:layout_constraintBottom_toTopOf="@id/take_picture_button"/>
 
     <android.support.v7.widget.AppCompatButton
-        android:id="@+id/take_picture_button"
+        android:id="@+id/upload_gallery_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/scistarter_button_border"
         android:fontFamily="@font/open_sans_semibold"
-        android:text="@string/take_picture_string"
+        android:text="@string/upload_picture_string"
         android:textAllCaps="false"
         android:textColor="@color/offWhiteTitle"
         android:textSize="16sp"
-        android:layout_marginStart="60dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginRight="60dp"
+        app:layout_constraintBottom_toTopOf="@id/take_picture_button"
+        app:layout_constraintEnd_toEndOf="@id/take_picture_button"
+        app:layout_constraintStart_toStartOf="@id/take_picture_button" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/take_picture_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/guest_button_border"
+        android:fontFamily="@font/open_sans_semibold"
+        android:text="@string/take_picture_string"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:layout_marginStart="80dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginRight="80dp"
         android:layout_marginBottom="20dp"
         android:stateListAnimator="@null"
         app:layout_constraintBottom_toBottomOf="parent"
