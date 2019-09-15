@@ -64,7 +64,6 @@ public class TakePictureActivity extends AppCompatActivity {
 
     private String path;
     private Bitmap img;
-    private boolean cameraAccess = true;
     private float[] results;
     /*
      *  Results order:
@@ -80,26 +79,6 @@ public class TakePictureActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_picture);
-
-        // TODO: OP_CODE Fix
-
-//        switch (currStep) {
-//            case 1:
-//                OP_CODE = CvUtil.STEP_1_OP_CODE();
-//                break;
-//            case 2:
-//                OP_CODE = CvUtil.STEP_2_OP_CODE();
-//                break;
-//            case 3:
-//                OP_CODE = CvUtil.STEP_3_OP_CODE();
-//                break;
-//            case 4:
-//                OP_CODE = CvUtil.STEP_4_OP_CODE();
-//                break;
-//            case 5:
-//                OP_CODE = CvUtil.STEP_5_OP_CODE();
-//                break;
-//        }
 
         takePic = findViewById(R.id.take_picture_button);
         uploadPic = findViewById(R.id.upload_gallery_button);
@@ -127,20 +106,22 @@ public class TakePictureActivity extends AppCompatActivity {
         });
     }
 
+    private void launchPictureCapture() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
     private void takePictureButtonClicked() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                cameraAccess = false;
                 requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
+                return;
             }
         }
 
-        if (cameraAccess) {
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (intent.resolveActivity(getPackageManager()) != null) {
-                startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
-            }
-        }
+        launchPictureCapture();
     }
 
     private void uploadPictureButtonClicked() {
@@ -152,7 +133,7 @@ public class TakePictureActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == CAMERA_REQUEST_CODE) {
-            takePictureButtonClicked();
+            launchPictureCapture();
         }
     }
 
@@ -171,6 +152,7 @@ public class TakePictureActivity extends AppCompatActivity {
                     new TakePictureActivity.AsyncImageProcess().execute();
                 }
                 break;
+
             case REQUEST_IMAGE_STORAGE:
                 if (resultCode == RESULT_OK) {
                     progressBar.setVisibility(View.VISIBLE);
@@ -202,6 +184,7 @@ public class TakePictureActivity extends AppCompatActivity {
                 Log.d("plz", "DELETED OLD FILE");
             }
         }
+
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(path, false);
@@ -215,6 +198,7 @@ public class TakePictureActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
         return directory.getAbsolutePath() + "/" + IMAGE_FILENAME;
     }
 
@@ -318,9 +302,8 @@ public class TakePictureActivity extends AppCompatActivity {
     }
 
     @Nullable
-    public static float[] getBundleResults(@NonNull Activity context) {
+    public static float[] getBundleResults(@Nullable Bundle extras) {
         float results[] = new float[NUM_RESULTS];
-        Bundle extras = context.getIntent().getExtras();
         if (extras == null) {
             return null;
         }

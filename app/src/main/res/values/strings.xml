@@ -75,7 +75,7 @@
     
     <!--Parameters-->
     <string name="hardness_string">Total Hardness</string>
-    <string name="alkalinity_string">Alkalinity</string>
+    <string name="alkalinity_string">Total Alkalinity</string>
     <string name="ph_string">PH Level</string>
     <string name="total_chlorine_string">Total Chlorine</string>
     <string name="free_chlorine_string">Free Chlorine</string>
