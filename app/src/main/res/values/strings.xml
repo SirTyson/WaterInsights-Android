@@ -106,6 +106,7 @@
     <string name="scistarter_register_link">Don\'t have a SciStarter account? <font color='#2752a6'>Click here</font> to register for one now!</string>
     <string name="email_not_found">Email not registered with SciStarter</string>
     <string name="successful_login">Successfully logged in!</string>
+    <string name="loging_in_progress">Signing you in</string>
 
     <!--Activity Labels for SEO indexing and stuff-->
     <string name="title_activity_scistarter_login">Scistarter Sign in</string>

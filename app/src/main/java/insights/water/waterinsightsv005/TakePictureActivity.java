@@ -221,6 +221,7 @@ public class TakePictureActivity extends AppCompatActivity {
         protected void onPostExecute(Void param) {
             progressBar.setVisibility(View.GONE);
             dim.setVisibility(View.GONE);
+            takePic.setClickable(true);
             if (isValid(results)) {
                 validPicture();
             } else {

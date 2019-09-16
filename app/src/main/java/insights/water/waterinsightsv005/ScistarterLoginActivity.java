@@ -1,15 +1,12 @@
 package insights.water.waterinsightsv005;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
@@ -18,6 +15,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -35,6 +33,7 @@ import okhttp3.Response;
  */
 public class ScistarterLoginActivity extends AppCompatActivity {
 
+    // TODO: Throw all this ugly in a util class or something smh
     public static final String SCISTARTER_REGISTER_URL = "https://scistarter.org/login";
     public static final String PROFILE_ID_REQUEST_URL = "https://scistarter.com/api/profile/id";
     public static final String PROFILE_ID_REQUEST_IDENTIFIER_PARAM = "identifier";
@@ -53,8 +52,10 @@ public class ScistarterLoginActivity extends AppCompatActivity {
 
     // UI references.
     private EditText mEmailView;
-    private View mProgressView;
     private View mLoginFormView;
+    private ConstraintLayout mProgressBar;
+    private FrameLayout mDim;
+    private Button mEmailSignInButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,7 @@ public class ScistarterLoginActivity extends AppCompatActivity {
         // Set up the login form.
         mEmailView = findViewById(R.id.email);
 
-        Button mEmailSignInButton = findViewById(R.id.email_sign_in_button);
+        mEmailSignInButton = findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,7 +81,8 @@ public class ScistarterLoginActivity extends AppCompatActivity {
         });
 
         mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
+        mProgressBar = findViewById(R.id.signin_progress_bar_layout);
+        mDim = findViewById(R.id.signin_background_dim_frame);
     }
 
     @Override
@@ -112,7 +114,6 @@ public class ScistarterLoginActivity extends AppCompatActivity {
         boolean cancel = false;
         View focusView = null;
 
-
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
@@ -131,7 +132,6 @@ public class ScistarterLoginActivity extends AppCompatActivity {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
             mAuthTask = new UserLoginTask(email);
             mAuthTask.execute((Void) null);
         }
@@ -139,43 +139,6 @@ public class ScistarterLoginActivity extends AppCompatActivity {
 
     private boolean isEmailValid(@NonNull String email) {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
-
-
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
     }
 
     /**
@@ -188,6 +151,14 @@ public class ScistarterLoginActivity extends AppCompatActivity {
 
         UserLoginTask(String email) {
             mEmail = email;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressBar.setVisibility(View.VISIBLE);
+            mDim.setVisibility(View.VISIBLE);
+            mEmailSignInButton.setClickable(true);
         }
 
         @Override
@@ -236,7 +207,9 @@ public class ScistarterLoginActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
-            showProgress(false);
+            mProgressBar.setVisibility(View.GONE);
+            mDim.setVisibility(View.GONE);
+            mEmailSignInButton.setClickable(true);
 
             if (success && mProfileID != null) {
                 Toast.makeText(ScistarterLoginActivity.this, getString(R.string.successful_login), Toast.LENGTH_SHORT).show();
@@ -249,7 +222,9 @@ public class ScistarterLoginActivity extends AppCompatActivity {
         @Override
         protected void onCancelled() {
             mAuthTask = null;
-            showProgress(false);
+            mProgressBar.setVisibility(View.GONE);
+            mDim.setVisibility(View.GONE);
+            mEmailSignInButton.setClickable(true);
         }
     }
 }
