@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="insights.water.waterinsightsv005">
 
     <uses-permission android:name="android.permission.CAMERA" />
@@ -14,40 +15,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/title_main_activity">
+        android:theme="@style/AppTheme.NoActionBar"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".OverviewActivity"
-            android:label="@string/title_overview_activity" />
+        <activity android:name=".OverviewActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity
-            android:name=".DataCollectionActivity"
-            android:label="@string/title_activity_collect_data" />
+        <activity android:name=".DataCollectionActivity" />
         <activity
             android:name=".InitialInformationActivity"
-            android:label="@string/title_initial_information_activity"
             android:windowSoftInputMode="adjustNothing" />
-        <activity
-            android:name=".TakePictureActivity"
-            android:label="@string/title_take_picture_activity" />
-        <activity
-            android:name=".ShowResultsActivity"
-            android:label="@string/title_results_activity" />
-        <activity
-            android:name=".ScistarterLoginActivity"
-            android:label="@string/title_activity_scistarter_login" />
+        <activity android:name=".TakePictureActivity" />
+        <activity android:name=".ShowResultsActivity" />
+        <activity android:name=".ScistarterLoginActivity" />
     </application>
 
 </manifest>

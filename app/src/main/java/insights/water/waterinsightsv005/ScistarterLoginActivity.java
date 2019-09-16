@@ -33,15 +33,6 @@ import okhttp3.Response;
  */
 public class ScistarterLoginActivity extends AppCompatActivity {
 
-    // TODO: Throw all this ugly in a util class or something smh
-    public static final String SCISTARTER_REGISTER_URL = "https://scistarter.org/login";
-    public static final String PROFILE_ID_REQUEST_URL = "https://scistarter.com/api/profile/id";
-    public static final String PROFILE_ID_REQUEST_IDENTIFIER_PARAM = "identifier";
-    public static final String PROFILE_ID_REQUEST_API_TOKEN_PARAM = "key";
-    public static final String SCISTARTER_API_AUTH_TOKEN = "97eeac98d396a1111c3de2fddefeddb45f356dab05e43e152914ce952206cec0a4e19b96b5ed47820c87f0ce7e94d1f34831a7d2e93bc95cb20adc08f151a26f";
-    public static final String SCISTARTER_RESPONSE_IS_KNOWN_KEY = "known";
-    public static final String SCISTARTER_RESPONSE_PROFILE_ID_KEY = "scistarter_profile_id";
-
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -52,7 +43,6 @@ public class ScistarterLoginActivity extends AppCompatActivity {
 
     // UI references.
     private EditText mEmailView;
-    private View mLoginFormView;
     private ConstraintLayout mProgressBar;
     private FrameLayout mDim;
     private Button mEmailSignInButton;
@@ -80,7 +70,6 @@ public class ScistarterLoginActivity extends AppCompatActivity {
             }
         });
 
-        mLoginFormView = findViewById(R.id.login_form);
         mProgressBar = findViewById(R.id.signin_progress_bar_layout);
         mDim = findViewById(R.id.signin_background_dim_frame);
     }
@@ -92,7 +81,7 @@ public class ScistarterLoginActivity extends AppCompatActivity {
     }
 
     private void registerEmail() {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SCISTARTER_REGISTER_URL)));
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(ScistarterUtilities.SCISTARTER_REGISTER_URL)));
     }
 
     /**
@@ -163,24 +152,14 @@ public class ScistarterLoginActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            OkHttpClient client = new OkHttpClient();
-            HttpUrl.Builder urlBuilder = HttpUrl.parse(PROFILE_ID_REQUEST_URL).newBuilder();
-            urlBuilder.addQueryParameter(PROFILE_ID_REQUEST_IDENTIFIER_PARAM, mEmail);
-            urlBuilder.addQueryParameter(PROFILE_ID_REQUEST_API_TOKEN_PARAM, SCISTARTER_API_AUTH_TOKEN);
-            String url = urlBuilder.build().toString();
-
-            Request request = new Request.Builder()
-                    .url(url)
-                    .build();
-
             try {
-                Response response = client.newCall(request).execute();
+                Response response = ScistarterUtilities.profileIDRequest(mEmail);
                 if (!response.isSuccessful() || response.body() == null) {
                     return false;
                 }
 
                 JSONObject json = new JSONObject(response.body().string());
-                if (!json.getBoolean(SCISTARTER_RESPONSE_IS_KNOWN_KEY)) {
+                if (!json.getBoolean(ScistarterUtilities.SCISTARTER_RESPONSE_IS_KNOWN_KEY)) {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -191,7 +170,7 @@ public class ScistarterLoginActivity extends AppCompatActivity {
                     return false;
                 }
 
-                mProfileID = json.getString(SCISTARTER_RESPONSE_PROFILE_ID_KEY);
+                mProfileID = json.getString(ScistarterUtilities.SCISTARTER_RESPONSE_PROFILE_ID_KEY);
 
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -214,6 +193,7 @@ public class ScistarterLoginActivity extends AppCompatActivity {
             if (success && mProfileID != null) {
                 Toast.makeText(ScistarterLoginActivity.this, getString(R.string.successful_login), Toast.LENGTH_SHORT).show();
                 PreferenceUtilities.writeToPreferencesAsync(PreferenceUtilities.SCISTARTER_USER_ID_PREFERENCE_KEY, mProfileID, ScistarterLoginActivity.this);
+                ScistarterUtilities.signinPost(mProfileID);
                 startActivity(new Intent(ScistarterLoginActivity.this, OverviewActivity.class));
                 finish();
             }
