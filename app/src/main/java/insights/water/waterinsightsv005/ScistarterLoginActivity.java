@@ -48,6 +48,8 @@ public class ScistarterLoginActivity extends AppCompatActivity {
      */
     @Nullable
     private UserLoginTask mAuthTask = null;
+    @Nullable
+    private String mProfileID = null;
 
     // UI references.
     private EditText mEmailView;
@@ -218,7 +220,7 @@ public class ScistarterLoginActivity extends AppCompatActivity {
                     return false;
                 }
 
-                MainActivity.writeScistarterProfile(ScistarterLoginActivity.this, json.getString(SCISTARTER_RESPONSE_PROFILE_ID_KEY));
+                mProfileID = json.getString(SCISTARTER_RESPONSE_PROFILE_ID_KEY);
 
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -236,8 +238,9 @@ public class ScistarterLoginActivity extends AppCompatActivity {
             mAuthTask = null;
             showProgress(false);
 
-            if (success) {
+            if (success && mProfileID != null) {
                 Toast.makeText(ScistarterLoginActivity.this, getString(R.string.successful_login), Toast.LENGTH_SHORT).show();
+                PreferenceUtilities.writeToPreferencesAsync(PreferenceUtilities.SCISTARTER_USER_ID_PREFERENCE_KEY, mProfileID, ScistarterLoginActivity.this);
                 startActivity(new Intent(ScistarterLoginActivity.this, OverviewActivity.class));
                 finish();
             }
