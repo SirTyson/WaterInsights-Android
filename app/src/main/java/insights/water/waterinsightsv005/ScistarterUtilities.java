@@ -1,7 +1,6 @@
 package insights.water.waterinsightsv005;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -34,7 +33,8 @@ class ScistarterUtilities {
     private static final String SIGNIN_POST_TYPE_KEY = "type";
     private static final String SIGNIN_POST_WHEN_KEY = "when";
     private static final String SCISTARTER_PROJECT_ID = "21886";
-    private static final String SIGNIN_POST_TPYE_VALUE = "signup";
+    private static final String SIGNIN_POST_TYPE_VALUE = "signup";
+    private static final String COMPLETE_POST_TYPE_VALUE = "collection";
     private static final String SCISTARTER_POST_URL = "https://scistarter.com/api/record_event";
 
     @NonNull
@@ -52,7 +52,15 @@ class ScistarterUtilities {
         return client.newCall(request).execute();
     }
 
+    static void completeTestingPost(@NonNull String profileID) {
+        postHelper(profileID, COMPLETE_POST_TYPE_VALUE);
+    }
+
     static void signinPost(@NonNull String profileID) {
+        postHelper(profileID, SIGNIN_POST_TYPE_VALUE);
+    }
+
+    private static void postHelper(@NonNull String profileID, @NonNull String type) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
         String formattedDate = sdf.format(new Date());
 
@@ -61,7 +69,7 @@ class ScistarterUtilities {
                 .setType(MultipartBody.FORM)
                 .addFormDataPart(SIGNIN_POST_PROFILE_ID_KEY, profileID)
                 .addFormDataPart(SIGNIN_POST_PROJECT_ID_KEY, SCISTARTER_PROJECT_ID)
-                .addFormDataPart(SIGNIN_POST_TYPE_KEY, SIGNIN_POST_TPYE_VALUE)
+                .addFormDataPart(SIGNIN_POST_TYPE_KEY, type)
                 .addFormDataPart(SIGNIN_POST_WHEN_KEY, formattedDate)
                 .build();
 
