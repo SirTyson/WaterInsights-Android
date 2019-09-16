@@ -1,8 +1,8 @@
 package insights.water.waterinsightsv005;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.widget.AdapterView;
@@ -45,7 +45,6 @@ public class InitialInformationActivity extends AppCompatActivity {
         } else {
             Intent activity = new Intent(this, DataCollectionActivity.class);
             startActivity(activity);
-            finish();
         }
     }
 

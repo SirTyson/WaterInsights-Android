@@ -38,6 +38,5 @@ public class TutorialPage3Fragment extends Fragment {
 
     private void getStartedClicked() {
         startActivity(new Intent(getContext(), InitialInformationActivity.class));
-        getActivity().finish();
     }
 }

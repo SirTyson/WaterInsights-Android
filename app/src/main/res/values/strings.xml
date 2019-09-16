@@ -72,7 +72,7 @@
     <string name="step5_instructions">Grab test strip #3 (pictured below) and submerge it in the water for about 5 seconds. Then place the strip on the test card as level as possible. After 60 seconds, take a picture of the test card.</string>
 
     <!--Results Activity-->
-    
+
     <!--Parameters-->
     <string name="hardness_string">Total Hardness</string>
     <string name="alkalinity_string">Total Alkalinity</string>
@@ -93,4 +93,25 @@
     <string name="nitrate_description">Here is the nitrate description. Arms, and the man I sing, who, forc\'d by fate, And haughty Juno\'s unrelenting hate, Expell\'d and exil\'d, left the Trojan shore.</string>
     <string name="copper_description">Here is the copper description. Arms, and the man I sing, who, forc\'d by fate, And haughty Juno\'s unrelenting hate, Expell\'d and exil\'d, left the Trojan shore.</string>
 
+    <!-- Strings related to login -->
+    <string name="scistarter_login_description">By signing in with Scistarter, you can keep track of the water that you\'ve tested and earn arbitrary points in their online gamification of citizen science? FOR THE LOVE OF GOD DONT PUSH THIS STRING TO PROD. If you don\'t have an account, you can sign up for one below!</string>
+    <string name="prompt_email">Email</string>
+    <string name="action_sign_in">Sign in to SciStarter</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_field_required">An email is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="scistarter_register_link">Don\'t have a SciStarter account? <font color='#2752a6'>Click here</font> to register for one now!</string>
+    <string name="email_not_found">Email not registered with SciStarter</string>
+    <string name="successful_login">Successfully logged in!</string>
+
+    <!--Activity Labels for SEO indexing and stuff-->
+    <string name="title_activity_scistarter_login">Scistarter Sign in</string>
+    <string name="title_main_activity">Home Screen</string>
+    <string name="title_overview_activity">Instructions</string>
+    <string name="title_initial_information_activity">Initial Information</string>
+    <string name="title_take_picture_activity">Take Test Strip Picture</string>
+    <string name="title_results_activity">Test Results</string>
 </resources>

@@ -15,24 +15,39 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_main_activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".OverviewActivity" />
+        <activity
+            android:name=".OverviewActivity"
+            android:label="@string/title_overview_activity" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".DataCollectionActivity" />
+        <activity
+            android:name=".DataCollectionActivity"
+            android:label="@string/title_activity_collect_data" />
         <activity
             android:name=".InitialInformationActivity"
+            android:label="@string/title_initial_information_activity"
             android:windowSoftInputMode="adjustNothing" />
-        <activity android:name=".TakePictureActivity" />
-        <activity android:name=".ShowResultsActivity"></activity>
+        <activity
+            android:name=".TakePictureActivity"
+            android:label="@string/title_take_picture_activity" />
+        <activity
+            android:name=".ShowResultsActivity"
+            android:label="@string/title_results_activity" />
+        <activity
+            android:name=".ScistarterLoginActivity"
+            android:label="@string/title_activity_scistarter_login" />
     </application>
 
 </manifest>
