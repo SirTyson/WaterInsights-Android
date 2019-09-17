@@ -52,6 +52,7 @@
     <string name="reset_timer_string">Reset Timer</string>
     <string name="whoops_string">Whoops&#8230;</string>
     <string name="analysis_error_string">There was a problem analyzing the test strip. Make sure everything is correctly lined up and try again.</string>
+    <string name="take_a_picture_string">Take a picture</string>
 
     <!--Step 1-->
     <string name="step1_popup_title">Test Strip #1</string>

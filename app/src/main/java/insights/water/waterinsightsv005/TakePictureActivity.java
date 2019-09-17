@@ -1,7 +1,6 @@
 package insights.water.waterinsightsv005;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -10,12 +9,12 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -27,22 +26,14 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 import static insights.water.waterinsightsv005.DataCollectionActivity.NUM_RESULTS;
-import static insights.water.waterinsightsv005.DataCollectionActivity.RESULTS_KEY;
-import static insights.water.waterinsightsv005.DataCollectionActivity.STEP_KEY;
 
 public class TakePictureActivity extends AppCompatActivity {
-
-    private static final int CAMERA_REQUEST_CODE = 100;
-    private static final int REQUEST_IMAGE_CAPTURE = 101;
-    private static final int REQUEST_IMAGE_STORAGE = 102;
 
     public static final String NITRATE_KEY = "Nitrate";
     public static final String NITRITE_KEY = "Nitrite";
@@ -50,16 +41,15 @@ public class TakePictureActivity extends AppCompatActivity {
     public static final String TOTAL_CHLORINE_KEY = "TotalChlorine";
     public static final String ALKALINITY_KEY = "Alkalinity";
     public static final String PH_KEY = "PHKey";
-
     public static final String IMAGE_FILENAME = "WaterInsights_IMAGE_CAPTURE.jpeg";
-
     public static final int NUM_SAMPLES = 6;
-
+    private static final int CAMERA_REQUEST_CODE = 100;
+    private static final int REQUEST_IMAGE_CAPTURE = 101;
+    private static final int REQUEST_IMAGE_STORAGE = 102;
     private Button takePic;
     private Button uploadPic;
     private ConstraintLayout progressBar;
     private FrameLayout dim;
-    private TextView progressText;
     private ImageView imageView;
 
     private String path;
@@ -75,6 +65,31 @@ public class TakePictureActivity extends AppCompatActivity {
      *  5: PH
      */
 
+    public static void populateBundleResults(@NonNull Intent intent, @NonNull float[] results) {
+        intent.putExtra(NITRATE_KEY, results[0]);
+        intent.putExtra(NITRITE_KEY, results[1]);
+        intent.putExtra(HARDNESS_KEY, results[2]);
+        intent.putExtra(TOTAL_CHLORINE_KEY, results[3]);
+        intent.putExtra(ALKALINITY_KEY, results[4]);
+        intent.putExtra(PH_KEY, results[5]);
+    }
+
+    @Nullable
+    public static float[] getBundleResults(@Nullable Bundle extras) {
+        float results[] = new float[NUM_RESULTS];
+        if (extras == null) {
+            return null;
+        }
+
+        results[0] = extras.getFloat(NITRATE_KEY, -1.0f);
+        results[1] = extras.getFloat(NITRITE_KEY, -1.0f);
+        results[2] = extras.getFloat(HARDNESS_KEY, -1.0f);
+        results[3] = extras.getFloat(TOTAL_CHLORINE_KEY, -1.0f);
+        results[4] = extras.getFloat(ALKALINITY_KEY, -1.0f);
+        results[5] = extras.getFloat(PH_KEY, -1.0f);
+        return results;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,12 +99,8 @@ public class TakePictureActivity extends AppCompatActivity {
         uploadPic = findViewById(R.id.upload_gallery_button);
         progressBar = findViewById(R.id.image_progress_bar_layout);
         dim = findViewById(R.id.background_dim_frame);
-        progressText = findViewById(R.id.progress_text_view);
         imageView = findViewById(R.id.current_image_view);
 
-        String titleText = getString(R.string.test_string);
-        titleText += getString(R.string.partial_progress_string);
-        progressText.setText(titleText);
 
         takePic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +115,10 @@ public class TakePictureActivity extends AppCompatActivity {
                 uploadPictureButtonClicked();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 
     private void launchPictureCapture() {
@@ -137,7 +152,6 @@ public class TakePictureActivity extends AppCompatActivity {
         }
     }
 
-
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (data == null) {
@@ -169,7 +183,7 @@ public class TakePictureActivity extends AppCompatActivity {
         }
     }
 
-    private String saveToInternalStorage(@NonNull Bitmap bitmapImage){
+    private String saveToInternalStorage(@NonNull Bitmap bitmapImage) {
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
         /* path to /data/data/yourapp/app_data/imageDir */
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
@@ -178,7 +192,7 @@ public class TakePictureActivity extends AppCompatActivity {
         File path = new File(directory + "/" + IMAGE_FILENAME);
         if (path.exists()) {
             Log.d("plz", "File: " + path.getAbsolutePath());
-            if(!path.delete()) {
+            if (!path.delete()) {
                 Log.d("plz", "File failed to delete");
             } else {
                 Log.d("plz", "DELETED OLD FILE");
@@ -200,34 +214,6 @@ public class TakePictureActivity extends AppCompatActivity {
         }
 
         return directory.getAbsolutePath() + "/" + IMAGE_FILENAME;
-    }
-
-
-    private class AsyncImageProcess extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressBar.setVisibility(View.VISIBLE);
-            dim.setVisibility(View.VISIBLE);
-            takePic.setClickable(false);
-        }
-        @Override
-        protected Void doInBackground(Void... params) {
-            path = saveToInternalStorage(img);
-            results = CvUtil.processImage(path, CvUtil.getStep1Code());
-            return null;
-        }
-        @Override
-        protected void onPostExecute(Void param) {
-            progressBar.setVisibility(View.GONE);
-            dim.setVisibility(View.GONE);
-            takePic.setClickable(true);
-            if (isValid(results)) {
-                validPicture();
-            } else {
-                displayErrorPopup();
-            }
-        }
     }
 
     private void displayErrorPopup() {
@@ -293,28 +279,32 @@ public class TakePictureActivity extends AppCompatActivity {
         finish();
     }
 
-    public static void populateBundleResults(@NonNull Intent intent, @NonNull float[] results) {
-        intent.putExtra(NITRATE_KEY, results[0]);
-        intent.putExtra(NITRITE_KEY, results[1]);
-        intent.putExtra(HARDNESS_KEY, results[2]);
-        intent.putExtra(TOTAL_CHLORINE_KEY, results[3]);
-        intent.putExtra(ALKALINITY_KEY, results[4]);
-        intent.putExtra(PH_KEY, results[5]);
-    }
+    private class AsyncImageProcess extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+            dim.setVisibility(View.VISIBLE);
+            takePic.setClickable(false);
+        }
 
-    @Nullable
-    public static float[] getBundleResults(@Nullable Bundle extras) {
-        float results[] = new float[NUM_RESULTS];
-        if (extras == null) {
+        @Override
+        protected Void doInBackground(Void... params) {
+            path = saveToInternalStorage(img);
+            results = CvUtil.processImage(path, CvUtil.getStep1Code());
             return null;
         }
 
-        results[0] = extras.getFloat(NITRATE_KEY, -1.0f);
-        results[1] = extras.getFloat(NITRITE_KEY, -1.0f);
-        results[2] = extras.getFloat(HARDNESS_KEY, -1.0f);
-        results[3] = extras.getFloat(TOTAL_CHLORINE_KEY, -1.0f);
-        results[4] = extras.getFloat(ALKALINITY_KEY, -1.0f);
-        results[5] = extras.getFloat(PH_KEY, -1.0f);
-        return results;
+        @Override
+        protected void onPostExecute(Void param) {
+            progressBar.setVisibility(View.GONE);
+            dim.setVisibility(View.GONE);
+            takePic.setClickable(true);
+            if (isValid(results)) {
+                validPicture();
+            } else {
+                displayErrorPopup();
+            }
+        }
     }
 }

@@ -1,40 +1,30 @@
 package insights.water.waterinsightsv005;
 
 import android.content.Intent;
-import android.os.CountDownTimer;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 public class DataCollectionActivity extends AppCompatActivity {
 
-    private static final boolean debug = true;
-
-    public static final String STEP_KEY = "STEP_KEY";
-    public static final String RESULTS_KEY = "RESULT_KEY";
     public static final int NUM_RESULTS = 8;
-
-    private static final int S6_TIME = 30;
-
+    private static final String COUNTER_BUNDLE_KEY = "countBundleKey";
+    private static final String IS_RUNNING_BUNDLE_KEY = "isRunningBundleKey";
+    private static final String END_TIME_KEY = "endTimeKey";
+    private static final boolean debug = false;
+    private static final int S6_TIME = 60;
+    public int counter = 0;
     private TextView timerText;
     private AppCompatButton startTimerButton;
     private TextView instructionText;
+    private boolean isRunning;
 
-    public int counter = 0;
-    private boolean isStart = true;
-    private float[] results;
-    /*
-     *  Results order:
-     *  0: Nitrate
-     *  1: Nitrite
-     *  2: Total Hardness
-     *  3: Total Chlorine
-     *  4: Total Alkalinity
-     *  5: PH
-     */
-
+    @Nullable
     private CountDownTimer timer = null;
 
     @Override
@@ -46,8 +36,12 @@ public class DataCollectionActivity extends AppCompatActivity {
         timerText = findViewById(R.id.timer_view);
         instructionText = findViewById(R.id.instruction_body_text);
 
-        // TODO: Localize
-        timerText.setText("1:00");
+        if (savedInstanceState == null) {
+            counter = S6_TIME;
+            isRunning = false;
+        }
+
+        setTimeTextView();
         instructionText.setText(R.string.step1_instructions);
 
         startTimerButton.setOnClickListener(new View.OnClickListener() {
@@ -58,51 +52,81 @@ public class DataCollectionActivity extends AppCompatActivity {
         });
     }
 
-    private void startTimerClicked() {
-        if (isStart) {
-            isStart = false;
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(COUNTER_BUNDLE_KEY, counter);
+        outState.putLong(END_TIME_KEY, System.currentTimeMillis());
+        outState.putBoolean(IS_RUNNING_BUNDLE_KEY, isRunning);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        counter = savedInstanceState.getInt(COUNTER_BUNDLE_KEY);
+        isRunning = savedInstanceState.getBoolean(IS_RUNNING_BUNDLE_KEY);
+        long endTime = savedInstanceState.getLong(END_TIME_KEY);
+        if (isRunning) {
             startTimerButton.setText(getString(R.string.reset_timer_string));
+            counter -= (int) ((System.currentTimeMillis() - endTime) / 1000);
+            if (counter <= 0) {
+                timerFinished();
+            } else {
+                setTimer(counter);
+            }
         }
+    }
 
-        if (debug) {
-            setTimer(2);
+    private void startTimerClicked() {
+        if (!isRunning) {
+            isRunning = true;
+            startTimerButton.setText(getString(R.string.reset_timer_string));
         } else {
-            setTimer(S6_TIME);
+            counter = S6_TIME;
         }
 
-        isStart = false;
+        setTimer(counter);
+        isRunning = true;
     }
 
     private void setTimer(int seconds) {
         counter = seconds;
-        if (timer == null) {
-            timer = new CountDownTimer(seconds * 1000,1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    String time;
-                    time = String.valueOf(counter / 60);
-                    time += ":";
-                    if (counter % 60 < 10) {
-                        time += "0";
-                    }
-                    time += String.valueOf(counter % 60);
-                    timerText.setText(time);
-                    counter--;
-                }
-                @Override
-                public void onFinish() {
-                    timerText.setText(getString(R.string.finished_string));
-                    timerFinished();
-                }
-            }.start();
-        } else {
+        if (timer != null) {
             timer.cancel();
-            timer.start();
+            timer = null;
         }
+
+        timer = new CountDownTimer(seconds * 1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                setTimeTextView();
+                counter--;
+            }
+
+            @Override
+            public void onFinish() {
+                timerText.setText(getString(R.string.finished_string));
+                timerFinished();
+            }
+        }.start();
+    }
+
+    private void setTimeTextView() {
+        String time;
+        time = String.valueOf(counter / 60);
+        time += ":";
+        if (counter % 60 < 10) {
+            time += "0";
+        }
+        time += String.valueOf(counter % 60);
+        timerText.setText(time);
     }
 
     private void timerFinished() {
         Intent intent = new Intent(this, TakePictureActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }

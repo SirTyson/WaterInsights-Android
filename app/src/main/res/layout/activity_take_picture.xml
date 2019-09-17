@@ -11,51 +11,52 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/colorPrimaryDark"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/progress_text_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/progress_text_view"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/progress_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:padding="30dp"
-        android:gravity="center_horizontal"
-        android:textColor="@color/offWhiteTitle"
         android:fontFamily="@font/open_sans_semibold"
-        app:layout_constraintStart_toStartOf="parent"
+        android:gravity="center_horizontal"
+        android:padding="30dp"
+        android:text="@string/take_a_picture_string"
+        android:textColor="@color/offWhiteTitle"
+        android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/instruction_title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/instruction_title"
-        android:textSize="20sp"
-        android:textColor="@color/colorPrimaryDark"
-        android:fontFamily="@font/roboto_bold"
-        android:layout_marginLeft="20dp"
         android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/progress_text_view"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:fontFamily="@font/roboto_bold"
+        android:text="@string/instruction_title"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progress_text_view" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/instruction_body_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/step1_pic_instructions"
-        android:textSize="18sp"
-        android:textColor="@color/textBoxLightGrey"
-        android:fontFamily="@font/roboto"
-        android:layout_marginRight="20dp"
         android:layout_marginEnd="20dp"
-        app:layout_constraintTop_toBottomOf="@id/instruction_title_text"
+        android:layout_marginRight="20dp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/step1_pic_instructions"
+        android:textColor="@color/textBoxLightGrey"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/instruction_title_text"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/instruction_title_text" />
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/current_image_view"
@@ -66,10 +67,10 @@
         android:layout_marginEnd="50dp"
         android:layout_marginRight="50dp"
         android:src="@drawable/card_5_param_strip"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/take_picture_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/instruction_body_text"
-        app:layout_constraintBottom_toTopOf="@id/take_picture_button"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/instruction_body_text" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/upload_gallery_button"
@@ -78,6 +79,7 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/scistarter_button_border"
         android:fontFamily="@font/open_sans_semibold"
+        android:stateListAnimator="@null"
         android:text="@string/upload_picture_string"
         android:textAllCaps="false"
         android:textColor="@color/offWhiteTitle"
@@ -90,18 +92,18 @@
         android:id="@+id/take_picture_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/guest_button_border"
-        android:fontFamily="@font/open_sans_semibold"
-        android:text="@string/take_picture_string"
-        android:textAllCaps="false"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="16sp"
         android:layout_marginStart="80dp"
         android:layout_marginLeft="80dp"
         android:layout_marginEnd="80dp"
         android:layout_marginRight="80dp"
         android:layout_marginBottom="20dp"
+        android:background="@drawable/guest_button_border"
+        android:fontFamily="@font/open_sans_semibold"
         android:stateListAnimator="@null"
+        android:text="@string/take_picture_string"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -111,40 +113,40 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#C0000000"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/image_progress_bar_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/popup_instruction_background"
-        app:layout_constraintTop_toTopOf="parent"
         android:padding="20dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/picture_loading_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/picture_loading_string"
             android:textColor="@color/offWhiteTitle"
             android:textSize="24sp"
-            android:text="@string/picture_loading_string"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:indeterminate="true"
             android:layout_marginTop="20dp"
-            app:layout_constraintTop_toBottomOf="@id/picture_loading_text"
-            app:layout_constraintStart_toStartOf="parent"
+            android:indeterminate="true"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/picture_loading_text" />
 
     </android.support.constraint.ConstraintLayout>
 
