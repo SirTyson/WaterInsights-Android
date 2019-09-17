@@ -35,7 +35,7 @@ static bool doesRectangleContainPoint(const cv::RotatedRect& rectangle, const cv
 static void print(const cv::Vec3d& v);
 static void drawRotatedRect(cv::Mat src, const cv::RotatedRect& rect);
 
-std::vector<float> processImageFromFile(const std::string& file, int OP_CODE)
+std::vector<float> processImageFromFile(const std::string& file)
 {
 	//__android_log_print(ANDROID_LOG_ERROR, "OpenCV", "Processing Image");
 	cv::Mat src = cv::imread(file);
@@ -43,7 +43,7 @@ std::vector<float> processImageFromFile(const std::string& file, int OP_CODE)
 	double ratio = src.size().height / 600.0;
 	cv::resize(src, src, cv::Size(src.size().width / ratio, 600));
 
-	return processImage(src, OP_CODE);
+	return processImage(src, CODE_6_STRIP);
 }
 
 cv::RotatedRect getTarget(const cv::Mat srcImage, bool debug)
@@ -66,11 +66,10 @@ cv::RotatedRect getTarget(const cv::Mat srcImage, bool debug)
 
 		std::vector<std::vector<cv::Point>> contours;
 		cv::Mat img(edges.size(), edges.type(), cv::Scalar(0));
-
 		std::vector<cv::RotatedRect> foundRects;
-
 		static const double rectFF = TARGET_RECT_FUDGE_FACTOR;
 		findContours(edges, contours, cv::RETR_CCOMP, cv::CHAIN_APPROX_NONE);
+
 		for (size_t i = 0; i < contours.size(); i++)
 		{
 			cv::Scalar color = cv::Scalar(255, 105, 180);
@@ -102,6 +101,7 @@ cv::RotatedRect getTarget(const cv::Mat srcImage, bool debug)
 			return *smallest;
 		}
 	}
+
 	return cv::RotatedRect(
 		cv::Point2f(0, 0),
 		cv::Point2f(0, 0),
@@ -111,10 +111,8 @@ cv::RotatedRect getTarget(const cv::Mat srcImage, bool debug)
 std::pair<std::vector<cv::RotatedRect>, cv::RotatedRect> getReferenceSquares(const cv::Mat srcImage, const cv::RotatedRect& target, bool debug)
 {
 	std::vector<cv::RotatedRect> referenceSquares;
-
 	cv::RotatedRect region = getReferenceRegion(srcImage, target);
-
-	if (isNullSquare(region)) 
+	if (isNullSquare(region))
 		return std::make_pair(referenceSquares, cv::RotatedRect( cv::Point2f(0,0), cv::Point2f(0, 0), cv::Point2f(0, 0)));
 
 	cv::Point2f vrts[4];
@@ -138,6 +136,7 @@ std::pair<std::vector<cv::RotatedRect>, cv::RotatedRect> getReferenceSquares(con
 				leastIndex = j;
 			}
 		}
+
 		refPoints[i] = vertices[leastIndex];
 		vertices.erase(vertices.begin() + leastIndex);
 	}
@@ -147,14 +146,16 @@ std::pair<std::vector<cv::RotatedRect>, cv::RotatedRect> getReferenceSquares(con
 
 	/* Determine orientation of reference region */
 	cv::Point2f left, right;
+	bool isHorizontal;
 	if (abs(refPoints[0].x - refPoints[1].x) > abs(refPoints[0].y - refPoints[1].y))
 	{
-		if (refPoints[0].x < refPoints[1].x) 
+		isHorizontal = false;
+		if (refPoints[0].x < refPoints[1].x)
 		{
 			left = refPoints[0];
 			right = refPoints[1];
 		}
-		else 
+		else
 		{
 			left = refPoints[1];
 			right = refPoints[0];
@@ -162,14 +163,16 @@ std::pair<std::vector<cv::RotatedRect>, cv::RotatedRect> getReferenceSquares(con
 	}
 	else
 	{
+		isHorizontal = true;
 		left = refPoints[0];
 		right = refPoints[1];
 	}
 
+	int direction = isHorizontal ? 1 : left.y > region.center.y ? 1 : -1;
 	static const float SQUARE_SIZE = getRelativeVecLength(target, REF_SQUARE_SIZE);
 	for (size_t i = 0; i < NUM_ALKALINITY_REFERENCES; i++)
 	{
-		cv::Point2f center = getOrthogonalEndpoint(left, right, REF_REGION_OFFSET + ((lengthSquare / 2) + lengthSquare * i));
+		cv::Point2f center = getOrthogonalEndpoint(left, right, direction * (getRelativeVecLength(target, REF_REGION_OFFSET) + ((lengthSquare / 2) + lengthSquare * i)));
 		cv::RotatedRect rect(center, cv::Size(SQUARE_SIZE, SQUARE_SIZE), region.angle);
 		referenceSquares.push_back(rect);
 	}
@@ -177,7 +180,7 @@ std::pair<std::vector<cv::RotatedRect>, cv::RotatedRect> getReferenceSquares(con
 	return std::make_pair(referenceSquares, region);
 }
 
-std::vector<cv::RotatedRect> getSampleSquare(const cv::Mat srcImage, const cv::RotatedRect& target, const cv::RotatedRect& ref, const int& OP_CODE, bool debug)
+std::vector<cv::RotatedRect> getSampleSquares(const cv::Mat srcImage, const cv::RotatedRect& target, const cv::RotatedRect& ref, const int& OP_CODE, bool debug)
 {
 	std::vector<cv::RotatedRect> samples;
 
@@ -193,10 +196,9 @@ std::vector<cv::RotatedRect> getSampleSquare(const cv::Mat srcImage, const cv::R
 		ROI_WIDTH = getRelativeVecLength(target, SAMPLE_ROI_HEIGHT);
 		ROI_HEIGHT = getRelativeVecLength(target, SAMPLE_ROI_WIDTH);
 	}
+
 	cv::Point2f searchRegionMidpoint = getOrthogonalEndpoint(target.center, ref.center, getRelativeVecLength(target, -SAMPLE_REGION_DIST));
-
 	cv::RotatedRect ROI(searchRegionMidpoint, cv::Size(ROI_WIDTH, ROI_HEIGHT), ref.angle);
-
 	cv::Point2f vertices[4];
 	ROI.points(vertices);
 
@@ -254,14 +256,13 @@ std::vector<cv::RotatedRect> getSampleSquare(const cv::Mat srcImage, const cv::R
 				merged.push_back(pt);
 		}
 	}
+
 	if (merged.size() == 0)
 		return samples;
-	
-	cv::RotatedRect testStrip = cv::minAreaRect(merged);
 
+	cv::RotatedRect testStrip = cv::minAreaRect(merged);
 	cv::Point2f points[4];
 	testStrip.points(points);
-
 	std::vector<cv::Point2f> vrt;
 	for (const auto& point : points)
 		vrt.push_back(point);
@@ -295,74 +296,54 @@ std::vector<cv::RotatedRect> getSampleSquare(const cv::Mat srcImage, const cv::R
 		testWidth = testStrip.size.width;
 		testHeight = testStrip.size.height;
 	}
-	float targetHeight = target.size.width < target.size.height ? target.size.height : target.size.width;
 
+	float targetHeight = target.size.width < target.size.height ? target.size.height : target.size.width;
 	if (debug)
 	{
 		std::cout << "Target-Strip Ratio: " << testHeight / targetHeight << std::endl;
 		drawRotatedRect(srcImage, testStrip);
 	}
 
-	static const float SQUARE_SIZE = getRelativeArea(target, REF_SQUARE_SIZE);
+	static const float SQUARE_SIZE = getRelativeVecLength(target, REF_SQUARE_SIZE);
 
 	/* Correct if entire test strip is detected instead of just lower region */
 	if (debug) std::cout << "Test Strip Size Ratio: " << testWidth / testHeight << std::endl << std::endl;
 
 	switch (OP_CODE)
 	{
-	case CODE_STRIP_3:
+	case CODE_6_STRIP:
 	{
-		double sampleLength = testHeight / targetHeight > SAMPLE_STRIP_CORRECTION_RATIO ? getRelativeVecLength(target, SAMPLE_TEST_STRIP_CORRECTION) : 0;
-		int dist = SAMPLE_DIST_NITRITE;
-		sampleLength += getRelativeVecLength(target, SAMPLE_DIST_NITRITE);
-		cv::Point2f center = getOrthogonalEndpoint(refPoints[0], refPoints[1], sampleLength);
-		samples.push_back(cv::RotatedRect(center, cv::Size(SQUARE_SIZE, SQUARE_SIZE), testStrip.angle));
-		break;
-	}
-
-	case CODE_STRIP_4:
-	{
-		double sampleLength = testHeight / targetHeight > SAMPLE_STRIP_CORRECTION_RATIO ? getRelativeVecLength(target, SAMPLE_TEST_STRIP_CORRECTION) : 0;
-		int dist = SAMPLE_DIST_NITRATE;
-		sampleLength += getRelativeVecLength(target, SAMPLE_DIST_NITRATE);
-		cv::Point2f center = getOrthogonalEndpoint(refPoints[0], refPoints[1], sampleLength);
-		samples.push_back(cv::RotatedRect(center, cv::Size(SQUARE_SIZE, SQUARE_SIZE), testStrip.angle));
-		break;
-	}
-
-	case CODE_STRIP_5:
-	{
-		double sampleLength = testHeight / targetHeight > SAMPLE_STRIP_CORRECTION_RATIO ? getRelativeVecLength(target, SAMPLE_TEST_STRIP_CORRECTION) : 0;
-		sampleLength += getRelativeVecLength(target, SAMPLE_DIST_COPPER);
-		cv::Point2f center = getOrthogonalEndpoint(refPoints[0], refPoints[1], sampleLength);
-		samples.push_back(cv::RotatedRect(center, cv::Size(SQUARE_SIZE, SQUARE_SIZE), testStrip.angle));
-		break;
-	}
-
-	case CODE_STRIP_1:
-	{
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < NUM_SAMPLES_6_STRIP; i++)
 		{
 			double sampleLength = testHeight / targetHeight > SAMPLE_STRIP_CORRECTION_RATIO ? getRelativeVecLength(target, SAMPLE_TEST_STRIP_1_CORRECTION) : 0;
-			float length;
-			if (i == 0) length = SAMPLE_DIST_TOTAL_HARDNESS;
-			else if (i == 1) length = SAMPLE_DIST_ALKALINITY;
-			else if (i == 2) length = SAMPLE_DIST_PH;
-			sampleLength += getRelativeVecLength(target, length);
-			cv::Point2f center = getOrthogonalEndpoint(refPoints[0], refPoints[1], sampleLength);
-			samples.push_back(cv::RotatedRect(center, cv::Size(SQUARE_SIZE, SQUARE_SIZE), testStrip.angle));
-		}
-		break;
-	}
+			double length;
+			switch (i)
+			{
+			case 0:
+				length = SAMPLE_6S_NITRATE;
+				break;
 
-	case CODE_STRIP_2:
-	{
-		for (int i = 0; i < 2; i++)
-		{
-			double sampleLength = testHeight / targetHeight > SAMPLE_STRIP_CORRECTION_RATIO ? getRelativeVecLength(target, SAMPLE_TEST_STRIP_CORRECTION) : 0;
-			float length;
-			if (i == 0) length = SAMPLE_DIST_TOTAL_CHLORINE;
-			else if (i == 1) length = SAMPLE_DIST_FREE_CHLORINE;
+			case 1:
+				length = SAMPLE_6S_NITRITE;
+				break;
+
+			case 2:
+				length = SAMPLE_6S_T_HARDNESS;
+				break;
+
+			case 3:
+				length = SAMPLE_6S_T_CHLORINE;
+				break;
+
+			case 4:
+				length = SAMPLE_6S_T_ALKALINITY;
+				break;
+
+			case 5:
+				length = SAMPLE_6S_PH;
+				break;
+			}
+
 			sampleLength += getRelativeVecLength(target, length);
 			cv::Point2f center = getOrthogonalEndpoint(refPoints[0], refPoints[1], sampleLength);
 			samples.push_back(cv::RotatedRect(center, cv::Size(SQUARE_SIZE, SQUARE_SIZE), testStrip.angle));
@@ -405,10 +386,10 @@ std::vector<float> processImage(const cv::Mat src, int OP_CODE, bool debug)
 	/* Get sample and return on error */
 	if (debug) std::cout << "\n########## SAMPLE ##########\n" << std::endl;
 
-	std::vector<cv::RotatedRect> samples = getSampleSquare(src, target, referenceRegion, OP_CODE, debug);
+	std::vector<cv::RotatedRect> samples = getSampleSquares(src, target, referenceRegion, OP_CODE, debug);
 	if (samples.size() == 0)
 	{
-		std::cout << "ERROR: could not find sample" << std::endl;
+		std::cout << "ERROR: could not find samples" << std::endl;
 		return values;
 	}
 
@@ -421,115 +402,51 @@ std::vector<float> processImage(const cv::Mat src, int OP_CODE, bool debug)
 	{
 		std::cout << "Reference Colors Raw:" << std::endl;
 		for (auto color : refColors)
-			std::cout << "H: " << color[0] << " S: " << color[1] << " V: " << color[2] << std::endl;
+			print(color);
+
 		std::cout << std::endl;
 	}
 
 	switch (OP_CODE)
 	{
-	case CODE_STRIP_3:
+	case CODE_6_STRIP:
 	{
-		cv::Vec3d sampleColor = getDominantColor(src, samples[0]);
-		if (debug)
-		{
-			std::cout << "## NITRITE ##\n" << std::endl;
-			std::cout << "Sample Color Normal: " << std::endl;
-			cv::Vec3d normal = sampleColor;
-			normalizeColors(refColors, normal);
-			print(normal);
-			std::cout << std::endl << std::endl;
-		}
-
-		size_t sampleIndex = getClosestColorIndex(refColors, sampleColor, CODE_NITRITE, debug);
-		values.push_back(indexToValue(sampleIndex, CODE_NITRITE));
-		break;
-	}
-
-	case CODE_STRIP_4:
-	{
-		cv::Vec3d sampleColor = getDominantColor(src, samples[0]);
-		if (debug)
-		{
-			std::cout << "## NITRATE ##\n" << std::endl;
-			std::cout << "Sample Color Normal: " << std::endl;
-			cv::Vec3d normal = sampleColor;
-			normalizeColors(refColors, normal);
-			print(normal);
-			std::cout << std::endl << std::endl;
-		}
-
-		size_t sampleIndex = getClosestColorIndex(refColors, sampleColor, CODE_NITRATE, debug);
-		values.push_back(indexToValue(sampleIndex, CODE_NITRATE));
-		break;
-	}
-
-	case CODE_STRIP_5:
-	{
-		cv::Vec3d sampleColor = getDominantColor(src, samples[0]);
-		if (debug)
-		{
-			std::cout << "## COPPER ##\n" << std::endl;
-			std::cout << "Sample Color Normal: " << std::endl;
-			cv::Vec3d normal = sampleColor;
-			normalizeColors(refColors, normal);
-			print(normal);
-			std::cout << std::endl << std::endl;
-		}
-		size_t sampleIndex = getClosestColorIndex(refColors, sampleColor, CODE_COPPER, debug);
-		values.push_back(indexToValue(sampleIndex, CODE_COPPER));
-		break;
-	}
-
-	case CODE_STRIP_1:
-	{
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < NUM_SAMPLES_6_STRIP; i++)
 		{
 			int code;
-			if (i == 0)
+			switch (i)
 			{
-				code = CODE_TOTAL_HARDNESS;
+			case CODE_S6_NITRATE_INDEX:
+				code = CODE_S6_NITRATE;
+				if (debug) std::cout << "## NITRATE ##\n" << std::endl;
+				break;
+
+			case CODE_S6_NITRITE_INDEX:
+				code = CODE_S6_NITRITE;
+				if (debug) std::cout << "## NITRITE ##\n" << std::endl;
+				break;
+
+			case CODE_S6_T_HARDNESS_INDEX:
+				code = CODE_S6_T_HARDNESS;
 				if (debug) std::cout << "## TOTAL HARDNESS ##\n" << std::endl;
-			}
-			else if (i == 1)
-			{
-				code = CODE_ALKALINITY;
-				if (debug) std::cout << "## ALKALINITY ##\n" << std::endl;
-			}
-			else if (i == 2)
-			{
-				code = CODE_PH;
-				if (debug) std::cout << "## PH ##\n" << std::endl;
-			}
-			cv::Vec3d sampleColor = getDominantColor(src, samples[i]);
-			if (debug)
-			{
-				std::cout << "Sample Color Normal: " << std::endl;
-				cv::Vec3d normal = sampleColor;
-				normalizeColors(refColors, normal);
-				print(normal);
-				std::cout << std::endl << std::endl;
-			}
-			size_t sampleIndex = getClosestColorIndex(refColors, sampleColor, code, debug);
-			values.push_back(indexToValue(sampleIndex, code));
-		}
-		break;
-	}
+				break;
 
-	case CODE_STRIP_2:
-	{
-		for (int i = 0; i < 2; i++)
-		{
-			int code;
-			if (i == 0)
-			{
-				code = CODE_TOTAL_CHLORINE;
+			case CODE_S6_T_CHLORINE_INDEX:
+				code = CODE_S6_T_CHLORINE;
 				if (debug) std::cout << "## TOTAL CHLORINE ##\n" << std::endl;
+				break;
+
+			case CODE_S6_T_ALKALINITY_INDEX:
+				code = CODE_S6_T_ALKALINITY;
+				if (debug) std::cout << "## TOTAL ALKALINITY ##\n" << std::endl;
+				break;
+
+			case CODE_S6_PH_INDEX:
+				code = CODE_S6_PH;
+				if (debug) std::cout << "## PH ##\n" << std::endl;
+				break;
 			}
-			else if (i == 1)
-			{
-				code = CODE_FREE_CHLORINE;
-				if (debug) std::cout << "## FREE CHLORINE ##\n" << std::endl;
-			}
+
 			cv::Vec3d sampleColor = getDominantColor(src, samples[i]);
 			if (debug)
 			{
@@ -539,23 +456,25 @@ std::vector<float> processImage(const cv::Mat src, int OP_CODE, bool debug)
 				print(normal);
 				std::cout << std::endl << std::endl;
 			}
+
 			size_t sampleIndex = getClosestColorIndex(refColors, sampleColor, code, debug);
 			values.push_back(indexToValue(sampleIndex, code));
 		}
-		break;
 
+		break;
 	}
 
 	default:
-		std::cout << "ERROR: INVALID OP CODE" << std::endl;
+		std::cout << "ERROR: INVALID STRIP OP CODE" << std::endl;
 		break;
 	}
-	
-	if (debug) 
+
+	if (debug)
 	{
 		drawRotatedRect(src, target);
 		for (auto& rect : references) drawRotatedRect(src, rect);
 		for (auto& rect : samples) drawRotatedRect(src, rect);
+
 	}
 
 	return values;
@@ -565,25 +484,25 @@ static float indexToValue(int index, int OP_CODE)
 {
 	switch (OP_CODE)
 	{
-	case CODE_NITRITE:
+	case CODE_S6_NITRATE:
 		switch (index) {
 		case 0:
-			return NITRITE_0;
+			return S6_NITRATE_0;
 			break;
 		case 1:
-			return NITRITE_1;
+			return S6_NITRATE_1;
 			break;
 		case 2:
-			return NITRITE_2;
+			return S6_NITRATE_2;
 			break;
 		case 3:
-			return NITRITE_3;
+			return S6_NITRATE_3;
 			break;
 		case 4:
-			return NITRITE_4;
+			return S6_NITRATE_4;
 			break;
 		case 5:
-			return NITRITE_5;
+			return S6_NITRATE_5;
 			break;
 		default:
 			return -1;
@@ -591,28 +510,25 @@ static float indexToValue(int index, int OP_CODE)
 		}
 		break;
 
-	case CODE_NITRATE:
+	case CODE_S6_NITRITE:
 		switch (index) {
 		case 0:
-			return NITRATE_0;
+			return S6_NITRITE_0;
 			break;
 		case 1:
-			return NITRATE_1;
+			return S6_NITRITE_1;
 			break;
 		case 2:
-			return NITRATE_2;
+			return S6_NITRITE_2;
 			break;
 		case 3:
-			return NITRATE_3;
+			return S6_NITRITE_3;
 			break;
 		case 4:
-			return NITRATE_4;
+			return S6_NITRITE_4;
 			break;
 		case 5:
-			return NITRATE_5;
-			break;
-		case 6:
-			return NITRATE_6;
+			return S6_NITRITE_5;
 			break;
 		default:
 			return -1;
@@ -620,45 +536,48 @@ static float indexToValue(int index, int OP_CODE)
 		}
 		break;
 
-	case CODE_COPPER:
+	case CODE_S6_T_HARDNESS:
 		switch (index) {
 		case 0:
-			return COPPER_0;
+			return S6_T_HARDNESS_0;
 			break;
 		case 1:
-			return COPPER_1;
+			return S6_T_HARDNESS_1;
 			break;
 		case 2:
-			return COPPER_2;
+			return S6_T_HARDNESS_2;
 			break;
 		case 3:
-			return COPPER_3;
-			break;
-		default:
-			return -1;
-			break;
-		}
-		break;
-
-	case CODE_ALKALINITY:
-		switch (index) {
-		case 0:
-			return ALKALINITY_0;
-			break;
-		case 1:
-			return ALKALINITY_1;
-			break;
-		case 2:
-			return ALKALINITY_2;
-			break;
-		case 3:
-			return ALKALINITY_3;
+			return S6_T_HARDNESS_3;
 			break;
 		case 4:
-			return ALKALINITY_4;
+			return S6_T_HARDNESS_4;
+			break;
+		default:
+			return -1;
+			break;
+		}
+		break;
+
+	case CODE_S6_T_CHLORINE:
+		switch (index) {
+		case 0:
+			return S6_T_CHLORINE_0;
+			break;
+		case 1:
+			return S6_T_CHLORINE_1;
+			break;
+		case 2:
+			return S6_T_CHLORINE_2;
+			break;
+		case 3:
+			return S6_T_CHLORINE_3;
+			break;
+		case 4:
+			return S6_T_CHLORINE_4;
 			break;
 		case 5:
-			return ALKALINITY_5;
+			return S6_T_CHLORINE_5;
 			break;
 		default:
 			return -1;
@@ -666,25 +585,25 @@ static float indexToValue(int index, int OP_CODE)
 		}
 		break;
 
-	case CODE_TOTAL_CHLORINE:
+	case CODE_S6_T_ALKALINITY:
 		switch (index) {
 		case 0:
-			return TOTAL_CHLORINE_0;
+			return S6_T_ALKALINITY_0;
 			break;
 		case 1:
-			return TOTAL_CHLORINE_1;
+			return S6_T_ALKALINITY_1;
 			break;
 		case 2:
-			return TOTAL_CHLORINE_2;
+			return S6_T_ALKALINITY_2;
 			break;
 		case 3:
-			return TOTAL_CHLORINE_3;
+			return S6_T_ALKALINITY_3;
 			break;
 		case 4:
-			return TOTAL_CHLORINE_4;
+			return S6_T_ALKALINITY_4;
 			break;
 		case 5:
-			return TOTAL_CHLORINE_5;
+			return S6_T_ALKALINITY_5;
 			break;
 		default:
 			return -1;
@@ -692,74 +611,22 @@ static float indexToValue(int index, int OP_CODE)
 		}
 		break;
 
-	case CODE_FREE_CHLORINE:
+	case CODE_S6_PH:
 		switch (index) {
 		case 0:
-			return FREE_CHLORINE_0;
+			return S6_PH_0;
 			break;
 		case 1:
-			return FREE_CHLORINE_1;
+			return S6_PH_1;
 			break;
 		case 2:
-			return FREE_CHLORINE_2;
+			return S6_PH_2;
 			break;
 		case 3:
-			return FREE_CHLORINE_3;
+			return S6_PH_3;
 			break;
 		case 4:
-			return FREE_CHLORINE_4;
-			break;
-		case 5:
-			return FREE_CHLORINE_5;
-			break;
-		default:
-			return -1;
-			break;
-		}
-		break;
-
-	case CODE_TOTAL_HARDNESS:
-		switch (index) {
-		case 0:
-			return TOTAL_HARDNESS_0;
-			break;
-		case 1:
-			return TOTAL_HARDNESS_1;
-			break;
-		case 2:
-			return TOTAL_HARDNESS_2;
-			break;
-		case 3:
-			return TOTAL_HARDNESS_3;
-			break;
-		case 4:
-			return TOTAL_HARDNESS_4;
-			break;
-		case 5:
-			return TOTAL_HARDNESS_5;
-			break;
-		default:
-			return -1;
-			break;
-		}
-		break;
-
-	case CODE_PH:
-		switch (index) {
-		case 0:
-			return PH_0;
-			break;
-		case 1:
-			return PH_1;
-			break;
-		case 2:
-			return PH_2;
-			break;
-		case 3:
-			return PH_3;
-			break;
-		case 4:
-			return PH_4;
+			return S6_PH_4;
 			break;
 		default:
 			return -1;
@@ -768,7 +635,7 @@ static float indexToValue(int index, int OP_CODE)
 		break;
 
 	default:
-		std::cout << "ERROR: INVALID OP CODE" << std::endl;
+		std::cout << "ERROR: INVALID CHEMICAL INDEX OP CODE" << std::endl;
 		return -1;
 	}
 }
@@ -854,6 +721,7 @@ static cv::RotatedRect getReferenceRegion(const cv::Mat srcImage, const cv::Rota
 				width = rect.size.height;
 				height = rect.size.width;
 			}
+
 			if (rect.size.area() > MIN_AREA &&
 				rect.size.area() < MAX_AREA &&
 				REF_REGION_RATIO_MIN < abs(width / height) &&
@@ -917,7 +785,7 @@ static void RGBtoHSV(double& fR, double& fG, double fB, double& fH, double& fS, 
 	double fCMin = std::min(std::min(fR, fG), fB);
 	double fDelta = fCMax - fCMin;
 
-	if (fDelta > 0) 
+	if (fDelta > 0)
 	{
 		if (fCMax == fR)
 			fH = 60 * (fmod(((fG - fB) / fDelta), 6));
@@ -943,13 +811,12 @@ static void RGBtoHSV(double& fR, double& fG, double fB, double& fH, double& fS, 
 		fV = fCMax;
 	}
 
-	if (fH < 0)
-		fH = 360 + fH;
+	if (fH < 0) fH = 360 + fH;
 }
 
 static void print(const cv::Vec3d& v)
 {
-	std::cout << "H: " << v.val[0] << " S: " << v.val[1] << " V: " << v.val[2];
+	std::cout << "(" << v[0] << ", " << v[1] << ", " << v[2] << ")" << std::endl;
 }
 
 static size_t getClosestColorIndex(std::vector<cv::Vec3d>& ref, cv::Vec3d& target, int OP_CODE, bool debug)
@@ -960,86 +827,66 @@ static size_t getClosestColorIndex(std::vector<cv::Vec3d>& ref, cv::Vec3d& targe
 	float MAX_DISTANCE = 10.0;
 	switch (OP_CODE)
 	{
-	case CODE_NITRITE:
-		MAX_DISTANCE = NITRITE_MAX_DISTANCE;
-		normalizedRef.push_back(NITRITE_0_COLOR);
-		normalizedRef.push_back(NITRITE_015_COLOR);
-		normalizedRef.push_back(NITRITE_03_COLOR);
-		normalizedRef.push_back(NITRITE_1_COLOR);
-		normalizedRef.push_back(NITRITE_15_COLOR);
-		normalizedRef.push_back(NITRITE_3_COLOR);
+	case CODE_S6_NITRATE:
+		MAX_DISTANCE = S6_NITRATE_MAX_DISTANCE;
+		normalizedRef.push_back(S6_NITRATE_0_COLOR);
+		normalizedRef.push_back(S6_NITRATE_20_COLOR);
+		normalizedRef.push_back(S6_NITRATE_40_COLOR);
+		normalizedRef.push_back(S6_NITRATE_80_COLOR);
+		normalizedRef.push_back(S6_NITRATE_160_COLOR);
+		normalizedRef.push_back(S6_NITRATE_200_COLOR);
 		break;
 
-	case CODE_NITRATE:
-		MAX_DISTANCE = NITRITE_MAX_DISTANCE;
-		normalizedRef.push_back(NITRATE_0_COLOR);
-		normalizedRef.push_back(NITRATE_1_COLOR);
-		normalizedRef.push_back(NITRATE_2_COLOR);
-		normalizedRef.push_back(NITRATE_5_COLOR);
-		normalizedRef.push_back(NITRATE_10_COLOR);
-		normalizedRef.push_back(NITRATE_20_COLOR);
-		normalizedRef.push_back(NITRATE_50_COLOR);
+	case CODE_S6_NITRITE:
+		MAX_DISTANCE = S6_NITRITE_MAX_DISTANCE;
+		normalizedRef.push_back(S6_NITRITE_0_COLOR);
+		normalizedRef.push_back(S6_NITRITE_05_COLOR);
+		normalizedRef.push_back(S6_NITRITE_10_COLOR);
+		normalizedRef.push_back(S6_NITRITE_30_COLOR);
+		normalizedRef.push_back(S6_NITRITE_50_COLOR);
+		normalizedRef.push_back(S6_NITRITE_100_COLOR);
 		break;
 
-	case CODE_COPPER:
-		MAX_DISTANCE = COPPER_MAX_DISTANCE;
-		normalizedRef.push_back(COPPER_0_COLOR);
-		normalizedRef.push_back(COPPER_02_COLOR);
-		normalizedRef.push_back(COPPER_05_COLOR);
-		normalizedRef.push_back(COPPER_1_COLOR);
+	case CODE_S6_T_HARDNESS:
+		MAX_DISTANCE = S6_T_HARDNESS_MAX_DISTANCE;
+		normalizedRef.push_back(S6_T_HARDNESS_0_COLOR);
+		normalizedRef.push_back(S6_T_HARDNESS_25_COLOR);
+		normalizedRef.push_back(S6_T_HARDNESS_75_COLOR);
+		normalizedRef.push_back(S6_T_HARDNESS_150_COLOR);
+		normalizedRef.push_back(S6_T_HARDNESS_300_COLOR);
 		break;
 
-	case CODE_ALKALINITY:
-		MAX_DISTANCE = ALKALINITY_MAX_DISTANCE;
-		normalizedRef.push_back(ALKALINITY_0_COLOR);
-		normalizedRef.push_back(ALKALINITY_1_COLOR);
-		normalizedRef.push_back(ALKALINITY_2_COLOR);
-		normalizedRef.push_back(ALKALINITY_3_COLOR);
-		normalizedRef.push_back(ALKALINITY_4_COLOR);
-		normalizedRef.push_back(ALKALINITY_5_COLOR);
+	case CODE_S6_T_CHLORINE:
+		MAX_DISTANCE = S6_T_CHLORINE_MAX_DISTANCE;
+		normalizedRef.push_back(S6_T_CHLORINE_0_COLOR);
+		normalizedRef.push_back(S6_T_CHLORINE_05_COLOR);
+		normalizedRef.push_back(S6_T_CHLORINE_10_COLOR);
+		normalizedRef.push_back(S6_T_CHLORINE_20_COLOR);
+		normalizedRef.push_back(S6_T_CHLORINE_40_COLOR);
+		normalizedRef.push_back(S6_T_CHLORINE_60_COLOR);
 		break;
 
-	case CODE_TOTAL_CHLORINE:
-		MAX_DISTANCE = TOTAL_CHLORINE_MAX_DISTANCE;
-		normalizedRef.push_back(TOTAL_CHLORINE_0_COLOR);
-		normalizedRef.push_back(TOTAL_CHLORINE_05_COLOR);
-		normalizedRef.push_back(TOTAL_CHLORINE_1_COLOR);
-		normalizedRef.push_back(TOTAL_CHLORINE_2_COLOR);
-		normalizedRef.push_back(TOTAL_CHLORINE_4_COLOR);
-		normalizedRef.push_back(TOTAL_CHLORINE_10_COLOR);
+	case CODE_S6_T_ALKALINITY:
+		MAX_DISTANCE = S6_T_ALKALINITY_MAX_DISTANCE;
+		normalizedRef.push_back(S6_T_ALKALINITY_0_COLOR);
+		normalizedRef.push_back(S6_T_ALKALINITY_40_COLOR);
+		normalizedRef.push_back(S6_T_ALKALINITY_80_COLOR);
+		normalizedRef.push_back(S6_T_ALKALINITY_120_COLOR);
+		normalizedRef.push_back(S6_T_ALKALINITY_180_COLOR);
+		normalizedRef.push_back(S6_T_ALKALINITY_300_COLOR);
 		break;
 
-	case CODE_FREE_CHLORINE:
-		MAX_DISTANCE = FREE_CHLORINE_MAX_DISTANCE;
-		normalizedRef.push_back(FREE_CHLORINE_0_COLOR);
-		normalizedRef.push_back(FREE_CHLORINE_05_COLOR);
-		normalizedRef.push_back(FREE_CHLORINE_1_COLOR);
-		normalizedRef.push_back(FREE_CHLORINE_2_COLOR);
-		normalizedRef.push_back(FREE_CHLORINE_4_COLOR);
-		normalizedRef.push_back(FREE_CHLORINE_10_COLOR);
-		break;
-
-	case CODE_TOTAL_HARDNESS:
-		MAX_DISTANCE = TOTAL_HARDNESS_MAX_DISTANCE;
-		normalizedRef.push_back(TOTAL_HARDNESS_0_COLOR);
-		normalizedRef.push_back(TOTAL_HARDNESS_25_COLOR);
-		normalizedRef.push_back(TOTAL_HARDNESS_50_COLOR);
-		normalizedRef.push_back(TOTAL_HARDNESS_120_COLOR);
-		normalizedRef.push_back(TOTAL_HARDNESS_250_COLOR);
-		normalizedRef.push_back(TOTAL_HARDNESS_425_COLOR);
-		break;
-
-	case CODE_PH:
-		MAX_DISTANCE = PH_MAX_DISTANCE;
-		normalizedRef.push_back(PH_62_COLOR);
-		normalizedRef.push_back(PH_68_COLOR);
-		normalizedRef.push_back(PH_72_COLOR);
-		normalizedRef.push_back(PH_78_COLOR);
-		normalizedRef.push_back(PH_84_COLOR);
+	case CODE_S6_PH:
+		MAX_DISTANCE = S6_PH_MAX_DISTANCE;
+		normalizedRef.push_back(S6_PH_62_COLOR);
+		normalizedRef.push_back(S6_PH_68_COLOR);
+		normalizedRef.push_back(S6_PH_72_COLOR);
+		normalizedRef.push_back(S6_PH_78_COLOR);
+		normalizedRef.push_back(S6_PH_84_COLOR);
 		break;
 
 	default:
-		std::cout << "ERROR: INVALID OP CODE" << std::endl;
+		std::cout << "ERROR: INVALID SAMPLE OP CODE" << std::endl;
 		return -1;
 	}
 
@@ -1048,9 +895,9 @@ static size_t getClosestColorIndex(std::vector<cv::Vec3d>& ref, cv::Vec3d& targe
 
 	for (size_t i = 0; i < normalizedRef.size(); i++)
 	{
-		double dh = std::min(abs(normalizedRef[i](0) - target(0)), 360 - abs(normalizedRef[i](0) - target(0)));
+		double dh = std::min(abs(normalizedRef[i](0) - target(0)), 360 - abs(normalizedRef[i](0) - target(0))) / 180.0;
 		double ds = abs(normalizedRef[i](1) - target(1));
-		double dv = abs(normalizedRef[i](2) - target(2));
+		double dv = abs(normalizedRef[i](2) - target(2)) / 255.0;
 		double dist = sqrt(dh * dh + ds * ds + dv * dv);
 		if (debug)
 		{
@@ -1095,9 +942,11 @@ static void normalizeColors(std::vector<cv::Vec3d>& colors, cv::Vec3d& target)
 		av += colors[i].val[2];
 	}
 
-	double dh = (rh - ah) / 6;
-	double ds = (rs - as) / 6;
-	double dv = (rv - av) / 6;
+	//double dh = (rh - ah) / colors.size();
+	//double ds = (rs - as) / colors.size();
+	double dh = 0;
+	double ds = 0;
+	double dv = (rv - av) / colors.size();
 
 	/*cout << "RAW TARGET ";
 	print(target);
@@ -1107,6 +956,12 @@ static void normalizeColors(std::vector<cv::Vec3d>& colors, cv::Vec3d& target)
 	target.val[0] += dh;
 	target.val[1] += ds;
 	target.val[2] += dv;
+
+	//if (target.val[0] < 0) target.val[0] = 360 + target.val[0];
+	//if (target.val[1] < 0) target.val[1] = 0;
+	//else if (target.val[1] > 1) target.val[1] = 1;
+	if (target.val[2] < 0) target.val[2] = 0;
+	else if (target.val[2] > 1) target.val[2] = 1;
 
 	/*cout << "DH: " << dh << " DS: " << ds << " DV: " << dv << endl;
 
@@ -1210,15 +1065,17 @@ static bool doesRectangleContainPoint(const cv::RotatedRect& rectangle, const cv
 	return rectangleContainsPoint;
 }
 
-void DEBUG_DRAW_TARGET(cv::Mat src) 
+void DEBUG_DRAW_TARGET(cv::Mat src)
 {
 	std::cout << "DRAWING TARGET" << std::endl;
-	cv::RotatedRect target = getTarget(src, false);
+	cv::RotatedRect target = getTarget(src, true);
 	if (isNullSquare(target))
 	{
 		std::cout << "ERROR: Target not found" << std::endl;
 		return;
 	}
+
+	std::cout << "Target Area: " << target.size.area() << std::endl;
 	drawRotatedRect(src, target);
 }
 
@@ -1267,15 +1124,6 @@ void DEBUG_DRAW_SAMPLE(cv::Mat src, int OP_CODE)
 		return;
 	}
 	for (auto& rect : references) drawRotatedRect(src, rect);
-
-	/* Get sample and return on error */
-	//cv::RotatedRect sample = getSampleSquare(src, target, referenceRegion, OP_CODE, true);
-	//if (isNullSquare(sample))
-	//{
-	//	std::cout << "ERROR: could not find sample" << std::endl;
-	//	return;
-	//}
-	//drawRotatedRect(src, sample);
 }
 
 void DEBUG_DRAW_REFERENCE_REGION(cv::Mat src)

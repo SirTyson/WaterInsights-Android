@@ -263,6 +263,10 @@ public class TakePictureActivity extends AppCompatActivity {
             return false;
         }
 
+        if (DataCollectionActivity.debug) {
+            return true;
+        }
+
         for (float val : value) {
             if (val < 0) {
                 return false;
@@ -291,7 +295,7 @@ public class TakePictureActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
             path = saveToInternalStorage(img);
-            results = CvUtil.processImage(path, CvUtil.getStep1Code());
+            results = CvUtil.processImage(path);
             return null;
         }
 
