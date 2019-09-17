@@ -10,6 +10,21 @@
     <string name="start_screen_about_text">Welcome to Water Insights! Together, we can change the world, or something like that (plz fix).</string>
     <string name="learn_more_link">Learn more</string>
 
+    <!-- Scistarter Login Activity -->
+    <string name="scistarter_login_description">By signing in with Scistarter, you can keep track of the water that you\'ve tested and earn arbitrary points in their online gamification of citizen science? FOR THE LOVE OF GOD DONT PUSH THIS STRING TO PROD. If you don\'t have an account, you can sign up for one below!</string>
+    <string name="prompt_email">Email</string>
+    <string name="action_sign_in">Sign in to SciStarter</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_field_required">An email is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="scistarter_register_link">Don\'t have a SciStarter account? <font color='#2752a6'>Click here</font> to register for one now!</string>
+    <string name="email_not_found">Email not registered with SciStarter</string>
+    <string name="successful_login">Successfully logged in!</string>
+    <string name="loging_in_progress">Signing you in</string>
+
     <!--Overview Screen-->
     <string name="get_started_title">Let\'s get started</string>
     <string name="overview_card_1_paragraph">First, you\'ll need to submerge each test strip in the water you\'re testing. Each test strip needs to be treated differently, so we\'ll test one at a time and go through the process together. For the best results, make sure you follow the instructions as closely as possible. The whole process will take about 5 minutes.</string>
@@ -33,7 +48,6 @@
         <item>Well</item>
         <item>Tap Water</item>
         <item>River</item>
-        <item>Ocean</item>
         <item>Select one</item>
     </string-array>
 
@@ -60,19 +74,10 @@
     <string name="step1_instructions">Grab test strip #1 (pictured below) and submerge it in the water for about a second. Then place the strip on the test card as level as possible. After 30 seconds, take a picture of the test card.</string>
     <string name="step1_pic_instructions">Place the strip flat on the strip and take a picture. <b>Make sure the color pads are in the correct location!</b></string>
 
-    <!--Step 2-->
-    <string name="step2_instructions">Dip the same test strip into the water again and move back and forth for 30 seconds. Then remove the strip, place it on the card, and take a picture.</string>
-
-    <!--Step 3-->
-    <string name="step3_instructions">Grab test strip #2 (pictured below) and submerge it in the water for about a second. Then place the strip on the test card as level as possible. After 30 seconds, take a picture of the test card.</string>
-
-    <!--Step 4-->
-    <string name="step4_instructions">Wait another 30 seconds keeping the strip level on the card, then take another picture of the same test strip.</string>
-
-    <!--Step 5-->
-    <string name="step5_instructions">Grab test strip #3 (pictured below) and submerge it in the water for about 5 seconds. Then place the strip on the test card as level as possible. After 60 seconds, take a picture of the test card.</string>
-
     <!--Results Activity-->
+
+    <string name="results_string">Results</string>
+    <string name="test_again_string">Test Another Strip</string>
 
     <!--Parameters-->
     <string name="hardness_string">Total Hardness</string>
@@ -93,21 +98,6 @@
     <string name="nitrite_description">Here is the nitrite description. Arms, and the man I sing, who, forc\'d by fate, And haughty Juno\'s unrelenting hate, Expell\'d and exil\'d, left the Trojan shore.</string>
     <string name="nitrate_description">Here is the nitrate description. Arms, and the man I sing, who, forc\'d by fate, And haughty Juno\'s unrelenting hate, Expell\'d and exil\'d, left the Trojan shore.</string>
     <string name="copper_description">Here is the copper description. Arms, and the man I sing, who, forc\'d by fate, And haughty Juno\'s unrelenting hate, Expell\'d and exil\'d, left the Trojan shore.</string>
-
-    <!-- Strings related to login -->
-    <string name="scistarter_login_description">By signing in with Scistarter, you can keep track of the water that you\'ve tested and earn arbitrary points in their online gamification of citizen science? FOR THE LOVE OF GOD DONT PUSH THIS STRING TO PROD. If you don\'t have an account, you can sign up for one below!</string>
-    <string name="prompt_email">Email</string>
-    <string name="action_sign_in">Sign in to SciStarter</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_field_required">An email is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
-    <string name="scistarter_register_link">Don\'t have a SciStarter account? <font color='#2752a6'>Click here</font> to register for one now!</string>
-    <string name="email_not_found">Email not registered with SciStarter</string>
-    <string name="successful_login">Successfully logged in!</string>
-    <string name="loging_in_progress">Signing you in</string>
 
     <!--Activity Labels for SEO indexing and stuff-->
     <string name="title_activity_scistarter_login">Scistarter Sign in</string>

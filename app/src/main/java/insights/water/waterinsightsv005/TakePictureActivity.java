@@ -31,8 +31,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import static insights.water.waterinsightsv005.DataCollectionActivity.NUM_RESULTS;
-
 public class TakePictureActivity extends AppCompatActivity {
 
     public static final String NITRATE_KEY = "Nitrate";
@@ -76,7 +74,7 @@ public class TakePictureActivity extends AppCompatActivity {
 
     @Nullable
     public static float[] getBundleResults(@Nullable Bundle extras) {
-        float results[] = new float[NUM_RESULTS];
+        float results[] = new float[DataCollectionActivity.NUM_RESULTS];
         if (extras == null) {
             return null;
         }

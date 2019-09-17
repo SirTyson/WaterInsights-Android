@@ -11,13 +11,12 @@ import android.widget.TextView;
 
 public class DataCollectionActivity extends AppCompatActivity {
 
-    public static final int NUM_RESULTS = 8;
+    public static final int NUM_RESULTS = 6;
     public static final boolean debug = true;
     private static final String COUNTER_BUNDLE_KEY = "countBundleKey";
     private static final String IS_RUNNING_BUNDLE_KEY = "isRunningBundleKey";
     private static final String END_TIME_KEY = "endTimeKey";
-    //private static final int S6_TIME = 60;
-    private static final int S6_TIME = 5;
+    private static final int S6_TIME = 60;
     public int counter = 0;
     private TextView timerText;
     private AppCompatButton startTimerButton;
