@@ -1,21 +1,27 @@
 package insights.water.waterinsightsv005;
 
-import android.content.Context;
+import android.app.Dialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.AppCompatTextView;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatTextView;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String WATER_INSIGHTS_URL = "https://www.waterinsights.org";
+
+    private static final String TAG = "MainActivity";
+
+    private static final int ERROR_DIALOG_REQUEST = 9001;
 
     AppCompatTextView learnMoreLink;
     AppCompatButton guestButton;
@@ -30,6 +36,22 @@ public class MainActivity extends AppCompatActivity {
         if (PreferenceUtilities.getFromPreferences(PreferenceUtilities.SCISTARTER_USER_ID_PREFERENCE_KEY, this) != null) {
             guestLogin();
             finish();
+        }
+
+        if (!isServicesOK()) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ex) {
+                        Log.wtf(TAG, "onCreate: Interrupted thread while waiting to kill app.");
+                    }
+
+                    finishAffinity();
+                    System.exit(0);
+                }
+            }).start();
         }
 
         learnMoreLink = findViewById(R.id.learn_more_link);
@@ -56,6 +78,25 @@ public class MainActivity extends AppCompatActivity {
                 scistarterLogin();
             }
         });
+
+    }
+
+    public boolean isServicesOK() {
+        Log.d(TAG, "isServicesOK: checking Google Services version");
+        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(MainActivity.this);
+        if (available == ConnectionResult.SUCCESS) {
+            Log.d(TAG, "isServicesOK: Google Play Services is working");
+            return true;
+        } else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)) {
+            Log.d(TAG, "isServicesOK: Google Play Services threw resolvable error");
+            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(MainActivity.this, available, ERROR_DIALOG_REQUEST);
+            dialog.show();
+        } else {
+            Log.d(TAG, "isServicesOK: Google Play Services threw fatal error");
+            Toast.makeText(this, getString(R.string.play_services_fatal_error_msg), Toast.LENGTH_SHORT).show();
+        }
+
+        return false;
     }
 
     private void goToWebsite() {
