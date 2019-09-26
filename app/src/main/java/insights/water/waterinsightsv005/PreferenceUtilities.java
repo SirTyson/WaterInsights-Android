@@ -3,6 +3,7 @@ package insights.water.waterinsightsv005;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -27,6 +28,13 @@ public class PreferenceUtilities {
 
     public static void writeToPreferencesAsync(@NonNull String key, @NonNull String value, @NonNull Context context) {
         writeToPreferences(key, value, context, true);
+    }
+
+    public static void removeFromPreferences(@NonNull String key, @NonNull Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.remove(key);
+        editor.commit();
     }
 
     @Nullable

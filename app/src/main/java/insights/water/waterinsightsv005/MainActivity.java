@@ -32,11 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /* Skip intro screen if already logged in */
-        if (PreferenceUtilities.getFromPreferences(PreferenceUtilities.SCISTARTER_USER_ID_PREFERENCE_KEY, this) != null) {
-            guestLogin();
-            finish();
-        }
+        initButtons();
 
         if (!isServicesOK()) {
             new Thread(new Runnable() {
@@ -53,17 +49,33 @@ public class MainActivity extends AppCompatActivity {
                 }
             }).start();
         }
+    }
 
+    private void initButtons() {
         learnMoreLink = findViewById(R.id.learn_more_link);
         guestButton = findViewById(R.id.guest_button);
         scistarterButton = findViewById(R.id.scistarter_sign_in_button);
 
-        learnMoreLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToWebsite();
-            }
-        });
+        /* If user is signed in */
+        if (PreferenceUtilities.getFromPreferences(PreferenceUtilities.SCISTARTER_USER_ID_PREFERENCE_KEY, this) != null) {
+            guestButton.setText(R.string.continue_string);
+            scistarterButton.setText(R.string.logout_scistarter_string);
+            scistarterButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    scistarterLogout();
+                }
+            });
+        } else {
+            guestButton.setText(R.string.start_screen_guest_sign_in);
+            scistarterButton.setText(R.string.start_screen_scistarter_sign_in);
+            scistarterButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    scistarterLogin();
+                }
+            });
+        }
 
         guestButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,13 +84,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        scistarterButton.setOnClickListener(new View.OnClickListener() {
+        learnMoreLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                scistarterLogin();
+                goToWebsite();
             }
         });
-
     }
 
     public boolean isServicesOK() {
@@ -105,10 +116,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void guestLogin() {
         startActivity(new Intent(this, OverviewActivity.class));
+        finish();
     }
 
     private void scistarterLogin() {
         startActivity(new Intent(this, ScistarterLoginActivity.class));
-        finish();
+    }
+
+    private void scistarterLogout() {
+        PreferenceUtilities.removeFromPreferences(PreferenceUtilities.SCISTARTER_USER_ID_PREFERENCE_KEY, MainActivity.this);
+        initButtons();
+        Toast.makeText(this, getString(R.string.logout_scistarter_message_string), Toast.LENGTH_SHORT).show();
     }
 }

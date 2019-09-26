@@ -1,10 +1,12 @@
 package insights.water.waterinsightsv005;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.rd.PageIndicatorView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -34,7 +36,8 @@ public class OverviewActivity extends FragmentActivity {
     @Override
     public void onBackPressed() {
         if (mPager.getCurrentItem() == 0) {
-            super.onBackPressed();
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
         } else {
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);
         }
@@ -46,17 +49,15 @@ public class OverviewActivity extends FragmentActivity {
         }
 
         @Override
+        @NonNull
         public Fragment getItem(int position) {
-            // TODO: Add other fragments here
             switch (position) {
                 case 0:
                     return new TutorialPage1Fragment();
                 case 1:
                     return new TutorialPage2Fragment();
-                case 2:
-                    return new TutorialPage3Fragment();
                 default:
-                    return null;
+                    return new TutorialPage3Fragment();
             }
         }
 
