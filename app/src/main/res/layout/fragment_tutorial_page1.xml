@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,13 +8,98 @@
     tools:context=".TutorialPage1Fragment">
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tutorial_slide1_textview1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/roboto"
         android:padding="16dp"
-        android:lineSpacingMultiplier="1.2"
+        android:text="@string/overview_card_1_paragraph_1"
+        android:textColor="@color/offWhiteTitle"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tutorial_slide1_textview2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="16dp"
+        android:paddingRight="16dp"
+        android:text="@string/overview_card_1_paragraph_2"
+        android:textColor="@color/offWhiteTitle"
+        android:textSize="26sp"
+        app:layout_constraintStart_toStartOf="@+id/tutorial_slide1_textview1"
+        app:layout_constraintTop_toBottomOf="@+id/tutorial_slide1_textview1" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tutorial_slide1_textview21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:paddingStart="30dp"
+        android:paddingLeft="30dp"
+        android:text="@string/overview_card_1_paragraph_21"
         android:textColor="@color/offWhiteTitle"
         android:textSize="20sp"
-        android:fontFamily="@font/roboto"
-        android:layout_width="match_parent"
+        app:layout_constraintStart_toStartOf="@+id/tutorial_slide1_textview1"
+        app:layout_constraintTop_toBottomOf="@+id/tutorial_slide1_textview2" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tutorial_slide1_textview3"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/overview_card_1_paragraph" />
+        android:fontFamily="@font/roboto"
+        android:padding="16dp"
+        android:text="@string/overview_card_1_paragraph_3"
+        android:textColor="@color/offWhiteTitle"
+        android:textSize="26sp"
+        app:layout_constraintStart_toStartOf="@+id/tutorial_slide1_textview1"
+        app:layout_constraintTop_toBottomOf="@+id/tutorial_slide1_textview21" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tutorial_slide1_textview4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:padding="16dp"
+        android:text="@string/overview_card_1_paragraph_4"
+        android:textColor="@color/offWhiteTitle"
+        android:textSize="26sp"
+        app:layout_constraintStart_toStartOf="@+id/tutorial_slide1_textview1"
+        app:layout_constraintTop_toBottomOf="@+id/tutorial_slide1_textview3" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tutorial_slide1_textview5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/overview_card_1_paragraph_5"
+        android:textColor="@color/offWhiteTitle"
+        android:textSize="26sp"
+        app:layout_constraintStart_toStartOf="@+id/tutorial_slide1_textview1"
+        app:layout_constraintTop_toBottomOf="@+id/tutorial_slide1_textview4" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tutorial_slide1_textview51"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="@string/overview_card_1_paragraph_51"
+        android:paddingStart="30dp"
+        android:paddingLeft="30dp"
+        android:textColor="@color/offWhiteTitle"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/tutorial_slide1_textview1"
+        app:layout_constraintTop_toBottomOf="@+id/tutorial_slide1_textview5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

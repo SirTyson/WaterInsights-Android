@@ -4,11 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
@@ -23,6 +18,11 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import okhttp3.Response;
 
 /**
@@ -78,7 +78,7 @@ public class ScistarterLoginActivity extends AppCompatActivity {
     }
 
     private void registerEmail() {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(ScistarterUtilities.SCISTARTER_REGISTER_URL)));
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.scistart_register_url))));
     }
 
     /**

@@ -4,42 +4,66 @@
     <string name="title_activity_collect_data">CollectDataActivity</string>
 
     <!--Start Screen -->
-    <string name="start_screen_title">Water Insights</string>
-    <string name="start_screen_scistarter_sign_in">Sign in with SciStarter</string>
-    <string name="start_screen_guest_sign_in">Continue as guest</string>
-    <string name="start_screen_about_text">Welcome to Water Insights! Together, we can change the world, or something like that (plz fix).</string>
+    <string name="start_screen_title">WaterInsights</string>
+    <string name="start_screen_scistarter_sign_in">SciStarter Sign in or Sign up</string>
+    <string name="start_screen_guest_sign_in">Continue as a guest</string>
+    <string name="start_screen_about_text">Welcome! Thanks for helping us build a World Water Health Map.</string>
     <string name="learn_more_link">Learn more</string>
     <string name="play_services_fatal_error_msg">We\'re sorry, WaterInsights does not support your device.</string>
     <string name="logout_scistarter_string">Logout of SciStarter</string>
     <string name="logout_scistarter_message_string">Logged out of SciStarter</string>
 
     <!-- Scistarter Login Activity -->
-    <string name="scistarter_login_description">By signing in with Scistarter, you can keep track of the water that you\'ve tested and earn arbitrary points in their online gamification of citizen science? FOR THE LOVE OF GOD DONT PUSH THIS STRING TO PROD. If you don\'t have an account, you can sign up for one below!</string>
+    <string name="scistarter_login_description">By signing in, you can keep track of the water you\'ve tested on your SciStarter Dashboard.</string>
     <string name="prompt_email">Email</string>
     <string name="action_sign_in">Sign in to SciStarter</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="action_sign_in_short">Sign In</string>
+    <string name="error_invalid_email">Please enter a valid email address</string>
     <string name="error_field_required">An email is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
-    <string name="scistarter_register_link">Don\'t have a SciStarter account? <font color='#2752a6'>Click here</font> to register for one now!</string>
+    <string name="scistarter_register_link">Don\'t have a SciStarter account? <font color='#2752a6'>Click here</font> to register for one now.</string>
     <string name="email_not_found">Email not registered with SciStarter</string>
     <string name="successful_login">Successfully logged in!</string>
     <string name="loging_in_progress">Signing you in</string>
+    <string name="scistart_register_url">https://scistarter.org/login</string>
 
     <!--Overview Screen-->
-    <string name="get_started_title">Let\'s get started</string>
-    <string name="overview_card_1_paragraph">First, you\'ll need to submerge each test strip in the water you\'re testing. Each test strip needs to be treated differently, so we\'ll test one at a time and go through the process together. For the best results, make sure you follow the instructions as closely as possible. The whole process will take about 5 minutes.</string>
-    <string name="overview_card_2_paragraph">For each test strip, after you\'ve submerged it and waited for the correct amount of time, you\'ll need to place the strip on the test card and take a picture. Try to place the test strip as straight as possible on top of the marker on the card.</string>
-    <string name="overview_card_3_paragraph">After you\'ve tested all the strips, we\'ll analyze the pictures and tell you about your water quality. We\'ll also upload the data to a cloud server where we can study trends in water bodies worldwide. Your\'re helping contribute to a World Water Health Map!</string>
-    <string name="overview_get_started_button">Get started</string>
+    <string name="get_started_title">Here\'s a summary of what you\'ll be doing</string>
+    <string name="overview_card_1_paragraph">Things you\'ll need:&lt;br /&gt;
+        &#8226; Test strip (don\'t open it until it\'s time to do the test)&lt;br /&gt;
+        &#8226; Black color card&lt;br /&gt;
+        &#8226; White color chart&lt;br /&gt;
+        &#8226; Recent (less than an hour old) water sample
+    </string>
+    <string name="overview_card_1_paragraph_1"><b>Things you\'ll need:</b>
+    </string>
+    <string name="overview_card_1_paragraph_2">&#8226; Test strip</string>
+    <string name="overview_card_1_paragraph_21">- don\'t open it until it\'s time to do the test</string>
+    <string name="overview_card_1_paragraph_3">&#8226; Black color card</string>
+    <string name="overview_card_1_paragraph_4">&#8226; White color chart</string>
+    <string name="overview_card_1_paragraph_5">&#8226; Recent water sample</string>
+    <string name="overview_card_1_paragraph_51">- less than an hour old</string>
+
+
+    <string name="overview_card_2_paragraph">
+        Gather a water sample in a container you\'d be comfortable drinking out of.
+        To test your water sample, you\'ll need to submerge an entire test strip in the water for about 1 second.
+        Take it out, start the timer in the app, and place the strip on the test card.
+        Make sure it is oriented as shown on the test card.
+        Try to place the test strip as straight as possible on top of the marker on the card.
+    </string>
+    <string name="overview_card_3_paragraph">
+        When the timer ends, the app will enable you to take a picture of the strip and card.
+        We\'ll analyze that image and tell you about your water quality.
+        We\'ll also upload the data to a cloud server where we can study trends in water bodies worldwide!
+        You will be contributing to a World Water Health Map!
+    </string>
+    <string name="overview_get_started_button">Get Started</string>
 
     <!--Inititial Information Sreen-->
     <string name="initial_information_overview_string">Let\'s get some info about the water you\'re testing.</string>
-    <string name="testing_location_string">Where are you testing?</string>
+    <string name="testing_location_string">Where was this water collected?</string>
     <string name="testing_location_hint">(Your home, the name of a lake, etc.)</string>
-    <string name="type_of_water_string">What type of water body?</string>
+    <string name="type_of_water_string">What type of water are you testing?</string>
     <string name="other_observations_string">Any other observations?</string>
     <string name="other_observations_hint">Tell us anything else you think would be helpful (optional).</string>
     <string name="continue_string">Continue</string>
@@ -52,20 +76,21 @@
     <string name="start_timer_string">Start Timer</string>
     <string name="take_picture_string">Take Picture</string>
     <string name="upload_picture_string">Choose from Gallery</string>
-    <string name="take_picture_instructions">Make sure the test strip is aligned and is facing the correct direction</string>
-    <string name="tap_for_picture">Tap anywhere to take the picture</string>
+    <string name="take_picture_instructions">
+        Tap the <b><i>Take Picture</i></b> button below to bring up the camera and take a photo.
+        Tap the <b><i>Choose from Gallery</i></b> button below to select a photo from the collection on your phone.
+        When you have taken or selected a photo, we will analyze it and tell you the results.
+    </string>
     <string name="picture_loading_string">Analyzing Image</string>
-    <string name="partial_progress_string"> of 5 complete</string>
-    <string name="test_string">Test </string>
     <string name="reset_timer_string">Reset Timer</string>
     <string name="whoops_string">Whoops&#8230;</string>
     <string name="analysis_error_string">There was a problem analyzing the test strip. Make sure everything is correctly lined up and try again.</string>
     <string name="take_a_picture_string">Take a picture</string>
-    <string name="step1_popup_title">Test Strip #1</string>
-
-    <!--Step 1-->
-    <string name="step1_popup_instruction">Grab the test strip with 5 colored squares pictures below:</string>
-    <string name="step1_instructions">Grab test strip #1 (pictured below) and submerge it in the water for about a second. Then place the strip on the test card as level as possible. After 30 seconds, take a picture of the test card.</string>
+    <string name="step1_instructions">
+        Carefully, open a test strip and submerge the whole thing in the water for about 1 second.
+        Take it out and start the timer.
+        Prepare to take a photo when the timer is done by placing the strip on the card, carefully aligning the strip so it is turned the right way and lined up straight.
+    </string>
     <string name="step1_pic_instructions">Place the strip flat on the strip and take a picture. <b>Make sure the color pads are in the correct location!</b></string>
     <string name="results_string">Results</string>
 
