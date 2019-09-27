@@ -72,12 +72,11 @@
 
     <!--Data collection Screen-->
     <string name="finished_string">Finished</string>
-    <string name="current_strip_string">Current Test Strip:</string>
+    <string name="current_strip_string">Test Card Reference:</string>
     <string name="start_timer_string">Start Timer</string>
     <string name="take_picture_string">Take Picture</string>
     <string name="upload_picture_string">Choose from Gallery</string>
-    <string name="take_picture_instructions">
-        Tap the <b><i>Take Picture</i></b> button below to bring up the camera and take a photo.
+    <string name="take_picture_instructions">Tap the <b><i>Take Picture</i></b> button below to bring up the camera and take a photo.
         Tap the <b><i>Choose from Gallery</i></b> button below to select a photo from the collection on your phone.
         When you have taken or selected a photo, we will analyze it and tell you the results.
     </string>
@@ -91,7 +90,6 @@
         Take it out and start the timer.
         Prepare to take a photo when the timer is done by placing the strip on the card, carefully aligning the strip so it is turned the right way and lined up straight.
     </string>
-    <string name="step1_pic_instructions">Place the strip flat on the strip and take a picture. <b>Make sure the color pads are in the correct location!</b></string>
     <string name="results_string">Results</string>
 
     <!--Results Activity-->

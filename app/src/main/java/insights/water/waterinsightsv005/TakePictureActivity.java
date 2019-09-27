@@ -11,10 +11,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -30,6 +26,11 @@ import android.widget.PopupWindow;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class TakePictureActivity extends AppCompatActivity {
 
@@ -259,10 +260,6 @@ public class TakePictureActivity extends AppCompatActivity {
     private boolean isValid(@NonNull float[] value) {
         if (value.length != NUM_SAMPLES) {
             return false;
-        }
-
-        if (DataCollectionActivity.debug) {
-            return true;
         }
 
         for (float val : value) {

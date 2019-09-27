@@ -3,11 +3,12 @@ package insights.water.waterinsightsv005;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.View;
+import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import android.view.View;
-import android.widget.TextView;
 
 public class DataCollectionActivity extends AppCompatActivity {
 
@@ -16,7 +17,7 @@ public class DataCollectionActivity extends AppCompatActivity {
     private static final String COUNTER_BUNDLE_KEY = "countBundleKey";
     private static final String IS_RUNNING_BUNDLE_KEY = "isRunningBundleKey";
     private static final String END_TIME_KEY = "endTimeKey";
-    private static final int S6_TIME = 60;
+    private static final int S6_TIME = 30;
     public int counter = 0;
     private TextView timerText;
     private AppCompatButton startTimerButton;

@@ -1,33 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/tutorial_card_background"
     tools:context=".TutorialPage1Fragment">
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/overview_page_2_paragraph"
-        android:padding="16dp"
-        android:lineSpacingMultiplier="1.2"
-        android:textColor="@color/offWhiteTitle"
-        android:textSize="20sp"
-        android:fontFamily="@font/roboto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/overview_card_2_paragraph" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/test_card_image"
-        android:layout_marginStart="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="5dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:cropToPadding="true"
+        android:src="@drawable/branded_card"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/overview_page_2_paragraph"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/overview_page_2_paragraph" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/overview_page_2_paragraph"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:lineSpacingMultiplier="1.1"
+        android:padding="16dp"
+        android:text="@string/overview_card_2_paragraph"
+        android:textColor="@color/offWhiteTitle"
+        android:textSize="19sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
