@@ -39,20 +39,35 @@ public class ResultsListFragment extends Fragment implements View.OnClickListene
         rootView.findViewById(R.id.expand_button_nitrite).setOnClickListener(this);
         rootView.findViewById(R.id.expand_button_nitrate).setOnClickListener(this);
 
-        float[] results = TakePictureActivity.getBundleResults(getActivity().getIntent().getExtras());
+        float[] results = PreferenceUtilities.getAnalysisResultsPreferences(getContext());
 
-        ((TextView) rootView.findViewById(R.id.expand_button_hardness))
-                .setText(getString(R.string.hardness_string) + ": " + results[0]);
-        ((TextView) rootView.findViewById(R.id.expand_button_alkalinity))
-                .setText(getString(R.string.alkalinity_string) + ": " + results[1]);
-        ((TextView) rootView.findViewById(R.id.expand_button_ph))
-                .setText(getString(R.string.ph_string) + ": " + results[2]);
-        ((TextView) rootView.findViewById(R.id.expand_button_total_chlorine))
-                .setText(getString(R.string.total_chlorine_string) + ": " + results[3]);
-        ((TextView) rootView.findViewById(R.id.expand_button_nitrite))
-                .setText(getString(R.string.nitrite_string) + ": " + results[5]);
-        ((TextView) rootView.findViewById(R.id.expand_button_nitrate))
-                .setText(getString(R.string.nitrate_string) + ": " + results[6]);
+        if (PreferenceUtilities.getBoolFromPreferences(PreferenceUtilities.ANALYSIS_SUCCESS_KEY, getContext())) {
+            ((TextView) rootView.findViewById(R.id.expand_button_hardness))
+                    .setText(getString(R.string.total_hardness_value) + " " + results[0]);
+            ((TextView) rootView.findViewById(R.id.expand_button_alkalinity))
+                    .setText(getString(R.string.alkalinity_value_string) + " " + results[1]);
+            ((TextView) rootView.findViewById(R.id.expand_button_ph))
+                    .setText(getString(R.string.ph_value_string) + " " + results[2]);
+            ((TextView) rootView.findViewById(R.id.expand_button_total_chlorine))
+                    .setText(getString(R.string.total_chlorine_value) + " " + results[3]);
+            ((TextView) rootView.findViewById(R.id.expand_button_nitrite))
+                    .setText(getString(R.string.nitrite_value) + " " + results[5]);
+            ((TextView) rootView.findViewById(R.id.expand_button_nitrate))
+                    .setText(getString(R.string.nitrate_value) + " " + results[6]);
+        } else {
+            ((TextView) rootView.findViewById(R.id.expand_button_hardness))
+                    .setText(getString(R.string.total_hardness_value) + " " + getString(R.string.error_value));
+            ((TextView) rootView.findViewById(R.id.expand_button_alkalinity))
+                    .setText(getString(R.string.alkalinity_value_string) + " " + getString(R.string.error_value));
+            ((TextView) rootView.findViewById(R.id.expand_button_ph))
+                    .setText(getString(R.string.ph_value_string) + " " + getString(R.string.error_value));
+            ((TextView) rootView.findViewById(R.id.expand_button_total_chlorine))
+                    .setText(getString(R.string.total_chlorine_value) + " " + getString(R.string.error_value));
+            ((TextView) rootView.findViewById(R.id.expand_button_nitrite))
+                    .setText(getString(R.string.nitrite_value) + " " + getString(R.string.error_value));
+            ((TextView) rootView.findViewById(R.id.expand_button_nitrate))
+                    .setText(getString(R.string.nitrate_value) + " " + getString(R.string.error_value));
+        }
 
         return rootView;
     }

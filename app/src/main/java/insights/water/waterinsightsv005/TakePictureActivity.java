@@ -34,12 +34,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class TakePictureActivity extends AppCompatActivity {
 
-    public static final String NITRATE_KEY = "Nitrate";
-    public static final String NITRITE_KEY = "Nitrite";
-    public static final String HARDNESS_KEY = "TotalHardness";
-    public static final String TOTAL_CHLORINE_KEY = "TotalChlorine";
-    public static final String ALKALINITY_KEY = "Alkalinity";
-    public static final String PH_KEY = "PHKey";
     public static final String IMAGE_FILENAME = "WaterInsights_IMAGE_CAPTURE.jpeg";
     public static final int NUM_SAMPLES = 6;
     private static final int CAMERA_REQUEST_CODE = 100;
@@ -53,6 +47,7 @@ public class TakePictureActivity extends AppCompatActivity {
 
     private String path;
     private Bitmap img;
+    private int tries = 0;
     private float[] results;
     /*
      *  Results order:
@@ -63,31 +58,6 @@ public class TakePictureActivity extends AppCompatActivity {
      *  4: Total Alkalinity
      *  5: PH
      */
-
-    public static void populateBundleResults(@NonNull Intent intent, @NonNull float[] results) {
-        intent.putExtra(NITRATE_KEY, results[0]);
-        intent.putExtra(NITRITE_KEY, results[1]);
-        intent.putExtra(HARDNESS_KEY, results[2]);
-        intent.putExtra(TOTAL_CHLORINE_KEY, results[3]);
-        intent.putExtra(ALKALINITY_KEY, results[4]);
-        intent.putExtra(PH_KEY, results[5]);
-    }
-
-    @Nullable
-    public static float[] getBundleResults(@Nullable Bundle extras) {
-        float results[] = new float[DataCollectionActivity.NUM_RESULTS];
-        if (extras == null) {
-            return null;
-        }
-
-        results[0] = extras.getFloat(NITRATE_KEY, -1.0f);
-        results[1] = extras.getFloat(NITRITE_KEY, -1.0f);
-        results[2] = extras.getFloat(HARDNESS_KEY, -1.0f);
-        results[3] = extras.getFloat(TOTAL_CHLORINE_KEY, -1.0f);
-        results[4] = extras.getFloat(ALKALINITY_KEY, -1.0f);
-        results[5] = extras.getFloat(PH_KEY, -1.0f);
-        return results;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,7 +189,7 @@ public class TakePictureActivity extends AppCompatActivity {
         // inflate the layout of the popup window
         LayoutInflater inflater = (LayoutInflater)
                 getSystemService(LAYOUT_INFLATER_SERVICE);
-        final View popupView = inflater.inflate(R.layout.popup_retake_image, null);
+        final View popupView = popupHelper(inflater);
 
         // create the popup window
         float width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 325, getResources().getDisplayMetrics());
@@ -253,8 +223,26 @@ public class TakePictureActivity extends AppCompatActivity {
             public void onDismiss() {
                 dim.setVisibility(View.GONE);
                 takePic.setClickable(true);
+                if (tries == 3) {
+                    goToManual();
+                }
             }
         });
+    }
+
+    @NonNull
+    private View popupHelper(@NonNull LayoutInflater inflater) {
+        if (tries == 3) {
+            return inflater.inflate(R.layout.popup_image_error, null);
+        }
+
+        return inflater.inflate(R.layout.popup_retake_image, null);
+    }
+
+    private void goToManual() {
+        PreferenceUtilities.writeBoolToPreferences(PreferenceUtilities.ANALYSIS_SUCCESS_KEY, false, this);
+        startActivity(new Intent(this, ManualEntryActivity.class));
+        finish();
     }
 
     private boolean isValid(@NonNull float[] value) {
@@ -272,8 +260,9 @@ public class TakePictureActivity extends AppCompatActivity {
     }
 
     private void validPicture() {
-        Intent intent = new Intent(this, ShowResultsActivity.class);
-        populateBundleResults(intent, results);
+        Intent intent = new Intent(this, ManualEntryActivity.class);
+        PreferenceUtilities.putAnalysisResultsPreferences(results, this);
+        PreferenceUtilities.writeBoolToPreferences(PreferenceUtilities.ANALYSIS_SUCCESS_KEY, true, this);
         startActivity(intent);
         finish();
     }
@@ -302,6 +291,7 @@ public class TakePictureActivity extends AppCompatActivity {
             if (isValid(results)) {
                 validPicture();
             } else {
+                tries++;
                 displayErrorPopup();
             }
         }

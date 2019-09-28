@@ -91,11 +91,22 @@
         Prepare to take a photo when the timer is done by placing the strip on the card, carefully aligning the strip so it is turned the right way and lined up straight.
     </string>
     <string name="results_string">Results</string>
+    <string name="analysis_failure_message">We can\'t analyze the test strip right now, but you can still input results manually using the included color card.</string>
+
+    <!--Manual Entry Activity-->
+    <string name="manual_entry_activity_title">Enter values manually</string>
+    <string name="manual_entry_instructions">Now, compare the test strip colors to the color chart. Enter what you think the test results are: </string>
+    <string name="alkalinity_value_string">Total Alkalinity Value:</string>
+    <string name="ph_value_string">pH Value:</string>
+    <string name="total_chlorine_value">Total Chlorine Value:</string>
+    <string name="total_hardness_value">Total Hardness Value:</string>
+    <string name="nitrate_value">Nitrate Value:</string>
+    <string name="nitrite_value">Nitrite Value:</string>
 
     <!--Results Activity-->
-
     <string name="test_again_string">Test Another Strip</string>
     <string name="hardness_string">Total Hardness</string>
+    <string name="error_value">N/A</string>
 
     <!--Parameters-->
     <string name="alkalinity_string">Total Alkalinity</string>
@@ -104,17 +115,14 @@
     <string name="free_chlorine_string">Free Chlorine</string>
     <string name="nitrite_string">Nitrite</string>
     <string name="nitrate_string">Nitrate</string>
-    <string name="copper_string">Copper</string>
     <string name="hardness_description">Here is the hardness description. Arms, and the man I sing, who, forc\'d by fate, And haughty Juno\'s unrelenting hate, Expell\'d and exil\'d, left the Trojan shore.</string>
 
     <!--Parameter Descriptions-->
-    <string name="alkalinity_description">Here is the alkalinity description. Arms, and the man I sing, who, forc\'d by fate, And haughty Juno\'s unrelenting hate, Expell\'d and exil\'d, left the Trojan shore.</string>
-    <string name="ph_description">Here is the ph description. Arms, and the man I sing, who, forc\'d by fate, And haughty Juno\'s unrelenting hate, Expell\'d and exil\'d, left the Trojan shore.</string>
-    <string name="total_chlorine_description">Here is the total chlorine description. Arms, and the man I sing, who, forc\'d by fate, And haughty Juno\'s unrelenting hate, Expell\'d and exil\'d, left the Trojan shore.</string>
-    <string name="free_chlorine_description">Here is the free chlorine description. Arms, and the man I sing, who, forc\'d by fate, And haughty Juno\'s unrelenting hate, Expell\'d and exil\'d, left the Trojan shore.</string>
-    <string name="nitrite_description">Here is the nitrite description. Arms, and the man I sing, who, forc\'d by fate, And haughty Juno\'s unrelenting hate, Expell\'d and exil\'d, left the Trojan shore.</string>
-    <string name="nitrate_description">Here is the nitrate description. Arms, and the man I sing, who, forc\'d by fate, And haughty Juno\'s unrelenting hate, Expell\'d and exil\'d, left the Trojan shore.</string>
-    <string name="copper_description">Here is the copper description. Arms, and the man I sing, who, forc\'d by fate, And haughty Juno\'s unrelenting hate, Expell\'d and exil\'d, left the Trojan shore.</string>
+    <string name="alkalinity_description">Usually similar to Total Hardness unless you have a water softener. Low levels can cause corrosion.</string>
+    <string name="ph_description">High pH can decrease the effectiveness of chlorine. Low pH can corrode pipes, leaching lead and copper into the water.</string>
+    <string name="total_chlorine_description">Used as a disinfectant, low values can increase potential for disease to spread. </string>
+    <string name="nitrite_description">A form of Nitrate but a value greater than 1 ppm can have similar health risks as high values of Nitrate.</string>
+    <string name="nitrate_description">A value greater than 10 ppm can indicate your water is contaminated by fertilizer or sewage and may pose a health risk.</string>
     <string name="title_activity_scistarter_login">Scistarter Sign in</string>
 
     <!--Activity Labels for SEO indexing and stuff-->
@@ -123,9 +131,13 @@
     <string name="title_initial_information_activity">Initial Information</string>
     <string name="title_take_picture_activity">Take Test Strip Picture</string>
     <string name="title_results_activity">Test Results</string>
-    <string name="google_maps_API_key">AIzaSyAohpbCQShJ7YWO18wSnY-3HYsLpaiHymk</string>
 
     <!--API Keys-->
+    <string name="google_maps_API_key">AIzaSyAohpbCQShJ7YWO18wSnY-3HYsLpaiHymk</string>
+
+    <!--Spinner Arrays-->
+
+    <!--Water Types-->
     <string-array name="water_type_spinner">
         <item>Tap Water</item>
         <item>Lake</item>
@@ -134,6 +146,59 @@
         <item>Well</item>
         <item>River</item>
         <item>Select one</item>
+    </string-array>
+
+    <!--Manual Entry Items-->
+    <string-array name="nitrate_spinner_values">
+        <item>0 PPM</item>
+        <item>20 PPM</item>
+        <item>40 PPM</item>
+        <item>80 PPM</item>
+        <item>160 PPM</item>
+        <item>200 PPM</item>
+    </string-array>
+
+    <string-array name="nitrite_spinner_values">
+        <item>0 PPM</item>
+        <item>0.5 PPM</item>
+        <item>1.0 PPM</item>
+        <item>3.0 PPM</item>
+        <item>5.0 PPM</item>
+        <item>10.0 PPM</item>
+    </string-array>
+
+    <string-array name="total_hardness_spinner_values">
+        <item>0 PPM</item>
+        <item>25 PPM</item>
+        <item>75 PPM</item>
+        <item>150 PPM</item>
+        <item>300 PPM</item>
+    </string-array>
+
+    <string-array name="total_chlorine_spinner_values">
+        <item>0 PPM</item>
+        <item>0.5 PPM</item>
+        <item>1.0 PPM</item>
+        <item>2.0 PPM</item>
+        <item>4.0 PPM</item>
+        <item>6.0 PPM</item>
+    </string-array>
+
+    <string-array name="total_alkalinity_spinner_values">
+        <item>0 PPM</item>
+        <item>40 PPM</item>
+        <item>80 PPM</item>
+        <item>120 PPM</item>
+        <item>180 PPM</item>
+        <item>300 PPM</item>
+    </string-array>
+
+    <string-array name="ph_spinner_values">
+        <item>6.2</item>
+        <item>6.8</item>
+        <item>7.2</item>
+        <item>7.8</item>
+        <item>8.4</item>
     </string-array>
 
 </resources>
