@@ -24,7 +24,7 @@
     <string name="email_not_found">Email not registered with SciStarter</string>
     <string name="successful_login">Successfully logged in!</string>
     <string name="loging_in_progress">Signing you in</string>
-    <string name="scistart_register_url">https://scistarter.org/login</string>
+    <string name="scistart_register_url">https://scistarter.org</string>
 
     <!--Overview Screen-->
     <string name="get_started_title">Here\'s a summary of what you\'ll be doing</string>
