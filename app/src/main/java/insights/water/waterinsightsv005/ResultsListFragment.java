@@ -1,15 +1,16 @@
 package insights.water.waterinsightsv005;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 public class ResultsListFragment extends Fragment implements View.OnClickListener {
 
@@ -43,17 +44,17 @@ public class ResultsListFragment extends Fragment implements View.OnClickListene
 
         if (PreferenceUtilities.getBoolFromPreferences(PreferenceUtilities.ANALYSIS_SUCCESS_KEY, getContext())) {
             ((TextView) rootView.findViewById(R.id.expand_button_hardness))
-                    .setText(getString(R.string.hardness_string) + " " + results[0]);
+                    .setText(getString(R.string.hardness_string) + " " + results[2]);
             ((TextView) rootView.findViewById(R.id.expand_button_alkalinity))
-                    .setText(getString(R.string.alkalinity_string) + " " + results[1]);
+                    .setText(getString(R.string.alkalinity_string) + " " + results[4]);
             ((TextView) rootView.findViewById(R.id.expand_button_ph))
-                    .setText(getString(R.string.ph_string) + " " + results[2]);
+                    .setText(getString(R.string.ph_string) + " " + results[5]);
             ((TextView) rootView.findViewById(R.id.expand_button_total_chlorine))
                     .setText(getString(R.string.total_chlorine_string) + " " + results[3]);
             ((TextView) rootView.findViewById(R.id.expand_button_nitrite))
-                    .setText(getString(R.string.nitrite_string) + " " + results[5]);
+                    .setText(getString(R.string.nitrite_string) + " " + results[0]);
             ((TextView) rootView.findViewById(R.id.expand_button_nitrate))
-                    .setText(getString(R.string.nitrate_string) + " " + results[6]);
+                    .setText(getString(R.string.nitrate_string) + " " + results[1]);
         } else {
             ((TextView) rootView.findViewById(R.id.expand_button_hardness))
                     .setText(getString(R.string.hardness_string) + " " + getString(R.string.error_value));
@@ -74,7 +75,7 @@ public class ResultsListFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.expand_button_hardness:
                 if (expandableLayoutHardness.isExpanded()) {
                     expandableLayoutHardness.collapse();
