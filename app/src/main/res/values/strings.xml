@@ -45,11 +45,11 @@
 
 
     <string name="overview_card_2_paragraph">
-        Gather a water sample in a container you\'d be comfortable drinking out of.
+        Gather a water sample in a container you\'d be comfortable drinking from.
         To test your water sample, you\'ll need to submerge an entire test strip in the water for about 1 second.
         Take it out, start the timer in the app, and place the strip on the test card.
         Make sure it is oriented as shown on the test card.
-        Try to place the test strip as straight as possible on top of the marker on the card.
+        Try to place the test strip as straight as possible in the space indicated on the card.
     </string>
     <string name="overview_card_3_paragraph">
         When the timer ends, the app will enable you to take a picture of the strip and card.
