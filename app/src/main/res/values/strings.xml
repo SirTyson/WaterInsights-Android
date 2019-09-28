@@ -90,35 +90,40 @@
         Take it out and start the timer.
         Prepare to take a photo when the timer is done by placing the strip on the card, carefully aligning the strip so it is turned the right way and lined up straight.
     </string>
-    <string name="results_string">Results</string>
+    <string name="results_string">Sample Analysis</string>
     <string name="analysis_failure_message">We can\'t analyze the test strip right now, but you can still input results manually using the included color card.</string>
+    <string name="results_paragraph">
+        Here\'s a little about what we see.
+        Thanks for helping us Beta Test this app! During this beta period, you should not be alarmed by our results, especially if they don\'t match the data you entered.
+        If there\'s an indication that your water is problematic, you should get it analyzed by a professional. You could be seeing results from a damaged test strip or a bug in our app.
+        The Scientific Method teaches we should be able to reproduce our results before we consider them valid.
+    </string>
 
     <!--Manual Entry Activity-->
     <string name="manual_entry_activity_title">Enter values manually</string>
-    <string name="manual_entry_instructions">Now, compare the test strip colors to the color chart. Enter what you think the test results are: </string>
-    <string name="alkalinity_value_string">Total Alkalinity Value:</string>
+    <string name="manual_entry_instructions">Now, compare the test strip colors to the color chart. Enter what you think the test results are:</string>
+    <string name="alkalinity_value_string">Alkalinity Value:</string>
     <string name="ph_value_string">pH Value:</string>
-    <string name="total_chlorine_value">Total Chlorine Value:</string>
-    <string name="total_hardness_value">Total Hardness Value:</string>
+    <string name="total_chlorine_value">Chlorine Value:</string>
+    <string name="total_hardness_value">Hardness Value:</string>
     <string name="nitrate_value">Nitrate Value:</string>
     <string name="nitrite_value">Nitrite Value:</string>
 
     <!--Results Activity-->
     <string name="test_again_string">Test Another Strip</string>
-    <string name="hardness_string">Total Hardness</string>
     <string name="error_value">N/A</string>
 
     <!--Parameters-->
     <string name="alkalinity_string">Total Alkalinity</string>
-    <string name="ph_string">PH Level</string>
-    <string name="total_chlorine_string">Total Chlorine</string>
-    <string name="free_chlorine_string">Free Chlorine</string>
-    <string name="nitrite_string">Nitrite</string>
-    <string name="nitrate_string">Nitrate</string>
-    <string name="hardness_description">Here is the hardness description. Arms, and the man I sing, who, forc\'d by fate, And haughty Juno\'s unrelenting hate, Expell\'d and exil\'d, left the Trojan shore.</string>
+    <string name="ph_string">pH:</string>
+    <string name="total_chlorine_string">Total Chlorine:</string>
+    <string name="nitrite_string">Nitrite:</string>
+    <string name="nitrate_string">Nitrate:</string>
+    <string name="hardness_string">Total Hardness:</string>
 
     <!--Parameter Descriptions-->
     <string name="alkalinity_description">Usually similar to Total Hardness unless you have a water softener. Low levels can cause corrosion.</string>
+    <string name="hardness_description">Hardness doesn\'t impact safety but can increase scale build-up. And hard water doesn\'t taste great.</string>
     <string name="ph_description">High pH can decrease the effectiveness of chlorine. Low pH can corrode pipes, leaching lead and copper into the water.</string>
     <string name="total_chlorine_description">Used as a disinfectant, low values can increase potential for disease to spread. </string>
     <string name="nitrite_description">A form of Nitrate but a value greater than 1 ppm can have similar health risks as high values of Nitrate.</string>

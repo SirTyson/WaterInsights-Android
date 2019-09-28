@@ -28,7 +28,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:paddingBottom="20dp"
-        android:textSize="22sp"
+        android:textSize="28sp"
         android:textColor="@color/offWhiteTitle"
         android:fontFamily="@font/open_sans_semibold"
         android:gravity="center"
@@ -57,7 +57,7 @@
                 android:fontFamily="@font/roboto"
                 android:gravity="center"
                 android:text="@string/scistarter_login_description"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -73,7 +73,7 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="@color/textBoxLightGrey"
-                    android:textSize="18sp" />
+                    android:textSize="20sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,7 +92,7 @@
                 android:text="@string/action_sign_in_short"
                 android:textAllCaps="false"
                 android:textColor="@color/offWhiteTitle"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/register_link"
