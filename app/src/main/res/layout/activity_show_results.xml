@@ -11,29 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/results_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/results_string"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="35sp"
-            android:layout_marginTop="20dp"
-            app:fontFamily="@font/open_sans_semibold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <FrameLayout
-            android:id="@+id/results_list_frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="40dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/results_text" />
-
         <Button
             android:id="@+id/test_again_button"
             style="?android:textAppearanceSmall"
@@ -54,6 +31,45 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/results_list_frame" />
+
+        <FrameLayout
+            android:id="@+id/results_list_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/results_paragraph" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/results_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/results_string"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="35sp"
+            app:fontFamily="@font/open_sans_semibold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/results_paragraph"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="@string/results_paragraph"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/results_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
