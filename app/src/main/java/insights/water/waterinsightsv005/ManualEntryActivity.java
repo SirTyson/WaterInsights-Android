@@ -62,7 +62,7 @@ public class ManualEntryActivity extends AppCompatActivity {
     private void initSpinners() {
         /* Nitrate */
         List<String> nitrateTypes = Arrays.asList(getResources().getStringArray(R.array.nitrate_spinner_values));
-        final int nitrateSpinnerSize = nitrateTypes.size() - 1;
+        final int nitrateSpinnerSize = nitrateTypes.size();
 
         ArrayAdapter<String> nitrateAdapter = new ArrayAdapter<String>(this, R.layout.spinner_water_type_selected_background, nitrateTypes) {
             @Override
@@ -90,7 +90,7 @@ public class ManualEntryActivity extends AppCompatActivity {
 
         /* Hardness */
         List<String> nitriteTypes = Arrays.asList(getResources().getStringArray(R.array.nitrite_spinner_values));
-        final int nitriteSpinnerSize = nitriteTypes.size() - 1;
+        final int nitriteSpinnerSize = nitriteTypes.size();
 
         ArrayAdapter<String> nitriteAdapter = new ArrayAdapter<String>(this, R.layout.spinner_water_type_selected_background, nitriteTypes) {
             @Override
@@ -118,7 +118,7 @@ public class ManualEntryActivity extends AppCompatActivity {
 
         /* Hardness */
         List<String> hardnessTypes = Arrays.asList(getResources().getStringArray(R.array.total_hardness_spinner_values));
-        final int hardnessSpinnerSize = hardnessTypes.size() - 1;
+        final int hardnessSpinnerSize = hardnessTypes.size();
 
         ArrayAdapter<String> hardnessAdapter = new ArrayAdapter<String>(this, R.layout.spinner_water_type_selected_background, hardnessTypes) {
             @Override
@@ -146,7 +146,7 @@ public class ManualEntryActivity extends AppCompatActivity {
 
         /* Chlorine */
         List<String> chlorineTypes = Arrays.asList(getResources().getStringArray(R.array.total_chlorine_spinner_values));
-        final int chlorineSpinnerSize = chlorineTypes.size() - 1;
+        final int chlorineSpinnerSize = chlorineTypes.size();
 
         ArrayAdapter<String> chlorineAdapter = new ArrayAdapter<String>(this, R.layout.spinner_water_type_selected_background, chlorineTypes) {
             @Override
@@ -174,7 +174,7 @@ public class ManualEntryActivity extends AppCompatActivity {
 
         /* Alkalinity */
         List<String> alkalinityTypes = Arrays.asList(getResources().getStringArray(R.array.total_alkalinity_spinner_values));
-        final int alkalinitySpinnerSize = alkalinityTypes.size() - 1;
+        final int alkalinitySpinnerSize = alkalinityTypes.size();
 
         ArrayAdapter<String> alkalinityAdapter = new ArrayAdapter<String>(this, R.layout.spinner_water_type_selected_background, alkalinityTypes) {
             @Override
@@ -202,7 +202,7 @@ public class ManualEntryActivity extends AppCompatActivity {
 
         /* PH */
         List<String> phTypes = Arrays.asList(getResources().getStringArray(R.array.ph_spinner_values));
-        final int phSpinnerSize = phTypes.size() - 1;
+        final int phSpinnerSize = phTypes.size();
 
         ArrayAdapter<String> phAdapter = new ArrayAdapter<String>(this, R.layout.spinner_water_type_selected_background, phTypes) {
             @Override
