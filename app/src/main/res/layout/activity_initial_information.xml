@@ -10,7 +10,7 @@
     <Spinner
         android:id="@+id/water_type_spinner"
         style="@style/Widget.AppCompat.Spinner"
-        android:layout_width="140dp"
+        android:layout_width="0dp"
         android:layout_height="?attr/dropdownListPreferredItemHeight"
         android:layout_marginBottom="40dp"
         android:background="@drawable/spinner_water_type_background"
@@ -21,7 +21,8 @@
         android:popupElevation="3dp"
         android:stateListAnimator="@drawable/spinner_water_type_sla"
         app:layout_constraintBottom_toTopOf="@+id/continue_button"
-        app:layout_constraintStart_toStartOf="@+id/water_description_title_text" />
+        app:layout_constraintEnd_toEndOf="@+id/continue_button"
+        app:layout_constraintStart_toStartOf="@+id/continue_button" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/continue_button"
@@ -78,7 +79,6 @@
         android:textColor="@color/offWhiteTitle"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -86,13 +86,13 @@
         android:id="@+id/water_description_title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:text="@string/other_observations_string"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="20sp"
         app:fontFamily="@font/roboto_bold"
         app:layout_constraintBottom_toTopOf="@+id/comments_editText"
-        app:layout_constraintStart_toStartOf="@+id/comments_editText" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/testing_location_title_text"
@@ -103,7 +103,8 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="20sp"
         app:fontFamily="@font/roboto_bold"
-        app:layout_constraintStart_toStartOf="@+id/water_type_title_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/initial_information_overview_text" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -116,25 +117,66 @@
         android:textSize="20sp"
         app:fontFamily="@font/roboto_bold"
         app:layout_constraintBottom_toTopOf="@+id/water_type_spinner"
-        app:layout_constraintStart_toStartOf="@+id/water_description_title_text" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <!--    <fragment-->
-<!--        android:id="@+id/map"-->
-<!--        android:name="com.google.android.gms.maps.SupportMapFragment"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_marginStart="60dp"-->
-<!--        android:layout_marginLeft="60dp"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        android:layout_marginEnd="60dp"-->
-<!--        android:layout_marginRight="60dp"-->
-<!--        android:layout_marginBottom="20dp"-->
-<!--        android:paddingBottom="20dp"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/water_type_title_text"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/testing_location_title_text"-->
-<!--        tools:context=".MapsActivity" />-->
+    <fragment
+        android:id="@+id/place_picker"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/water_description_title_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/testing_location_title_text"
+        tools:context=".MapsActivity" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/location_input_border"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintStart_toStartOf="@id/place_picker"
+        app:layout_constraintEnd_toEndOf="@id/place_picker"
+        app:layout_constraintTop_toTopOf="@id/place_picker">
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:id="@+id/ic_magnify"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_magnify"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/input_search"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toEndOf="@id/ic_magnify"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="15sp"
+            android:textColor="@color/textBoxLightGrey"
+            android:background="@null"
+            android:hint="@string/location_input_hint"
+            android:imeOptions="actionSearch"
+            android:inputType="text"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

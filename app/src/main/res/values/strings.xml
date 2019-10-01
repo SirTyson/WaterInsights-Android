@@ -69,6 +69,9 @@
     <string name="continue_string">Continue</string>
     <string name="please_select_type_string">Please select a water body type.</string>
     <string name="instruction_title">Instructions:</string>
+    <string name="location_error_string">We could not find your current location.</string>
+    <string name="location_input_hint">Enter address, place, or Zip code</string>
+    <string name="my_location_string">My location</string>
 
     <!--Data collection Screen-->
     <string name="finished_string">Finished</string>

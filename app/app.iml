@@ -161,5 +161,6 @@
     <orderEntry type="library" name="Gradle: com.romandanylyk:pageindicatorview:1.0.2@aar" level="project" />
     <orderEntry type="library" name="Gradle: net.cachapa.expandablelayout:expandablelayout:2.9.2@aar" level="project" />
     <orderEntry type="module" module-name="open-cv" />
+    <orderEntry type="module" module-name="open-cv" />
   </component>
 </module>
