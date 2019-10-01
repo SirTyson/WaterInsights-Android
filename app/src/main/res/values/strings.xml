@@ -1,6 +1,6 @@
 <resources>
     <!--Activity Info-->
-    <string name="app_name">Water Insights</string>
+    <string name="app_name">WaterInsights</string>
     <string name="title_activity_collect_data">CollectDataActivity</string>
 
     <!--Start Screen -->
