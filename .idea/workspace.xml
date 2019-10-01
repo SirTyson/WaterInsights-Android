@@ -34,9 +34,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2558ddef-768d-4dd6-860a-f512b36964e3" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
-    </list>
+    <list default="true" id="2558ddef-768d-4dd6-860a-f512b36964e3" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -535,7 +533,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Structure" order="0" sideWeight="0.500956" side_tool="true" weight="0.21708684" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.49904397" visible="true" weight="0.15686275" />
+      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.49904397" visible="true" weight="0.15686275" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Build Variants" order="3" side_tool="true" weight="0.32983193" />
       <window_info id="Captures" order="4" side_tool="true" weight="0.25" />
@@ -555,7 +553,7 @@
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5007003" side_tool="true" weight="0.86927223" />
       <window_info anchor="bottom" id="Logcat" order="10" sideWeight="0.4992997" weight="0.43094495" />
       <window_info anchor="bottom" id="Version Control" order="11" sideWeight="0.4992997" weight="0.48494288" />
-      <window_info anchor="bottom" id="Terminal" order="12" sideWeight="0.4992997" visible="true" weight="0.41689008" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="12" sideWeight="0.4992997" visible="true" weight="0.41689008" />
       <window_info active="true" anchor="bottom" id="Messages" order="13" visible="true" weight="0.32884097" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
