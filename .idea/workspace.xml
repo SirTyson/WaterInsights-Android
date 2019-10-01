@@ -35,12 +35,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2558ddef-768d-4dd6-860a-f512b36964e3" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-anydpi/ic_magnify.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/ic_magnify.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/ic_magnify.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/ic_magnify.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi/ic_magnify.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/location_input_border.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-anydpi/ic_gps.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/ic_gps.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/ic_gps.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/ic_gps.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi/ic_gps.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" afterDir="false" />
@@ -50,8 +49,6 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/InitialInformationActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/InitialInformationActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_initial_information.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_initial_information.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
@@ -93,17 +90,21 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/InitialInformationActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="349">
-              <caret line="123" column="32" selection-start-line="123" selection-start-column="32" selection-end-line="123" selection-end-column="32" />
+            <state relative-caret-position="379">
+              <caret line="138" column="76" selection-start-line="138" selection-start-column="76" selection-end-line="138" selection-end-column="76" />
               <folding>
                 <element signature="e#3369#3524#0" expanded="true" />
                 <element signature="e#3523#3524#0" expanded="true" />
                 <element signature="e#3663#4259#0" expanded="true" />
                 <element signature="e#4258#4259#0" expanded="true" />
+                <element signature="e#5171#5341#0" expanded="true" />
+                <element signature="e#5365#5397#0" expanded="true" />
+                <element signature="e#5340#5341#0" expanded="true" />
                 <element signature="e#8122#8941#0" expanded="true" />
                 <element signature="e#8577#8615#0" expanded="true" />
                 <element signature="e#8806#8847#0" expanded="true" />
                 <element signature="e#8940#8941#0" expanded="true" />
+                <element signature="e#9529#9567#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -112,8 +113,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="372">
-              <caret line="73" column="49" selection-start-line="73" selection-start-column="49" selection-end-line="73" selection-end-column="49" />
+            <state relative-caret-position="389">
+              <caret line="74" column="59" selection-start-line="74" selection-start-column="59" selection-end-line="74" selection-end-column="59" />
             </state>
           </provider>
         </entry>
@@ -121,10 +122,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_initial_information.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="520">
-              <caret line="176" column="35" selection-start-line="176" selection-start-column="35" selection-end-line="176" selection-end-column="35" />
+            <state relative-caret-position="235">
+              <caret line="160" column="45" lean-forward="true" selection-start-line="160" selection-start-column="45" selection-end-line="160" selection-end-column="45" />
               <folding>
-                <element signature="e#7857#7886#0" expanded="true" />
+                <element signature="e#6985#7014#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -163,9 +164,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>timer.cance</find>
-      <find>va</find>
-      <find>debug</find>
       <find>Tap W</find>
       <find>startAc</find>
       <find>startActi</find>
@@ -191,8 +189,11 @@
       <find>getLocat</find>
       <find>geoLocate</find>
       <find>moveCm</find>
-      <find>initia</find>
       <find>init()</find>
+      <find>moveCa</find>
+      <find>init(</find>
+      <find>imageC</find>
+      <find>initia</find>
     </findStrings>
     <replaceStrings>
       <replace>progress_text_view</replace>
@@ -268,13 +269,13 @@
         <option value="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/location_input_border.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_initial_information.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/InitialInformationActivity.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="59" />
     <option name="width" value="941" />
     <option name="height" value="1087" />
@@ -518,11 +519,11 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="59" y="0" width="941" height="1087" extended-state="0" />
+    <frame x="58" y="-8" width="1870" height="1096" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Structure" order="0" sideWeight="0.500956" side_tool="true" weight="0.21708684" />
-      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.49904397" visible="true" weight="0.1555051" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.49904397" visible="true" weight="0.075690605" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Build Variants" order="3" side_tool="true" weight="0.32983193" />
       <window_info id="Captures" order="4" side_tool="true" weight="0.25" />
@@ -540,9 +541,9 @@
       <window_info anchor="bottom" id="Build" order="7" sideWeight="0.4992997" weight="0.3125649" />
       <window_info anchor="bottom" id="Android Profiler" order="8" weight="0.55525607" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5007003" side_tool="true" weight="0.86927223" />
-      <window_info active="true" anchor="bottom" id="Logcat" order="10" sideWeight="0.4992997" visible="true" weight="0.3542977" />
+      <window_info anchor="bottom" id="Logcat" order="10" sideWeight="0.4992997" weight="0.3542977" />
       <window_info anchor="bottom" id="Version Control" order="11" sideWeight="0.4992997" weight="0.3271028" />
-      <window_info anchor="bottom" id="Terminal" order="12" sideWeight="0.4992997" weight="0.4192872" />
+      <window_info anchor="bottom" id="Terminal" order="12" sideWeight="0.4992997" visible="true" weight="0.41536865" />
       <window_info active="true" anchor="bottom" id="Messages" order="13" visible="true" weight="0.32884097" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -552,7 +553,7 @@
       <window_info anchor="right" id="Gradle" order="5" weight="0.32983193" />
       <window_info anchor="right" id="Palette&#9;" order="6" />
       <window_info anchor="right" id="Theme Preview" order="7" />
-      <window_info anchor="right" id="Preview" order="8" weight="0.8081725" />
+      <window_info anchor="right" id="Preview" order="8" weight="0.41491714" />
       <window_info anchor="right" id="Assistant" order="9" weight="0.3296582" />
     </layout>
     <layout-to-restore>
@@ -975,35 +976,39 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="372">
-          <caret line="73" column="49" selection-start-line="73" selection-start-column="49" selection-end-line="73" selection-end-column="49" />
+        <state relative-caret-position="389">
+          <caret line="74" column="59" selection-start-line="74" selection-start-column="59" selection-end-line="74" selection-end-column="59" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_initial_information.xml">
       <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="520">
-          <caret line="176" column="35" selection-start-line="176" selection-start-column="35" selection-end-line="176" selection-end-column="35" />
+        <state relative-caret-position="235">
+          <caret line="160" column="45" lean-forward="true" selection-start-line="160" selection-start-column="45" selection-end-line="160" selection-end-column="45" />
           <folding>
-            <element signature="e#7857#7886#0" expanded="true" />
+            <element signature="e#6985#7014#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/insights/water/waterinsightsv005/InitialInformationActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="349">
-          <caret line="123" column="32" selection-start-line="123" selection-start-column="32" selection-end-line="123" selection-end-column="32" />
+        <state relative-caret-position="379">
+          <caret line="138" column="76" selection-start-line="138" selection-start-column="76" selection-end-line="138" selection-end-column="76" />
           <folding>
             <element signature="e#3369#3524#0" expanded="true" />
             <element signature="e#3523#3524#0" expanded="true" />
             <element signature="e#3663#4259#0" expanded="true" />
             <element signature="e#4258#4259#0" expanded="true" />
+            <element signature="e#5171#5341#0" expanded="true" />
+            <element signature="e#5365#5397#0" expanded="true" />
+            <element signature="e#5340#5341#0" expanded="true" />
             <element signature="e#8122#8941#0" expanded="true" />
             <element signature="e#8577#8615#0" expanded="true" />
             <element signature="e#8806#8847#0" expanded="true" />
             <element signature="e#8940#8941#0" expanded="true" />
+            <element signature="e#9529#9567#0" expanded="true" />
           </folding>
         </state>
       </provider>

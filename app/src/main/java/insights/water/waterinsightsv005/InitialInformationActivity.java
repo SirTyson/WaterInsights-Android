@@ -39,6 +39,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -58,6 +59,7 @@ public class InitialInformationActivity extends AppCompatActivity implements OnM
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
     private AppCompatEditText mLocationSearchText;
+    private AppCompatImageView mGps;
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -84,6 +86,7 @@ public class InitialInformationActivity extends AppCompatActivity implements OnM
         waterTypeSpinner = findViewById(R.id.water_type_spinner);
         continueButton = findViewById(R.id.continue_button);
         mLocationSearchText = findViewById(R.id.input_search);
+        mGps = findViewById(R.id.ic_gps);
 
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,6 +129,15 @@ public class InitialInformationActivity extends AppCompatActivity implements OnM
                 }
 
                 return false;
+            }
+        });
+
+        mGps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: clicked gps icon");
+                mLocationSearchText.setText(R.string.current_location_string);
+                getDeviceLocation();
             }
         });
     }
@@ -230,10 +242,12 @@ public class InitialInformationActivity extends AppCompatActivity implements OnM
     private void moveCamera(LatLng latLng, float zoom, String title) {
         Log.d(TAG, "moveCamera: moving the camera to lat: " + latLng.latitude + ", lng: " + latLng.longitude);
         mPlacePicker.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
-        MarkerOptions options = new MarkerOptions()
-                .position(latLng)
-                .title(title);
-        mPlacePicker.addMarker(options);
+        if (!title.equals(getString(R.string.my_location_string))) {
+            MarkerOptions options = new MarkerOptions()
+                    .position(latLng)
+                    .title(title);
+            mPlacePicker.addMarker(options);
+        }
     }
 
     private void initPlacePicker() {
