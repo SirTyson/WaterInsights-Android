@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -29,6 +30,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,18 +44,21 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-public class InitialInformationActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class InitialInformationActivity extends AppCompatActivity
+        implements OnMapReadyCallback {
 
     private static final String TAG = "InitialInformationAct";
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
+    private static final int AUTOCOMPLETE_REQUEST_CODE = 8001;
     private static final float DEFAULT_ZOOM = 15f;
+
     private Spinner waterTypeSpinner;
     private AppCompatButton continueButton;
     private int spinnerSize;
@@ -58,7 +67,7 @@ public class InitialInformationActivity extends AppCompatActivity implements OnM
     private GoogleMap mPlacePicker;
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
-    private AppCompatEditText mLocationSearchText;
+    private AppCompatTextView mLocationSearchText;
     private AppCompatImageView mGps;
 
     @Override
@@ -82,6 +91,8 @@ public class InitialInformationActivity extends AppCompatActivity implements OnM
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial_information);
+
+        Places.initialize(this, getResources().getString(R.string.google_maps_API_key));
 
         waterTypeSpinner = findViewById(R.id.water_type_spinner);
         continueButton = findViewById(R.id.continue_button);
@@ -113,6 +124,19 @@ public class InitialInformationActivity extends AppCompatActivity implements OnM
 
     private void init() {
         Log.d(TAG, "init: initializing");
+
+        mLocationSearchText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG);
+
+                // Start the autocomplete intent.
+                Intent intent = new Autocomplete.IntentBuilder(
+                        AutocompleteActivityMode.FULLSCREEN, fields)
+                        .build(InitialInformationActivity.this);
+                startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+            }
+        });
 
         mLocationSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -168,6 +192,24 @@ public class InitialInformationActivity extends AppCompatActivity implements OnM
         } else {
             Intent activity = new Intent(this, DataCollectionActivity.class);
             startActivity(activity);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                moveCamera(place.getLatLng(), DEFAULT_ZOOM, place.getName());
+                mLocationSearchText.setText(place.getAddress());
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                // TODO: Handle the error.
+                Status status = Autocomplete.getStatusFromIntent(data);
+                Log.i(TAG, status.getStatusMessage());
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
         }
     }
 

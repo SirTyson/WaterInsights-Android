@@ -135,20 +135,21 @@
         app:layout_constraintStart_toStartOf="@id/place_picker"
         app:layout_constraintTop_toTopOf="@id/place_picker">
 
-        <androidx.appcompat.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/input_search"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
             android:background="@null"
-            android:hint="@string/location_input_hint"
+            android:text="@string/location_input_hint"
             android:imeOptions="actionSearch"
-            android:inputType="text"
+            android:inputType="textPostalAddress"
             android:textColor="@color/textBoxLightGrey"
-            android:textSize="15sp"
+            android:textSize="16sp"
+            android:layout_marginBottom="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/ic_gps"
             app:layout_constraintStart_toEndOf="@id/ic_magnify"
