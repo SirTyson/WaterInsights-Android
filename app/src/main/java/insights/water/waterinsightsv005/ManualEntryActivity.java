@@ -15,6 +15,13 @@ import androidx.appcompat.widget.AppCompatButton;
 
 public class ManualEntryActivity extends AppCompatActivity {
 
+    private static final float[] NITRATE_VALUES = {0.0f, 20.0f, 40.0f, 80.0f, 160.0f, 200.0f};
+    private static final float[] NITRITE_VALUES = {0.0f, 0.5f, 1.0f, 3.0f, 5.0f, 10.0f};
+    private static final float[] T_HARDNESS_VALUES = {0.0f, 25f, 75f, 150f, 300f};
+    private static final float[] T_CHLORINE_VALUES = {0.0f, 0.5f, 1.0f, 2.0f, 4.0f, 6.0f};
+    private static final float[] T_ALKALINITY_VALUES = {0.0f, 40f, 80f, 120f, 180f, 300f};
+    private static final float[] PH_VALUES = {6.2f, 6.8f, 7.2f, 7.8f, 8.4f};
+
     int nitrateSpinnerIndex;
     int nitriteSpinnerIndex;
     int hardnessSpinnerIndex;
@@ -230,6 +237,14 @@ public class ManualEntryActivity extends AppCompatActivity {
     }
 
     private void continueButtonPressed() {
+        float[] results = {NITRATE_VALUES[nitrateSpinnerIndex],
+                NITRITE_VALUES[nitriteSpinnerIndex],
+                T_HARDNESS_VALUES[hardnessSpinnerIndex],
+                T_CHLORINE_VALUES[chlorineSpinnerIndex],
+                T_ALKALINITY_VALUES[alkalinitySpinnerIndex],
+                PH_VALUES[phSpinnerIndex]};
+
+        PreferenceUtilities.putExpectedAnalysisResultsPreferences(results, ManualEntryActivity.this);
         startActivity(new Intent(this, ShowResultsActivity.class));
         finish();
     }

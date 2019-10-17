@@ -42,8 +42,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.app.ActivityCompat;
@@ -66,8 +68,11 @@ public class InitialInformationActivity extends AppCompatActivity
     private boolean mLocationPermissionsGranted;
     private GoogleMap mPlacePicker;
     private FusedLocationProviderClient mFusedLocationProviderClient;
+    @Nullable
+    private LatLng mCurrentLocation;
 
     private AppCompatTextView mLocationSearchText;
+    private AppCompatEditText observationsEditText;
     private AppCompatImageView mGps;
 
     @Override
@@ -98,6 +103,7 @@ public class InitialInformationActivity extends AppCompatActivity
         continueButton = findViewById(R.id.continue_button);
         mLocationSearchText = findViewById(R.id.input_search);
         mGps = findViewById(R.id.ic_gps);
+        observationsEditText = findViewById(R.id.comments_editText);
 
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,6 +196,22 @@ public class InitialInformationActivity extends AppCompatActivity
         if (spinnerSelectedIndex == spinnerSize) {
             Toast.makeText(this, getString(R.string.please_select_type_string), Toast.LENGTH_SHORT).show();
         } else {
+            if (observationsEditText.getText() != null) {
+                PreferenceUtilities.writeToPreferences(PreferenceUtilities.OBSERVATIONS_KEY, observationsEditText.getText().toString(), InitialInformationActivity.this);
+            }
+
+            PreferenceUtilities.writeToPreferences(PreferenceUtilities.WATER_TYPE_KEY,
+                    getResources().getStringArray(R.array.water_type_spinner)[spinnerSelectedIndex],
+                    InitialInformationActivity.this);
+
+            if (mCurrentLocation == null) {
+                Log.e(TAG, "Unable to get current location, location will not be uploaded in this test");
+            } else {
+                PreferenceUtilities.writeToPreferences(PreferenceUtilities.LOCATION_KEY,
+                        mCurrentLocation.toString(),
+                        InitialInformationActivity.this);
+            }
+
             Intent activity = new Intent(this, DataCollectionActivity.class);
             startActivity(activity);
         }
@@ -267,8 +289,8 @@ public class InitialInformationActivity extends AppCompatActivity
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "onComplete: found location");
-                            Location currentLocation = (Location) task.getResult();
-                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM, getString(R.string.my_location_string));
+                            Location location = (Location) task.getResult();
+                            moveCamera(new LatLng(location.getLatitude(), location.getLongitude()), DEFAULT_ZOOM, getString(R.string.my_location_string));
                         } else {
                             Log.d(TAG, "onComplete: could not find location");
                             Toast.makeText(InitialInformationActivity.this, getString(R.string.location_error_string), Toast.LENGTH_LONG).show();
@@ -282,6 +304,7 @@ public class InitialInformationActivity extends AppCompatActivity
     }
 
     private void moveCamera(LatLng latLng, float zoom, String title) {
+        mCurrentLocation = latLng;
         Log.d(TAG, "moveCamera: moving the camera to lat: " + latLng.latitude + ", lng: " + latLng.longitude);
         mPlacePicker.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
         if (!title.equals(getString(R.string.my_location_string))) {

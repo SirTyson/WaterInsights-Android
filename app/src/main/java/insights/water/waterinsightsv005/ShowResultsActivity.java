@@ -2,11 +2,12 @@ package insights.water.waterinsightsv005;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 public class ShowResultsActivity extends AppCompatActivity {
 
@@ -31,6 +32,9 @@ public class ShowResultsActivity extends AppCompatActivity {
                 testAgainPressed();
             }
         });
+
+        FirebaseService firebaseService = new FirebaseService(ShowResultsActivity.this);
+        firebaseService.writeData();
     }
 
     @Override

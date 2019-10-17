@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "719828384660",
+    "firebase_url": "https://waterinsights-an-1568674458372.firebaseio.com",
+    "project_id": "waterinsights-an-1568674458372",
+    "storage_bucket": "waterinsights-an-1568674458372.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:719828384660:android:42d2439ed48741638ced81",
+        "android_client_info": {
+          "package_name": "insights.water.waterinsightsv005"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "719828384660-oursca76eeih9o33e806kgm1q30ug9i3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0qB0rV03G9eoYiyeA9YWdRM7ZRU2rmyw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "719828384660-oursca76eeih9o33e806kgm1q30ug9i3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
